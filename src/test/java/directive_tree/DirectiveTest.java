@@ -3,13 +3,22 @@ package directive_tree;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import util.Action;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class DirectiveTest {
+    List<Action> as;
 
     @Before
     public void setUp() throws Exception {
+        as = new ArrayList<>();
+        as.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "1234"));
+        as.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
+        as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
     }
 
     @After
@@ -24,22 +33,75 @@ public class DirectiveTest {
     }
 
     @Test
+    public void testGetActionSequence() {
+        Directive root;
+        root = new Directive(null, as);
+        assertEquals(root.getActionSequence().size(), 3);
+    }
+
+    @Test
     public void testAddInputPage() {
+        Directive root = new Directive(null, null);
+        InputPage ip = new InputPage(null, "");
+        root.addInputPage(ip);
+        assertEquals(root.getChild().size(), 1);
     }
 
     @Test
-    public void testGetInputPageListSize() {
+    public void testGetParent() {
+        InputPage parent = new InputPage(null, "");
+        Directive root = new Directive(parent, null);
+        assertEquals(root.getParent(), parent);
     }
 
     @Test
-    public void testContainPage() {
+    public void testFindChildByTaskFirstLayer() {
+        Directive DTRoot = constructDT();
+        InputPage ip = DTRoot.findInputPageByStateID("IP0");
+        assertEquals(ip.getStateID(), "IP0");
     }
 
     @Test
-    public void testGetChild() {
+    public void testFindChildByTaskSecondLayer() {
+        Directive DTRoot = constructDT();
+        InputPage ip = DTRoot.findInputPageByStateID("IP1-1");
+        assertEquals(ip.getStateID(), "IP1-1");
     }
 
-    @Test
-    public void testFindChildByTask() {
+    /**
+     * Tree structure (The parenthesized string represents the stateID)
+     *                  DTRoot
+     *              /           \
+     *           IP(IP0)        IP(IP1)
+     *          /      \          \
+     *       D1        D2         D3
+     *       /      /      \        \
+     * IP(IP0-1) IP(IP0-2) IP(IP0-3) IP(IP1-1)
+     */
+    private Directive constructDT() {
+        Directive DTRoot = new Directive(null, null);
+        Directive d1, d2, d3;
+        InputPage ip0, ip1;
+
+        ip0 = new InputPage(DTRoot, "IP0");
+        ip1 = new InputPage(DTRoot, "IP1");
+
+        d1 = new Directive(ip0, null);
+        d2 = new Directive(ip0, null);
+        d3 = new Directive(ip1, null);
+
+        d1.addInputPage(new InputPage(d1, "IP0-1"));
+        d2.addInputPage(new InputPage(d2, "IP0-2"));
+        d2.addInputPage(new InputPage(d2, "IP0-3"));
+        d3.addInputPage(new InputPage(d3, "IP1-1"));
+
+        ip0.addDirective(d1);
+        ip0.addDirective(d2);
+        ip1.addDirective(d3);
+
+        DTRoot.addInputPage(ip0);
+        DTRoot.addInputPage(ip1);
+
+        return DTRoot;
     }
 }

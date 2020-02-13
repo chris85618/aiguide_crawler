@@ -1,16 +1,14 @@
 package directive_tree;
 
-import learning_data.LearningResult;
-import learning_data.LearningTask;
 import util.Action;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class Directive {
-    private InputPage parentInputPage;
     private List<InputPage> inputPageList;
-    private List<Action> actionSequence;
+    private final InputPage parentInputPage;
+    private final List<Action> actionSequence;
 
     public Directive(InputPage parentInputPage, List<Action> actionSequence) {
         this.parentInputPage = parentInputPage;
@@ -22,20 +20,28 @@ public class Directive {
         return actionSequence;
     }
 
-    public void addInputPage() {
-        inputPageList.add(new InputPage());
+    public void addInputPage(InputPage ip) {
+        inputPageList.add(ip);
     }
 
-    public int getInputPageListSize() {
-        return inputPageList.size();
+    public InputPage getParent() {
+        return parentInputPage;
     }
 
     public List<InputPage> getChild() {
-        return new ArrayList<>();
+        return inputPageList;
     }
 
-    public InputPage findChildByTask(LearningTask task) {
-        return new InputPage();
+    public InputPage findInputPageByStateID(String stateID) {
+        for (InputPage ip : inputPageList) {
+            if (ip.compareStateID(stateID))
+                return ip;
+            for (Directive d : ip.getChild()){
+                InputPage page = d.findInputPageByStateID(stateID);
+                if (page != null) return page;
+            }
+        }
+        return null;
     }
 
 }
