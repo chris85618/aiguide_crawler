@@ -1,7 +1,9 @@
 package learning_data;
 
-import util.Action;
 
+import ntut.edu.aiguide.crawljax.plugins.domain.Action;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,10 @@ public class LearningTask {
     private final String rootURL;
     private final String stateID;
     private final Map<String, String> learningConfig;
+
+    public LearningTask(List<Action> actionSequence, String stateID) {
+        this(actionSequence, new int[0], "", stateID, new HashMap<String, String>());
+    }
 
     public LearningTask(List<Action> actionSequence, int[] coverage, String rootURL, String stateID, Map<String, String> learningConfig) {
         this.actionSequence = actionSequence;

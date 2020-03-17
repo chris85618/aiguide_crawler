@@ -1,43 +1,60 @@
 package learning_data;
 
+import util.ActionFactory;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-// ToDo: Must add synchronous code.
 public class LearningPool {
     private Queue<LearningTask> learningTasks;
     private Queue<LearningResult> learningResults;
+    private Boolean stopLearning;
 
     public LearningPool() {
         this.learningTasks = new LinkedList<>();
         this.learningResults = new LinkedList<>();
+        this.stopLearning = false;
     }
 
-    public void addTask(LearningTask task) {
+    public synchronized void addTask(LearningTask task) {
         boolean succ;
         succ = learningTasks.offer(task);
         assert succ : "add LearningTask fail";
     }
 
-    public void addResult(LearningResult result) {
+    public synchronized void addResult(LearningResult result) {
         boolean succ;
         succ = learningResults.offer(result);
         assert succ : "add LearningResult fail";
     }
 
-    public LearningTask takeTask() {
+    public synchronized LearningTask takeTask() {
         return learningTasks.poll();
     }
 
-    public LearningResult takeResult() {
+    public synchronized LearningResult takeResult() {
         return learningResults.poll();
     }
 
-    public int getTaskSize() {
+    public synchronized List<LearningResult> takeResults() {
+        List<LearningResult> results = new ArrayList<>();
+        while(learningResults.isEmpty()){
+            results.add(learningResults.poll());
+        }
+        return results;
+    }
+
+    public synchronized int getTaskSize() {
         return learningTasks.size();
     }
 
-    public int getResultSize() {
-        return learningResults.size();
-    }
+    public synchronized int getResultSize() { return learningResults.size(); }
+
+    public synchronized void setStopLearning() { stopLearning = true; }
+
+    public synchronized Boolean getStopLearning() { return stopLearning; }
+
+    public synchronized ActionFactory getActionFactory() { return new ActionFactory(); }
 }

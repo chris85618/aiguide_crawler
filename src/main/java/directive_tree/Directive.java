@@ -1,23 +1,28 @@
 package directive_tree;
 
 import util.Action;
+import util.HighLevelAction;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class Directive {
-    private List<InputPage> inputPageList;
+    private final List<InputPage> inputPageList;
     private final InputPage parentInputPage;
-    private final List<Action> actionSequence;
+    private final List<HighLevelAction> actionSequence;
 
-    public Directive(InputPage parentInputPage, List<Action> actionSequence) {
+    public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
         this.parentInputPage = parentInputPage;
         this.actionSequence = actionSequence;
         this.inputPageList = new ArrayList<>();
     }
 
-    public List<Action> getActionSequence() {
+    public List<HighLevelAction> getActionSequence() {
         return actionSequence;
+    }
+
+    public Boolean isDTRoot() {
+        return actionSequence == null;
     }
 
     public void addInputPage(InputPage ip) {

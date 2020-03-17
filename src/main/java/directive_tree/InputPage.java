@@ -6,7 +6,7 @@ import java.util.List;
 public class InputPage {
     private final Directive parentDirective;
     private final String stateID;
-    private List<Directive> directiveList;
+    private final List<Directive> directiveList;
     private Boolean isDone;
 
     public InputPage(Directive parentDirective, String stateID) {
@@ -16,9 +16,7 @@ public class InputPage {
         this.isDone = false;
     }
 
-    public void addDirective(Directive directive) {
-        directiveList.add(directive);
-    }
+    public void addDirective(Directive directive) { directiveList.add(directive); }
 
     public Directive getParent() {
         return parentDirective;

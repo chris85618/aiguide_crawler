@@ -1,0 +1,23 @@
+{
+	"application": "timetimeoff-management",
+	"application port": "3001",
+	"server IP": "140.124.183.87",
+	"sleep time": "30",
+	"agents": [
+		{
+			"ip": "140.124.183.85",
+			"java port": "6666",
+			"python port": "6667"
+		},
+		{
+			"ip": "140.124.183.89",
+			"java port": "7777",
+			"python port": "7778"
+		}
+	],
+	"crawler config": {
+		"crawler": "crawljax",
+		"depth": "4",
+		"root url": "https://www.google.com.tw/"
+	}
+}

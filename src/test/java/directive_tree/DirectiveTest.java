@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import util.Action;
+import util.HighLevelAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +12,17 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class DirectiveTest {
-    List<Action> as;
+    List<HighLevelAction> as;
 
     @Before
     public void setUp() throws Exception {
+        List<Action> tmp;
         as = new ArrayList<>();
-        as.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "1234"));
-        as.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
-        as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
+        tmp = new ArrayList<>();
+        tmp.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "1234"));
+        tmp.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
+        tmp.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
+        as.add(new HighLevelAction(tmp));
     }
 
     @After
@@ -36,7 +40,8 @@ public class DirectiveTest {
     public void testGetActionSequence() {
         Directive root;
         root = new Directive(null, as);
-        assertEquals(root.getActionSequence().size(), 3);
+        assertNotNull(root.getActionSequence());
+        assertEquals(root.getActionSequence().get(0).getActions().size(), 3);
     }
 
     @Test
