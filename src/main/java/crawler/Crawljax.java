@@ -24,22 +24,29 @@ public class Crawljax implements Crawler {
     }
 
     @Override
-    public List<LearningTask> crawlingWithDirectives(Config config, Map<Integer, List<HighLevelAction>> crawlerDirectives) {
-        LinkedList<LearningTask> learningTasks = new LinkedList<>();
+    public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
-        List<Pair<Integer, List<Action>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
+        List<Pair<String, List<Action>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
         return convertToLearningTask(learningTargets);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<Integer, List<Action>>> learningTargets) {
+    private List<LearningTask> convertToLearningTask(List<Pair<String, List<Action>>> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
-        for (Pair<Integer, List<Action>> learningSet : learningTargets) {
-            learningTasks.add(new LearningTask(learningSet.getValue(), learningSet.getKey()));
+        for (Pair<String, List<Action>> learningSet : learningTargets) {
+            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()), learningSet.getKey()));
         }
         return learningTasks;
+    }
+
+    private List<util.Action> convertToUtilAction(List<Action> actions) {
+        List<util.Action> convertAction = new LinkedList<>();
+        for (Action action : actions) {
+            convertAction.add(new util.Action(action.getActionXpath(), action.getValue()));
+        }
+        return convertAction;
     }
 
 
@@ -49,14 +56,14 @@ public class Crawljax implements Crawler {
      *          the order is leaf to root
      * @return
      */
-    private AIGuidePlugin createAIGuidePlugin(Map<Integer, List<HighLevelAction>> crawlerDirectives) {
+    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives) {
         Stack<State> directiveStack = new Stack<>();
-        for (Map.Entry<Integer, List<HighLevelAction>> set : crawlerDirectives.entrySet())
+        for (Map.Entry<String, List<HighLevelAction>> set : crawlerDirectives.entrySet())
             directiveStack.push(createCrawlerState(set.getKey(), set.getValue()));
         return new AIGuidePlugin(directiveStack);
     }
 
-    private State createCrawlerState(int domHash, List<HighLevelAction> highLevelActions) {
+    private State createCrawlerState(String domHash, List<HighLevelAction> highLevelActions) {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
@@ -72,7 +79,7 @@ public class Crawljax implements Crawler {
 
     private CrawljaxRunner createCrawljaxRunner(Config config, AIGuidePlugin aiGuidePlugin) {
         CrawlJaxRunnerFactory crawljaxFactory = new CrawlJaxRunnerFactory();
-        crawljaxFactory.setDepth(5);
+        crawljaxFactory.setDepth(config.getDepth());
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
         crawljaxFactory.setEventWaitingTime(500);

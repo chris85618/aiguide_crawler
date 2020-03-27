@@ -1,6 +1,8 @@
 .idea/
 .gradle/
 build/
+crawler-record/
+output_folder_IS_UNDEFINED/
 
 *.zip
 *.yml
