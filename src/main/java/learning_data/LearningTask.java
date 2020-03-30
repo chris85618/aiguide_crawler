@@ -1,8 +1,7 @@
 package learning_data;
 
 
-import ntut.edu.aiguide.crawljax.plugins.domain.Action;
-
+import util.Action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

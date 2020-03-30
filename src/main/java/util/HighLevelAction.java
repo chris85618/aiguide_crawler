@@ -9,7 +9,7 @@ public class HighLevelAction {
         this.actions = actions;
     }
 
-    public List<Action> getActions() {
+    public List<Action> getActionSequence() {
         return actions;
     }
 }

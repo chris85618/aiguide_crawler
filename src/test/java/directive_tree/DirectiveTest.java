@@ -41,7 +41,7 @@ public class DirectiveTest {
         Directive root;
         root = new Directive(null, as);
         assertNotNull(root.getActionSequence());
-        assertEquals(root.getActionSequence().get(0).getActions().size(), 3);
+        assertEquals(root.getActionSequence().get(0).getActionSequence().size(), 3);
     }
 
     @Test

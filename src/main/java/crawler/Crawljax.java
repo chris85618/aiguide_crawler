@@ -33,15 +33,21 @@ public class Crawljax implements Crawler {
         return convertToLearningTask(learningTargets);
     }
 
-
     private List<LearningTask> convertToLearningTask(List<Pair<String, List<Action>>> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
         for (Pair<String, List<Action>> learningSet : learningTargets) {
-            learningTasks.add(new LearningTask(learningSet.getValue(), learningSet.getKey()));
+            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()), learningSet.getKey()));
         }
         return learningTasks;
     }
 
+    private List<util.Action> convertToUtilAction(List<Action> actions) {
+        List<util.Action> convertAction = new LinkedList<>();
+        for (Action action : actions) {
+            convertAction.add(new util.Action(action.getActionXpath(), action.getValue()));
+        }
+        return convertAction;
+    }
 
     /**
      *
@@ -59,7 +65,7 @@ public class Crawljax implements Crawler {
     private State createCrawlerState(String domHash, List<HighLevelAction> highLevelActions) {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
-            actions.add(transferToCrawlerAction(action.getActions()));
+            actions.add(transferToCrawlerAction(action.getActionSequence()));
         return new State(domHash, actions);
     }
 
@@ -72,7 +78,7 @@ public class Crawljax implements Crawler {
 
     private CrawljaxRunner createCrawljaxRunner(Config config, AIGuidePlugin aiGuidePlugin) {
         CrawlJaxRunnerFactory crawljaxFactory = new CrawlJaxRunnerFactory();
-        crawljaxFactory.setDepth(5);
+        crawljaxFactory.setDepth(config.CRAWLER_DEPTH);
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
         crawljaxFactory.setEventWaitingTime(500);

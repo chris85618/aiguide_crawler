@@ -10,8 +10,8 @@ public class Config {
     public final String SERVER_IP;
     public final int SLEEP_TIME;
     public final List<Map<String, String>> AGENTS;
+    public final int CRAWLER_DEPTH;
     public final String ROOT_URL;
-    public final String CRAWLER_DEPTH;
     public final String CRAWLER;
 
     public Config(String configPath) {
@@ -24,8 +24,7 @@ public class Config {
 
         //Crawler Config
         this.CRAWLER = parser.getJsonFileValue("crawler config", "crawler");
-        this.CRAWLER_DEPTH = parser.getJsonFileValue("crawler config", "depth");
+        this.CRAWLER_DEPTH = Integer.parseInt(parser.getJsonFileValue("crawler config", "depth"));
         this.ROOT_URL = parser.getJsonFileValue("crawler config", "root url");
     }
-
 }

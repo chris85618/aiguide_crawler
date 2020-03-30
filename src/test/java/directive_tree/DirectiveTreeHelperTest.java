@@ -65,7 +65,7 @@ public class DirectiveTreeHelperTest {
         LearningResult result = new LearningResult(highLevelActionList, "eehrt4h564rth464h", false);
         Directive d;
         d = (Directive) convertToDirective.invoke(DT, result);
-        assertEquals(d.getActionSequence().get(0).getActions().get(1).getXpath(), "//*[@id=\"home_birthdays\"]/div/div/div/div");
+        assertEquals(d.getActionSequence().get(0).getActionSequence().get(1).getXpath(), "//*[@id=\"home_birthdays\"]/div/div/div/div");
     }
 
     @Test
