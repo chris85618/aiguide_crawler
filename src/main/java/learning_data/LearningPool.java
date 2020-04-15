@@ -40,7 +40,7 @@ public class LearningPool {
 
     public synchronized List<LearningResult> takeResults() {
         List<LearningResult> results = new ArrayList<>();
-        while(learningResults.isEmpty()){
+        while(!learningResults.isEmpty()){
             results.add(learningResults.poll());
         }
         return results;

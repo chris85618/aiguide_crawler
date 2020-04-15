@@ -109,7 +109,11 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
 
     @Override
     public void closeServerInstance() {
+        long startTime = System.nanoTime();
         CommandHelper.executeCommand("docker-compose", "-f", compose_file, "rm", "-svf");
+        long endTime = System.nanoTime();
+        double timeElapsed = (endTime - startTime) / 1000000000.0;
+        System.out.println("\nServer Port is " + server_port + ", Closing server instance waiting time is :" + timeElapsed);
     }
 
     @Override
@@ -119,7 +123,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     }
 
     @Override
-    public Integer[] gerCoverageVector() {
+    public Integer[] getCoverageVector() {
         Integer[] coverageVector = codeCoverageCollector.getCoverageVector();
         for(int i = 0; i < coverageVector.length; i++){
             if(coverageVector[i] != 0) coverageVector[i] = 300;

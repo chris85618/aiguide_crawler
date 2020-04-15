@@ -46,7 +46,7 @@ public class DirectiveTreeHelperTest {
     public void convertToInputPage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method convertToInputPage = DirectiveTreeHelper.class.getDeclaredMethod("convertToInputPage", LearningTask.class);
         convertToInputPage.setAccessible(true);
-        LearningTask task = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://www.facebook.com/", "135478965456", null);
+        LearningTask task = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://www.facebook.com/", "135478965456", null);
         InputPage ip;
         ip = (InputPage) convertToInputPage.invoke(DT, task);
         assertTrue(ip.compareStateID("135478965456"));
@@ -100,11 +100,11 @@ public class DirectiveTreeHelperTest {
         as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
         highLevelActionList.add(new HighLevelAction(as));
 
-        task1 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/register", "register", null);
-        task2 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/forgot-password/", "forgot-password", null);
-        task3 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/login/", "login", null);
-        task1_1 = new LearningTask(null, new int[]{0, 300, 300, 0}, "http://127.0.0.1:3000/settings/general/", "settings", null);
-        task1_2 = new LearningTask(null, new int[]{0, 300, 300, 0}, "http://127.0.0.1:3000/users/edit/", "edit", null);
+        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/register", "register", null);
+        task2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/forgot-password/", "forgot-password", null);
+        task3 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/login/", "login", null);
+        task1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://127.0.0.1:3000/settings/general/", "settings", null);
+        task1_2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://127.0.0.1:3000/users/edit/", "edit", null);
 
         result1 = new LearningResult(highLevelActionList, "register", false);
         result2 = new LearningResult(highLevelActionList, "register", false);
@@ -172,9 +172,9 @@ public class DirectiveTreeHelperTest {
         as.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
         as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
 
-        task1 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/register", "register", null);
-        task1_1 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/forgot-password/", "forgot-password", null);
-        task1_1_1 = new LearningTask(null, new int[]{0, 300, 300, 0}, "https://127.0.0.1/login/", "login", null);
+        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/register", "register", null);
+        task1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/forgot-password/", "forgot-password", null);
+        task1_1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://127.0.0.1/login/", "login", null);
 
         result1 = new LearningResult(highLevelActionList, "register", false);
         result2 = new LearningResult(highLevelActionList, "forgot-password", false);

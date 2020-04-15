@@ -8,15 +8,14 @@ import learning_data.LearningResult;
 import learning_data.LearningTask;
 import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
-import util.Action;
 import util.Config;
+import util.GatewayHelper;
+import util.HighLevelAction;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import util.GatewayHelper;
-import util.HighLevelAction;
 
 
 public class Controller {
@@ -31,7 +30,7 @@ public class Controller {
     public Controller(Config config) {
         this.config = config;
         this.serverInstance = new TimeOffManagementServer(this.config.AUT_PORT);
-        this.crawler = new Crawljax();
+        this.crawler = new Crawljax(serverInstance);
         this.DT = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();

@@ -21,10 +21,10 @@ public class CrawlerTest {
     private ServerInstanceManagement serverInstanceManagement;
     @Before
     public void setUp() throws Exception {
-        this.crawler = new Crawljax();
         this.config = new Config("./src/test/configuration/crawlerTestConfiguration.json");
         this.serverInstanceManagement = new TimeOffManagementServer(config.AUT_PORT);
         this.serverInstanceManagement.createServerInstance();
+        this.crawler = new Crawljax(serverInstanceManagement);
     }
 
     @After
@@ -57,9 +57,9 @@ public class CrawlerTest {
         // second iteration
         result = crawler.crawlingWithDirectives(config, directive);
         assertEquals(1, result.size());
-        List<Action> actions = result.get(0).getActionSequence();
+        List<List<util.Action>> actions = result.get(0).getActionSequence();
         assertEquals(1, actions.size());
-        assertEquals(actionXpath, actions.get(0).getXpath());
+        assertEquals(actionXpath, actions.get(0).get(0).getXpath());
     }
 
     @Test
@@ -100,9 +100,10 @@ public class CrawlerTest {
         for (LearningTask learningTask : result) {
             System.out.println(learningTask.getStateID());
             System.out.println(learningTask.getRootURL());
+            System.out.println(learningTask.getActionSequence().size());
+            System.out.println(Arrays.toString(learningTask.getCoverage()));
         }
-        assertEquals(9, result.size());
-
+        assertEquals(17, result.size());
     }
 
     private HighLevelAction createPerformClickCreateHighLevelAction() {
