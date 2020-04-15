@@ -1,6 +1,7 @@
 package learning_data;
 
 import util.ActionFactory;
+import util.HighLevelAction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,6 +31,13 @@ public class LearningPool {
         assert succ : "add LearningResult fail";
     }
 
+    public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, boolean isDone) {
+        boolean succ;
+        System.out.println(taskID);
+        succ = learningResults.offer(new LearningResult(actionSequence, taskID, isDone));
+        assert succ : "add LearningResult fail";
+    }
+
     public synchronized LearningTask takeTask() {
         return learningTasks.poll();
     }
@@ -40,7 +48,7 @@ public class LearningPool {
 
     public synchronized List<LearningResult> takeResults() {
         List<LearningResult> results = new ArrayList<>();
-        while(learningResults.isEmpty()){
+        while(!learningResults.isEmpty()){
             results.add(learningResults.poll());
         }
         return results;

@@ -21,6 +21,12 @@ public class GatewayHelper {
         }
     }
 
+    public GatewayHelper(String server_ip, Map<String, String> ipConfig, LearningPool pool) {
+        this.server_ip = server_ip;
+        this.gatewayServerList = new ArrayList<>();
+        this.gatewayServerList.add(createServer(ipConfig.get("ip"), ipConfig.get("python port"), ipConfig.get("java port"), pool));
+    }
+
     public void startGateway() {
         for(GatewayServer g: gatewayServerList){
             g.start();

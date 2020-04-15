@@ -97,6 +97,10 @@ public class Controller {
 
     private void checkResultIsDone(List<LearningResult> results) {
         for(LearningResult result: results){
+            System.out.println("Learning Result:");
+            System.out.println(result.getTaskID());
+            System.out.println(result.getActionSequence());
+            System.out.println(result.isDone());
             if(result.isDone()) taskCompleteMap.put(result.getTaskID(), true);
         }
     }

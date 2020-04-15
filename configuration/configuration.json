@@ -6,6 +6,11 @@
 	"agents": [
 		{
 			"ip": "140.124.183.85",
+			"java port": "8888",
+			"python port": "8889"
+		},
+		{
+			"ip": "140.124.183.86",
 			"java port": "6666",
 			"python port": "6667"
 		},

@@ -10,6 +10,11 @@
       "pythonPort": "6667"
     },
     {
+      "ip": "140.124.183.86",
+      "javaPort": "8888",
+      "pythonPort": "8889"
+    },
+    {
       "ip": "140.124.183.89",
       "javaPort": "7777",
       "pythonPort": "7778"
