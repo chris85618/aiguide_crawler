@@ -26,20 +26,20 @@ public class Crawljax implements Crawler {
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
         serverInstanceManagement.recordCoverage();
-        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives);
+        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
         List<Pair<String, List<List<Action>>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
-        return convertToLearningTask(learningTargets);
+        return convertToLearningTask(learningTargets, config.ROOT_URL);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets) {
+    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets, String ROOT_URL) {
         List<LearningTask> learningTasks = new LinkedList<>();
         for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
             learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()),
                                                 serverInstanceManagement.getTotalCoverage(),
-                                                "",
+                                                ROOT_URL,
                                                 learningSet.getKey(),
                                                 new HashMap<String, String>()));
         }
@@ -61,13 +61,14 @@ public class Crawljax implements Crawler {
      *
      * @param crawlerDirectives
      *          the order is leaf to root
+     * @param AUT_PORT
      * @return
      */
-    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives) {
+    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives, int AUT_PORT) {
         Stack<State> directiveStack = new Stack<>();
         for (Map.Entry<String, List<HighLevelAction>> set : crawlerDirectives.entrySet())
             directiveStack.push(createCrawlerState(set.getKey(), set.getValue()));
-        return new AIGuidePlugin(directiveStack, serverInstanceManagement);
+        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT);
     }
 
     private State createCrawlerState(String domHash, List<HighLevelAction> highLevelActions) {
@@ -91,6 +92,7 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setRecordMode(true);
         crawljaxFactory.setEventWaitingTime(500);
         crawljaxFactory.setPageWaitingTime(500);
+        crawljaxFactory.setClickOnce(false);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 
