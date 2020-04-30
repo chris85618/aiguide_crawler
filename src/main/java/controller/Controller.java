@@ -10,13 +10,13 @@ import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
 import util.Action;
 import util.Config;
+import util.GatewayHelper;
+import util.HighLevelAction;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import util.GatewayHelper;
-import util.HighLevelAction;
 
 
 public class Controller {
@@ -27,11 +27,12 @@ public class Controller {
     private Map<String, Boolean> taskCompleteMap;
     private LearningPool learningPool;
     private GatewayHelper gatewayHelper;
+    private int task_counter = 0;
 
     public Controller(Config config) {
         this.config = config;
         this.serverInstance = new TimeOffManagementServer(this.config.AUT_PORT);
-        this.crawler = new Crawljax();
+        this.crawler = new Crawljax(serverInstance);
         this.DT = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();
@@ -47,10 +48,15 @@ public class Controller {
                 LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = DT.takeFirstUnprocessedCrawlerDirectives();
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
-                    learningPool.addTask(task);
-                    taskCompleteMap.put(task.getStateID(), false);
-                    DT.addInputPage(task);
+                    if(taskCompleteMap.get(task.getStateID()) == null){
+                        task_counter++;
+                        taskCompleteMap.put(task.getStateID(), false);
+                        learningPool.addTask(task);
+                        DT.addInputPage(task);
+                        System.out.println("TaskCompleteMap when add InputPage:" + taskCompleteMap);
+                    }
                 }
+                System.out.println("Already have " + task_counter + " tasks.");
             }
             isDone = checkCrawlingDone();
             if(!isDone){
@@ -97,11 +103,24 @@ public class Controller {
 
     private void checkResultIsDone(List<LearningResult> results) {
         for(LearningResult result: results){
+            System.out.println("===================== Learning Result =====================");
             System.out.println("Learning Result:");
             System.out.println(result.getTaskID());
-            System.out.println(result.getActionSequence());
+            if(result.getActionSequence() != null){
+                System.out.print("Action Sequence:\n[");
+                for(HighLevelAction ha: result.getActionSequence()){
+                    System.out.print("[");
+                    for(Action a: ha.getActionSequence()){
+                        System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
+                    }
+                    System.out.print("], ");
+                }
+                System.out.println("]");
+            }
             System.out.println(result.isDone());
+            System.out.println("===========================================================");
             if(result.isDone()) taskCompleteMap.put(result.getTaskID(), true);
+            System.out.println("TaskCompleteMap when get LearningResult:" + taskCompleteMap);
         }
     }
 

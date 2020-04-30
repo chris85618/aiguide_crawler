@@ -8,6 +8,7 @@ import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
 import ntut.edu.aiguide.crawljax.plugins.domain.State;
 import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
+import server_instance.ServerInstanceManagement;
 import util.Config;
 import util.HighLevelAction;
 
@@ -16,58 +17,69 @@ import java.util.*;
 public class Crawljax implements Crawler {
 
     private StateFlowGraph stateFlowGraph;
-    private int counter;
+    private final ServerInstanceAdapter serverInstanceManagement;
+    private Map<String, String> domHashCompareTable;
 
-    public Crawljax() {
-        this.counter = 0;
+    public Crawljax(ServerInstanceManagement serverInstance) {
+        this.serverInstanceManagement = new ServerInstanceAdapter(serverInstance);
+        this.domHashCompareTable = new HashMap<>();
     }
-
-//    @Override
-//    public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
-//        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives);
-//        CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
-//        crawljaxRunner.call();
-//        List<Pair<String, List<Action>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
-////        mergingGraph(aiGuidePlugin.getStateFlowGraph());
-//        return convertToLearningTask(learningTargets);
-//    }
 
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
-        List<LearningTask> learningTaskList = new ArrayList<>();
-        List<util.Action> action_set = new ArrayList<>();
-        List<List<util.Action>> action_sequence = new ArrayList<>();
-        if(crawlerDirectives.isEmpty()){
-            System.out.println("First round");
-            action_sequence.add(action_set);
-            learningTaskList.add(new LearningTask(action_sequence, new int[]{0, 300, 300, 0, 0, 300, 0, 300, 300, 300, 300, 300, 300, 300, 0, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 300, 300, 300, 300, 300, 300, 0, 300, 300, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 300, 300, 300, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "/", "4156456162184", null));
-        }
-        else if(counter == 1){
-            System.out.println("Second round");
-            action_set.add(new util.Action("/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]", ""));
-            action_sequence.add(action_set);
-            learningTaskList.add(new LearningTask(action_sequence, new int[]{0, 300, 300, 0, 0, 300, 0, 300, 300, 300, 300, 300, 300, 300, 0, 300, 300, 0, 0, 0, 0, 0, 0, 0, 300, 300, 0, 300, 300, 300, 300, 300, 300, 0, 300, 300, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 300, 300, 300, 300, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "/", "89746164165", null));
-        }
-        else {
-            System.out.println("Another round");
-        }
-        counter++;
-        return learningTaskList;
+        serverInstanceManagement.recordCoverage();
+        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
+        CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
+        crawljaxRunner.call();
+        List<Pair<String, List<List<Action>>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
+        int coverage_counter = 0;
+        for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
+        System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
+        System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
+//        mergingGraph(aiGuidePlugin.getStateFlowGraph());
+        return convertToLearningTask(learningTargets);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<Action>>> learningTargets) {
+    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
-//        for (Pair<String, List<Action>> learningSet : learningTargets) {
-//            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()), learningSet.getKey()));
-//        }
+
+        for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
+            String stateID = (learningSet.getKey() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
+            String domHash = learningSet.getKey().hashCode() + "";
+            int coverage_counter = 0;
+            for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
+            System.out.println("--------------------------------------------------------------");
+            System.out.println("dom: " + learningSet.getKey());
+            System.out.println("coverage num: " + coverage_counter);
+            System.out.println("stateID: " + stateID);
+            System.out.print("action sequence:\n[");
+            for(List<util.Action> ha : convertToUtilAction(learningSet.getValue())){
+                System.out.print("[");
+                for(util.Action a : ha){
+                    System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
+                }
+                System.out.print("], ");
+            }
+            System.out.println("]");
+            System.out.println("--------------------------------------------------------------");
+            domHashCompareTable.put(stateID, domHash);
+            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()),
+                                                serverInstanceManagement.getTotalCoverage(),
+                                                "/login",
+                                                stateID,
+                                                new HashMap<String, String>()));
+        }
         return learningTasks;
     }
 
-    private List<util.Action> convertToUtilAction(List<List<util.Action>> actions) {
-        List<util.Action> convertAction = new LinkedList<>();
-//        for (Action action : actions) {
-//            convertAction.add(new util.Action(action.getActionXpath(), action.getValue()));
-//        }
+    private List<List<util.Action>> convertToUtilAction(List<List<Action>> actions) {
+        List<List<util.Action>> convertAction = new LinkedList<>();
+        for (List<Action> actionSequence : actions) {
+            List<util.Action> convertActionSequence = new ArrayList<>(actionSequence.size());
+            for (Action action : actionSequence)
+                convertActionSequence.add(new util.Action(action.getActionXpath(), action.getValue()));
+            convertAction.add(convertActionSequence);
+        }
         return convertAction;
     }
 
@@ -75,13 +87,14 @@ public class Crawljax implements Crawler {
      *
      * @param crawlerDirectives
      *          the order is leaf to root
+     * @param AUT_PORT
      * @return
      */
-    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives) {
+    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives, int AUT_PORT) {
         Stack<State> directiveStack = new Stack<>();
         for (Map.Entry<String, List<HighLevelAction>> set : crawlerDirectives.entrySet())
-            directiveStack.push(createCrawlerState(set.getKey(), set.getValue()));
-        return new AIGuidePlugin(directiveStack);
+            directiveStack.push(createCrawlerState(domHashCompareTable.get(set.getKey()), set.getValue()));
+        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT);
     }
 
     private State createCrawlerState(String domHash, List<HighLevelAction> highLevelActions) {
@@ -103,6 +116,7 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setDepth(config.CRAWLER_DEPTH);
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
+        crawljaxFactory.setClickOnce(false);
         crawljaxFactory.setEventWaitingTime(500);
         crawljaxFactory.setPageWaitingTime(500);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);

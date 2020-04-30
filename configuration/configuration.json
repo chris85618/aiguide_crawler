@@ -22,7 +22,7 @@
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "4",
-		"root url": "https://www.google.com.tw/"
+		"depth": "10",
+		"root url": "http://127.0.0.1:3001/login"
 	}
 }

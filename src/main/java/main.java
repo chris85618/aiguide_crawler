@@ -11,6 +11,7 @@ import util.HighLevelAction;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class main {
@@ -38,5 +39,9 @@ public class main {
     public static void main(String[] args) throws Exception {
         Config config = new Config("./configuration/configuration.json");
         new Controller(config).execute();
+//        ServerInstanceManagement serverInstanceManagement = new TimeOffManagementServer(3001);
+//        serverInstanceManagement.createServerInstance();
+//        Thread.sleep(10000);
+//        serverInstanceManagement.closeServerInstance();
     }
 }
