@@ -1,5 +1,6 @@
 .idea/
 .gradle/
+out/
 build/
 crawler-record/
 output_folder_IS_UNDEFINED/

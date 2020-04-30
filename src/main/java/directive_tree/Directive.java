@@ -35,6 +35,10 @@ public class Directive {
         return parentInputPage;
     }
 
+    public String getID() {
+        return id;
+    }
+
     public List<InputPage> getChild() {
         return inputPageList;
     }
@@ -53,7 +57,23 @@ public class Directive {
 
     @Override
     public String toString() {
-        return "";
+        if(parentInputPage == null) return "+++++directive+++++\nThis is root directive" + "\nMy id is: " + id + "\n";
+        return "+++++directive+++++\nParent stateID: " + parentInputPage.getStateID() + "\nMy id is: " + id + "\n" + printActionSequence() + "\n";
+    }
+
+    private String printActionSequence() {
+        StringBuilder str;
+        str = new StringBuilder();
+        for(HighLevelAction ha : actionSequence){
+            str.append("[");
+            for(Action a : ha.getActionSequence()){
+                String tmp = "('" + a.getXpath() + "', '" + a.getValue() + "')";
+                str.append(tmp);
+            }
+            str.append("], ");
+        }
+        str.append("]");
+        return str.toString();
     }
 
 }

@@ -66,13 +66,19 @@ public class DirectiveTreeHelper {
         return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence());
     }
 
-    private void printDirectiveTree() {
-        List<LinkedList<String>> info = new LinkedList<>();
-        Queue<Directive> directiveQueue = new LinkedList<>();
-        Queue<InputPage> inputPageQueue = new LinkedList<>();
-        directiveQueue.add(DTRoot);
+    public void printDirectiveTree() {
+        System.out.println("=========================DirectiveTree=========================");
+        printAllNode(DTRoot);
+        System.out.println("===============================================================");
+    }
 
-
+    private void printAllNode(Directive directive) {
+        System.out.println(directive.toString());
+        for (InputPage ip : directive.getChild()) {
+            System.out.println(ip.toString());
+            for (Directive d : ip.getChild())
+                printAllNode(d);
+        }
     }
 
 }

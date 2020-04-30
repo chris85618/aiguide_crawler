@@ -2,10 +2,10 @@ package crawler;
 
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.state.StateFlowGraph;
-import javafx.util.Pair;
 import learning_data.LearningTask;
 import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
+import ntut.edu.aiguide.crawljax.plugins.domain.LearningTarget;
 import ntut.edu.aiguide.crawljax.plugins.domain.State;
 import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
 import server_instance.ServerInstanceManagement;
@@ -31,7 +31,7 @@ public class Crawljax implements Crawler {
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
-        List<Pair<String, List<List<Action>>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
+        List<LearningTarget> learningTargets = aiGuidePlugin.getLearningTarget();
         int coverage_counter = 0;
         for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
         System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
@@ -40,19 +40,19 @@ public class Crawljax implements Crawler {
         return convertToLearningTask(learningTargets);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets) {
+    private List<LearningTask> convertToLearningTask(List<LearningTarget> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
 
-        for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
-            String stateID = (learningSet.getKey() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
-            String domHash = learningSet.getKey().hashCode() + "";
+        for (LearningTarget learningTarget : learningTargets) {
+            String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
+            String domHash = learningTarget.getDom().hashCode() + "";
             int coverage_counter = 0;
             for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
             System.out.println("--------------------------------------------------------------");
             System.out.println("coverage num: " + coverage_counter);
             System.out.println("stateID: " + stateID);
             System.out.print("action sequence:\n[");
-            for(List<util.Action> ha : convertToUtilAction(learningSet.getValue())){
+            for(List<util.Action> ha : convertToUtilAction(learningTarget.getActionSequence())){
                 System.out.print("[");
                 for(util.Action a : ha){
                     System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
@@ -62,7 +62,7 @@ public class Crawljax implements Crawler {
             System.out.println("]");
             System.out.println("--------------------------------------------------------------");
             domHashCompareTable.put(stateID, domHash);
-            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()),
+            learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
                                                 serverInstanceManagement.getTotalCoverage(),
                                                 "/login",
                                                 stateID,

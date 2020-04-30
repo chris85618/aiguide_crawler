@@ -44,9 +44,4 @@ public class LearningTask {
         return learningConfig;
     }
 
-    @Override
-    public String toString() {
-        return "";
-    }
-
 }

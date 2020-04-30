@@ -64,6 +64,7 @@ public class Controller {
                 results = waitAndGetLearningResults();
                 DT.addDirectives(results);
             }
+            DT.printDirectiveTree();
         }
         learningPool.setStopLearning();
         crawler.generateGraph();

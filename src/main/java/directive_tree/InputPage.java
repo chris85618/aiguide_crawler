@@ -45,4 +45,9 @@ public class InputPage {
     public Boolean compareStateID(String stateID) {
         return this.stateID.equals(stateID);
     }
+
+    @Override
+    public String toString() {
+        return "+++++InputPage+++++\nMy stateID is: " + stateID + "\nMy targetURL is: " + targetURL + "\nParent id is: " + parentDirective.getID() + "\n";
+    }
 }
