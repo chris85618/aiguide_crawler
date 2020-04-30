@@ -33,7 +33,6 @@ public class LearningPool {
 
     public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, boolean isDone) {
         boolean succ;
-        System.out.println(taskID);
         succ = learningResults.offer(new LearningResult(actionSequence, taskID, isDone));
         assert succ : "add LearningResult fail";
     }

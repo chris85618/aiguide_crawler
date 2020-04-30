@@ -37,10 +37,10 @@ public class Crawljax implements Crawler {
         System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
         System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
-        return convertToLearningTask(learningTargets);
+        return convertToLearningTask(learningTargets, config.ROOT_URL);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets) {
+    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets, String ROOT_URL) {
         List<LearningTask> learningTasks = new LinkedList<>();
 
         for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
@@ -49,7 +49,6 @@ public class Crawljax implements Crawler {
             int coverage_counter = 0;
             for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
             System.out.println("--------------------------------------------------------------");
-            System.out.println("dom: " + learningSet.getKey());
             System.out.println("coverage num: " + coverage_counter);
             System.out.println("stateID: " + stateID);
             System.out.print("action sequence:\n[");
@@ -67,7 +66,7 @@ public class Crawljax implements Crawler {
                                                 serverInstanceManagement.getTotalCoverage(),
                                                 "/login",
                                                 stateID,
-                                                new HashMap<String, String>()));
+                                                new HashMap<>()));
         }
         return learningTasks;
     }
@@ -119,6 +118,7 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setClickOnce(false);
         crawljaxFactory.setEventWaitingTime(500);
         crawljaxFactory.setPageWaitingTime(500);
+        crawljaxFactory.setClickOnce(false);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 
