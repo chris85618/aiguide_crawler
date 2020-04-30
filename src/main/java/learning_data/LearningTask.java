@@ -8,7 +8,7 @@ import java.util.Map;
 public class LearningTask {
     private final List<List<util.Action>> actionSequence;
     private final Integer[] coverage;
-    private final String rootURL;
+    private final String targetURL;
     private final String stateID;
     private final Map<String, String> learningConfig;
 
@@ -16,10 +16,10 @@ public class LearningTask {
         this(actionSequence, new Integer[0], "", stateID, new HashMap<>());
     }
 
-    public LearningTask(List<List<util.Action>> actionSequence, Integer[] coverage, String rootURL, String stateID, Map<String, String> learningConfig) {
+    public LearningTask(List<List<util.Action>> actionSequence, Integer[] coverage, String targetURL, String stateID, Map<String, String> learningConfig) {
         this.actionSequence = actionSequence;
         this.coverage = coverage;
-        this.rootURL = rootURL;
+        this.targetURL = targetURL;
         this.stateID = stateID;
         this.learningConfig = learningConfig;
     }
@@ -32,8 +32,8 @@ public class LearningTask {
         return coverage;
     }
 
-    public String getRootURL() {
-        return this.rootURL;
+    public String getTargetURL() {
+        return this.targetURL;
     }
 
     public String getStateID() {
@@ -42,6 +42,11 @@ public class LearningTask {
 
     public Map<String, String> getLearningConfig() {
         return learningConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 
 }

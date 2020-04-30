@@ -10,11 +10,13 @@ public class Directive {
     private final List<InputPage> inputPageList;
     private final InputPage parentInputPage;
     private final List<HighLevelAction> actionSequence;
+    private final String id;
 
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
         this.parentInputPage = parentInputPage;
         this.actionSequence = actionSequence;
         this.inputPageList = new ArrayList<>();
+        this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
 
     public List<HighLevelAction> getActionSequence() {
@@ -47,6 +49,11 @@ public class Directive {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 
 }

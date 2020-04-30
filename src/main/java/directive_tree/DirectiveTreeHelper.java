@@ -59,7 +59,7 @@ public class DirectiveTreeHelper {
     }
 
     private InputPage convertToInputPage(LearningTask task) {
-        return new InputPage(processingLeaf, task.getStateID());
+        return new InputPage(processingLeaf, task.getStateID(), task.getTargetURL());
     }
 
     private Directive convertToDirective(LearningResult result) {
@@ -71,6 +71,7 @@ public class DirectiveTreeHelper {
         Queue<Directive> directiveQueue = new LinkedList<>();
         Queue<InputPage> inputPageQueue = new LinkedList<>();
         directiveQueue.add(DTRoot);
+
 
     }
 

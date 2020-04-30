@@ -47,14 +47,14 @@ public class DirectiveTest {
     @Test
     public void testAddInputPage() {
         Directive root = new Directive(null, null);
-        InputPage ip = new InputPage(null, "");
+        InputPage ip = new InputPage(null, "", "");
         root.addInputPage(ip);
         assertEquals(root.getChild().size(), 1);
     }
 
     @Test
     public void testGetParent() {
-        InputPage parent = new InputPage(null, "");
+        InputPage parent = new InputPage(null, "", "");
         Directive root = new Directive(parent, null);
         assertEquals(root.getParent(), parent);
     }
@@ -88,17 +88,17 @@ public class DirectiveTest {
         Directive d1, d2, d3;
         InputPage ip0, ip1;
 
-        ip0 = new InputPage(DTRoot, "IP0");
-        ip1 = new InputPage(DTRoot, "IP1");
+        ip0 = new InputPage(DTRoot, "IP0", "");
+        ip1 = new InputPage(DTRoot, "IP1", "");
 
         d1 = new Directive(ip0, null);
         d2 = new Directive(ip0, null);
         d3 = new Directive(ip1, null);
 
-        d1.addInputPage(new InputPage(d1, "IP0-1"));
-        d2.addInputPage(new InputPage(d2, "IP0-2"));
-        d2.addInputPage(new InputPage(d2, "IP0-3"));
-        d3.addInputPage(new InputPage(d3, "IP1-1"));
+        d1.addInputPage(new InputPage(d1, "IP0-1", ""));
+        d2.addInputPage(new InputPage(d2, "IP0-2", ""));
+        d2.addInputPage(new InputPage(d2, "IP0-3", ""));
+        d3.addInputPage(new InputPage(d3, "IP1-1", ""));
 
         ip0.addDirective(d1);
         ip0.addDirective(d2);

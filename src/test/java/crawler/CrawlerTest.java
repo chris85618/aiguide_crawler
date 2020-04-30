@@ -98,7 +98,7 @@ public class CrawlerTest {
         result = crawler.crawlingWithDirectives(config, directive_2);
 
         for (LearningTask learningTask : result) {
-            System.out.println(learningTask.getRootURL());
+            System.out.println(learningTask.getTargetURL());
             System.out.println(learningTask.getActionSequence().size());
             System.out.println(Arrays.toString(learningTask.getCoverage()));
         }

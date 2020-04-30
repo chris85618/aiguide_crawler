@@ -37,10 +37,10 @@ public class Crawljax implements Crawler {
         System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
         System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
-        return convertToLearningTask(learningTargets, config.ROOT_URL);
+        return convertToLearningTask(learningTargets);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets, String ROOT_URL) {
+    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
 
         for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
