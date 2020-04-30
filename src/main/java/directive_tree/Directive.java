@@ -1,6 +1,5 @@
 package directive_tree;
 
-import util.Action;
 import util.HighLevelAction;
 
 import java.util.List;

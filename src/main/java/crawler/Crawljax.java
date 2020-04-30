@@ -32,10 +32,6 @@ public class Crawljax implements Crawler {
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
         List<Pair<String, List<List<Action>>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
-        int coverage_counter = 0;
-        for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
-        System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
-        System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
         return convertToLearningTask(learningTargets, config.ROOT_URL);
     }
@@ -46,21 +42,6 @@ public class Crawljax implements Crawler {
         for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
             String stateID = (learningSet.getKey() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
             String domHash = learningSet.getKey().hashCode() + "";
-            int coverage_counter = 0;
-            for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("coverage num: " + coverage_counter);
-            System.out.println("stateID: " + stateID);
-            System.out.print("action sequence:\n[");
-            for(List<util.Action> ha : convertToUtilAction(learningSet.getValue())){
-                System.out.print("[");
-                for(util.Action a : ha){
-                    System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
-                }
-                System.out.print("], ");
-            }
-            System.out.println("]");
-            System.out.println("--------------------------------------------------------------");
             domHashCompareTable.put(stateID, domHash);
             learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()),
                                                 serverInstanceManagement.getTotalCoverage(),

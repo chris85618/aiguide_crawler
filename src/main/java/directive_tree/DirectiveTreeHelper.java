@@ -2,7 +2,6 @@ package directive_tree;
 
 import learning_data.LearningResult;
 import learning_data.LearningTask;
-import util.Action;
 import util.HighLevelAction;
 
 import java.util.*;
@@ -64,14 +63,6 @@ public class DirectiveTreeHelper {
 
     private Directive convertToDirective(LearningResult result) {
         return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence());
-    }
-
-    private void printDirectiveTree() {
-        List<LinkedList<String>> info = new LinkedList<>();
-        Queue<Directive> directiveQueue = new LinkedList<>();
-        Queue<InputPage> inputPageQueue = new LinkedList<>();
-        directiveQueue.add(DTRoot);
-
     }
 
 }

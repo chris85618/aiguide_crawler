@@ -21,11 +21,6 @@ public class ServerInstanceAdapter implements ServerInstanceManagement {
                 if (!totalCoverage[i].equals(currentCoverage[i]))
                     totalCoverage[i] = 300;
         }
-        int counter = 0;
-        for(int i: totalCoverage){
-            if(i == 300) counter++;
-        }
-        System.out.println("Total coverage is: " + counter);
     }
 
     void resetRecordCoverage() {
