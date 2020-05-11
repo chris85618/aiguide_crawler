@@ -2,10 +2,10 @@ package crawler;
 
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.state.StateFlowGraph;
-import javafx.util.Pair;
 import learning_data.LearningTask;
 import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
+import ntut.edu.aiguide.crawljax.plugins.domain.LearningTarget;
 import ntut.edu.aiguide.crawljax.plugins.domain.State;
 import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
 import server_instance.ServerInstanceManagement;
@@ -31,19 +31,19 @@ public class Crawljax implements Crawler {
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
-        List<Pair<String, List<List<Action>>>> learningTargets = aiGuidePlugin.getActionSequenceSet();
+        List<LearningTarget> learningTargets = aiGuidePlugin.getLearningTarget();
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
         return convertToLearningTask(learningTargets, config.ROOT_URL);
     }
 
-    private List<LearningTask> convertToLearningTask(List<Pair<String, List<List<Action>>>> learningTargets, String ROOT_URL) {
+    private List<LearningTask> convertToLearningTask(List<LearningTarget> learningTargets, String ROOT_URL) {
         List<LearningTask> learningTasks = new LinkedList<>();
 
-        for (Pair<String, List<List<Action>>> learningSet : learningTargets) {
-            String stateID = (learningSet.getKey() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
-            String domHash = learningSet.getKey().hashCode() + "";
+        for (LearningTarget learningSet : learningTargets) {
+            String stateID = (learningSet.getDom() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
+            String domHash = learningSet.getDom().hashCode() + "";
             domHashCompareTable.put(stateID, domHash);
-            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getValue()),
+            learningTasks.add(new LearningTask(convertToUtilAction(learningSet.getActionSequence()),
                                                 serverInstanceManagement.getTotalCoverage(),
                                                 "/login",
                                                 stateID,
@@ -96,10 +96,9 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setDepth(config.CRAWLER_DEPTH);
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
-        crawljaxFactory.setClickOnce(false);
+        crawljaxFactory.setClickOnce(true);
         crawljaxFactory.setEventWaitingTime(500);
         crawljaxFactory.setPageWaitingTime(500);
-        crawljaxFactory.setClickOnce(false);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 
