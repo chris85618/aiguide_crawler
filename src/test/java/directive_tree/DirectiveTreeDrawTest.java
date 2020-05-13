@@ -5,34 +5,38 @@ import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.assertEquals;
 
 public class DirectiveTreeDrawTest {
 
-    private DirectiveDrawer directiveDrawer;
+    private GraphDrawer graphDrawer;
 
     @Before
     public void setUp() throws Exception {
-        this.directiveDrawer = new DirectiveDrawer();
+        this.graphDrawer = new GraphDrawer();
     }
 
     @Test
     public void testDirectiveConvertToJson() {
         Directive directive = new Directive(null, null);
-        JsonObject directiveJson = directiveDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
 
         assertEquals (directive.getID(), directiveJson.get("id").getAsString());
         assertEquals ("[]", directiveJson.get("children").toString());
+        assertEquals("Directive", directiveJson.get("Type").getAsString());
     }
 
     @Test
     public void testInputPageConvertToJson() {
-        InputPage inputPage = new InputPage(null, "test", "main");
-        JsonObject inputPageJson = directiveDrawer.convertInputPageToJson(inputPage);
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/register");
+        JsonObject inputPageJson = graphDrawer.convertInputPageToJson(inputPage);
 
         assertEquals("test", inputPageJson.get("stateID").getAsString());
-        assertEquals("main", inputPageJson.get("targetURL").getAsString());
+        assertEquals("https://127.0.0.1/register", inputPageJson.get("targetURL").getAsString());
         assertEquals ("[]", inputPageJson.get("children").toString());
+        assertEquals("InputPage",inputPageJson.get("Type").getAsString());
     }
 
     @Test
@@ -41,7 +45,7 @@ public class DirectiveTreeDrawTest {
         InputPage inputPage = new InputPage(null, "test", "/main");
         directive.addInputPage(inputPage);
 
-        JsonObject directiveJson = directiveDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
         assertEquals(1, directiveJson.get("children").getAsJsonArray().size());
 
         JsonObject directiveFirstChildren = directiveJson.get("children").getAsJsonArray().get(0).getAsJsonObject();
@@ -51,12 +55,12 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testDirectiveHasTowChildren(){
         Directive directive = new Directive(null, null);
-        InputPage inputPage1 = new InputPage(directive, "test1", "/main1");
-        InputPage inputPage2 = new InputPage(directive, "test2", "/main2");
+        InputPage inputPage1 = new InputPage(directive, "test1", "https://127.0.0.1/main1");
+        InputPage inputPage2 = new InputPage(directive, "test2", "https://127.0.0.1/main2");
         directive.addInputPage(inputPage1);
         directive.addInputPage(inputPage2);
 
-        JsonObject directiveJson = directiveDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
         assertEquals(2, directiveJson.get("children").getAsJsonArray().size());
 
         JsonObject directiveFirstChildren = directiveJson.get("children").getAsJsonArray().get(0).getAsJsonObject();
@@ -67,11 +71,11 @@ public class DirectiveTreeDrawTest {
 
     @Test
     public void testInputPageHasOneChildren(){
-        InputPage inputPage = new InputPage(null, "test", "main");
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/main33");
         Directive directive = new Directive(inputPage, null);
         inputPage.addDirective(directive);
 
-        JsonObject inputPageJson = directiveDrawer.convertInputPageToJson(inputPage);
+        JsonObject inputPageJson = graphDrawer.convertInputPageToJson(inputPage);
         JsonArray inputPageChild = inputPageJson.get("children").getAsJsonArray();
         assertEquals(1, inputPageChild.size());
 
@@ -87,7 +91,7 @@ public class DirectiveTreeDrawTest {
         inputPage.addDirective(directive1);
         inputPage.addDirective(directive2);
 
-        JsonObject inputPageJson = directiveDrawer.convertInputPageToJson(inputPage);
+        JsonObject inputPageJson = graphDrawer.convertInputPageToJson(inputPage);
         JsonArray inputPageChild = inputPageJson.get("children").getAsJsonArray();
         assertEquals(2, inputPageChild.size());
 
@@ -113,12 +117,35 @@ public class DirectiveTreeDrawTest {
         inputPage1.addDirective(directive1);
         inputPage1.addDirective(directive2);
 
-        JsonObject directiveTreeJson = directiveDrawer.convertDirectviceToJson(DTRoot);
+        JsonObject directiveTreeJson = graphDrawer.convertDirectviceToJson(DTRoot);
 
         JsonArray DTRootChildernJson = directiveTreeJson.get("children").getAsJsonArray();
         assertEquals(3, DTRootChildernJson.size());
 
         JsonArray inputPage1ChildernJson = DTRootChildernJson.get(0).getAsJsonObject().get("children").getAsJsonArray();
         assertEquals(2,inputPage1ChildernJson.size());
+    }
+
+    @Test
+    public void testGenerateGraph(){
+        Directive DTRoot = new Directive(null,null);
+        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register");
+        InputPage inputPage2 = new InputPage(DTRoot, "forgot-password", "https://127.0.0.1/forgot-password/");
+        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/");
+        Directive directive1 = new Directive(inputPage1,null);
+        Directive directive2 = new Directive(inputPage1, null);
+
+        DTRoot.addInputPage(inputPage1);
+        DTRoot.addInputPage(inputPage2);
+        DTRoot.addInputPage(inputPage3);
+
+        inputPage1.addDirective(directive1);
+        inputPage1.addDirective(directive2);
+
+        JsonObject DTRootJson = graphDrawer.convertDirectviceToJson(DTRoot);
+        graphDrawer.generateGraph(DTRootJson, "./src/test/java/directive_tree/test.html");
+
+        File directiveTreeFile = new File("./src/test/java/directive_tree/test.html");
+        assertEquals(true, directiveTreeFile.exists());
     }
 }

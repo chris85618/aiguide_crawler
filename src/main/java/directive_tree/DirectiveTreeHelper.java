@@ -74,6 +74,11 @@ public class DirectiveTreeHelper {
         System.out.println("===============================================================");
     }
 
+    public void drawDirectiveTree(){
+        GraphDrawer graphDrawer = new GraphDrawer();
+        graphDrawer.draw(this.DTRoot);
+    }
+
     private void printAllNode(Directive directive) {
         System.out.println(directive.toString());
         for (InputPage ip : directive.getChild()) {

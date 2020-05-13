@@ -64,7 +64,7 @@ public class Crawljax implements Crawler {
             domHashCompareTable.put(stateID, domHash);
             learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
                                                 serverInstanceManagement.getTotalCoverage(),
-                                                "/login",
+                                                learningTarget.getTargetURL(),
                                                 stateID,
                                                 new HashMap<>()));
         }
@@ -100,6 +100,7 @@ public class Crawljax implements Crawler {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
+        System.out.println(actions);
         return new State(domHash, actions);
     }
 
@@ -115,10 +116,9 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setDepth(config.CRAWLER_DEPTH);
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
-        crawljaxFactory.setClickOnce(false);
-        crawljaxFactory.setEventWaitingTime(500);
-        crawljaxFactory.setPageWaitingTime(500);
-        crawljaxFactory.setClickOnce(false);
+        crawljaxFactory.setClickOnce(true);
+        crawljaxFactory.setEventWaitingTime(1000);
+        crawljaxFactory.setPageWaitingTime(1000);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 
