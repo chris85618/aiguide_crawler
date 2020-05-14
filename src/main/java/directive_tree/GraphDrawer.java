@@ -58,12 +58,12 @@ public class GraphDrawer {
     public void generateGraph(JsonObject directiveTreeJson, String fileName) {
         Graph DTGraph = new Graph();
         DTGraph.setTreeStructure(directiveTreeJson);
-        DTGraph.saveFile(fileName, "./directiveTreeGraphic/d3jsFomat.html");
+        DTGraph.saveFile(fileName, "./lib/directive_tree_drawer/d3jsFomat.html");
     }
 
     public void draw(Directive directiveRoot){
         JsonObject DTRootJson = this.convertDirectviceToJson(directiveRoot);
         String fileName = new SimpleDateFormat("yyyyMMdd-HHmm").format(new Date()) + ".html";
-        this.generateGraph(DTRootJson, fileName);
+        this.generateGraph(DTRootJson, "./directiveTreeGraphic/" + fileName);
     }
 }

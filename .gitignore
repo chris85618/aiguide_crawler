@@ -4,6 +4,7 @@ out/
 build/
 crawler-record/
 output_folder_IS_UNDEFINED/
+directiveTreeGraphic/
 
 *.zip
 *.yml

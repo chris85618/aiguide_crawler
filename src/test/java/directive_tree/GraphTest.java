@@ -28,7 +28,7 @@ public class GraphTest {
     @Test
     public void testReadFile(){
         String filePath = "./src/test/java/directive_tree/readTest.txt";
-        String fileText = this.graph.getFileString(filePath);
+        String fileText = this.graph.getFileText(filePath);
         assertEquals("test read file\ntest write file %1", fileText);
     }
 
@@ -37,8 +37,19 @@ public class GraphTest {
         String filePath = "./src/test/java/directive_tree/writeTest.txt";
         String writeText = "test write file\ntest write file %1";
         this.graph.writeFile(filePath, writeText);
-        String readFileText = this.graph.getFileString(filePath);
+        String readFileText = this.graph.getFileText(filePath);
         assertEquals(writeText, readFileText);
+    }
 
+    @Test
+    public void testGetPreviousLevelPathWhenFilePathIsFullPath(){
+        String filePath = "./src/test/java/directive_tree/writeTest.txt";
+        assertEquals("./src/test/java/directive_tree", this.graph.getPreviousLevePath(filePath));
+    }
+
+    @Test
+    public void testGetPreviousLevelPathWhenFilePathIsOnlyFileName(){
+        String filePath = "writeTest.txt";
+        assertEquals("./", this.graph.getPreviousLevePath(filePath));
     }
 }

@@ -72,6 +72,7 @@ public class DirectiveTreeHelperTest {
     public void directiveTreeHelperTest() {
         DirectiveTreeHelper DTH = constructDTHelper();
         DTH.printDirectiveTree();
+        DTH.drawDirectiveTree();
         Map crawlerDirectives = DTH.takeFirstUnprocessedCrawlerDirectives();
         assertNull(crawlerDirectives);
         assertTrue(DTH.isTreeComplete());
