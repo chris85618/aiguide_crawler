@@ -13,6 +13,32 @@
       "element": "/HTML[1]/BODY[1]/DIV[1]/DIV[3]/DIV[1]/DIV[1]/FORM[1]/DIV[2]/DIV[4]/DIV[1]/DIV[2]/DIV[1]/INPUT[1]",
       "attribute": "value"
     },
+    {
+      "state": "login",
+      "url": "http://localhost:%d/login",
+      "element": "/HTML[1]/BODY[1]/DIV[1]/DIV[3]/DIV[1]/DIV[1]/FORM[1]/DIV[2]/DIV[3]/DIV[1]/DIV[2]/DIV[1]/INPUT[1]",
+      "attribute": "value"
+    },
+
+    {
+      "state": "login",
+      "url": "http://localhost:%d/login",
+      "element": "/HTML[1]/BODY[1]/DIV[1]/DIV[3]/DIV[1]/DIV[1]/FORM[1]/DIV[2]/DIV[4]/DIV[1]/DIV[2]/DIV[1]/INPUT[1]",
+      "attribute": "value"
+    },
+    {
+      "state": "login",
+      "url": "http://localhost:%d/login/#",
+      "element": "/HTML[1]/BODY[1]/DIV[1]/DIV[3]/DIV[1]/DIV[1]/FORM[1]/DIV[2]/DIV[3]/DIV[1]/DIV[2]/DIV[1]/INPUT[1]",
+      "attribute": "value"
+    },
+
+    {
+      "state": "login",
+      "url": "http://localhost:%d/login/#",
+      "element": "/HTML[1]/BODY[1]/DIV[1]/DIV[3]/DIV[1]/DIV[1]/FORM[1]/DIV[2]/DIV[4]/DIV[1]/DIV[2]/DIV[1]/INPUT[1]",
+      "attribute": "value"
+    },
 
     {
       "state": "state28",

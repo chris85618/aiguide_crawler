@@ -14,7 +14,7 @@ class CodeCoverageCollector {
     private String url;
 
     CodeCoverageCollector(int port) {
-        this.url = "http://127.0.0.1:" + port;
+        this.url = "http://localhost:" + port;
     }
 
     Integer[] getCoverageVector() {

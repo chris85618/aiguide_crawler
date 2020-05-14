@@ -14,6 +14,7 @@ import util.HighLevelAction;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CrawlerTest {
     private Crawler crawler;
@@ -66,33 +67,41 @@ public class CrawlerTest {
     public void testGiveTwoDirectiveAndWillGetNineLearningTask() {
         // first iteration
         List<LearningTask> result = crawler.crawlingWithDirectives(config, new HashMap<>());
-        String firstStateID = String.valueOf(result.get(0).getStateID().hashCode());
+        String firstStateID = String.valueOf(result.get(0).getStateID());
 
         String actionXpath = "/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]".toUpperCase();
         Action action = new Action(actionXpath, "");
         List<Action> actionSet = new LinkedList<>();
         actionSet.add(action);
         HighLevelAction highLevelAction = new HighLevelAction(actionSet);
+        List<HighLevelAction> highLevelActionLogin = createLoginPageHighLevelActions();
 
         Map<String, List<HighLevelAction>> directives = new HashMap<>();
-        directives.put(firstStateID, Collections.singletonList(highLevelAction));
+//        directives.put(firstStateID, Collections.singletonList(highLevelAction));
+        directives.put(firstStateID, highLevelActionLogin);
 
         // second iteration
         result = crawler.crawlingWithDirectives(config, ImmutableMap.copyOf(directives));
 
-        String secondStateID = String.valueOf(result.get(0).getStateID().hashCode());
+        assertTrue(result.size() > 0);
+        String secondStateID = String.valueOf(result.get(0).getStateID());
 
 
         HighLevelAction highLevelAction_1 = createPerformAllValidHighLevelAction();
+        HighLevelAction highLevelAction_11 = createPerformAllValidHighLevelAction();
         HighLevelAction highLevelAction_2 = createPerformClickCreateHighLevelAction();
+        HighLevelAction highLevelAction_22 = createPerformClickCreateHighLevelAction();
 
         List<HighLevelAction> highLevelActions = new LinkedList<>();
+//        highLevelActions.add(highLevelAction_22);
         highLevelActions.add(highLevelAction_1);
+//        highLevelActions.add(highLevelAction_11);
         highLevelActions.add(highLevelAction_2);
         Map<String, List<HighLevelAction>> directive_2 = new LinkedHashMap<>();
 
         directive_2.put(secondStateID, highLevelActions);
-        directive_2.put(firstStateID, Collections.singletonList(highLevelAction));
+//        directive_2.put(firstStateID, Collections.singletonList(highLevelAction));
+        directive_2.put(firstStateID, highLevelActionLogin);
 
         // third iteration
         result = crawler.crawlingWithDirectives(config, directive_2);
@@ -126,5 +135,60 @@ public class CrawlerTest {
         actionSet.add(action_5);
         actionSet.add(action_6);
         return new HighLevelAction(actionSet);
+    }
+
+    private List<HighLevelAction> createLoginPageHighLevelActions() {
+        Action action_1 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[2]/DIV[1]/INPUT[1]".toUpperCase(), "teacher@ntut.tw");
+        Action action_1_copy = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[2]/DIV[1]/INPUT[1]".toUpperCase(), "teacher@ntut.tw");
+        Action action_2 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[3]/DIV[1]/INPUT[1]".toUpperCase(), "1234");
+        Action action_2_copy = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[3]/DIV[1]/INPUT[1]".toUpperCase(), "1234");
+        Action action_3 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[1]/BUTTON[1]".toUpperCase(), null);
+        Action action_3_copy = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[1]/BUTTON[1]".toUpperCase(), null);
+        Action action_4 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[2]/DIV[1]/INPUT[1]".toUpperCase(), "student@ntut.tw");
+        Action action_5 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[3]/DIV[1]/INPUT[1]".toUpperCase(), "ab5sRsda.ad");
+        Action action_6 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[2]/DIV[1]/INPUT[1]".toUpperCase(), "teacher@ntut.tw");
+        Action action_7 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[3]/DIV[1]/INPUT[1]".toUpperCase(), "1234");
+        Action action_8 = new Action("/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]".toUpperCase(), null);
+        List<Action> actionSet_1 = new LinkedList<>();
+        List<Action> actionSet_1_copy = new LinkedList<>();
+        actionSet_1.add(action_1);
+        actionSet_1.add(action_2);
+        actionSet_1_copy.add(action_1_copy);
+        actionSet_1_copy.add(action_2_copy);
+
+        List<Action> actionSet_2 = new LinkedList<>();
+        List<Action> actionSet_2_copy = new LinkedList<>();
+        actionSet_2.add(action_3);
+        actionSet_2_copy.add(action_3_copy);
+
+        List<Action> actionSet_3 = new LinkedList<>();
+        actionSet_3.add(action_4);
+        actionSet_3.add(action_5);
+
+        List<Action> actionSet_4 = new LinkedList<>();
+        actionSet_4.add(action_6);
+        actionSet_4.add(action_7);
+
+        List<Action> actionSet_5 = new LinkedList<>();
+        actionSet_5.add(action_8);
+
+        HighLevelAction highLevelAction_1 = new HighLevelAction(actionSet_1);
+        HighLevelAction highLevelAction_1_copy = new HighLevelAction(actionSet_1_copy);
+        HighLevelAction highLevelAction_2 = new HighLevelAction(actionSet_2);
+        HighLevelAction highLevelAction_2_copy = new HighLevelAction(actionSet_2_copy);
+        HighLevelAction highLevelAction_3 = new HighLevelAction(actionSet_3);
+        HighLevelAction highLevelAction_4 = new HighLevelAction(actionSet_4);
+        HighLevelAction highLevelAction_5 = new HighLevelAction(actionSet_5);
+
+        List<HighLevelAction> highLevelActions = new LinkedList<>();
+        highLevelActions.add(highLevelAction_1);
+        highLevelActions.add(highLevelAction_1_copy);
+        highLevelActions.add(highLevelAction_2);
+        highLevelActions.add(highLevelAction_3);
+        highLevelActions.add(highLevelAction_2_copy);
+        highLevelActions.add(highLevelAction_4);
+        highLevelActions.add(highLevelAction_5);
+
+        return highLevelActions;
     }
 }

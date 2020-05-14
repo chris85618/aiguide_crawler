@@ -6,23 +6,38 @@
 	"agents": [
 		{
 			"ip": "140.124.183.85",
-			"java port": "8888",
-			"python port": "8889"
+			"java port": "8585",
+			"python port": "8855"
 		},
 		{
 			"ip": "140.124.183.86",
-			"java port": "6666",
-			"python port": "6667"
+			"java port": "8686",
+			"python port": "8866"
 		},
 		{
 			"ip": "140.124.183.89",
-			"java port": "7777",
-			"python port": "7778"
+			"java port": "8989",
+			"python port": "8899"
+		},
+		{
+			"ip": "140.124.183.90",
+			"java port": "9090",
+			"python port": "9900"
+		},
+		{
+			"ip": "140.124.183.96",
+			"java port": "9696",
+			"python port": "9966"
+		},
+		{
+			"ip": "127.0.0.1",
+			"java port": "8787",
+			"python port": "8877"
 		}
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "10",
-		"root url": "http://127.0.0.1:3001/login"
+		"depth": "6",
+		"root url": "http://localhost:3001/login/"
 	}
 }

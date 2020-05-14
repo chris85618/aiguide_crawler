@@ -23,7 +23,7 @@ public class LearningPoolTest {
 
     @Test
     public void addTask() {
-        pool.addTask(new LearningTask(new ArrayList<>(), new Integer[]{1, 0, 1, 0}, "http://127.0.0.1:3000", String.valueOf("uui34yush2hd89heri".hashCode()), new TreeMap<>()));
+        pool.addTask(new LearningTask(new ArrayList<>(), new Integer[]{1, 0, 1, 0}, "http://localhost:3000", String.valueOf("uui34yush2hd89heri".hashCode()), new TreeMap<>()));
         assertEquals(1, pool.getTaskSize());
     }
 
@@ -41,7 +41,7 @@ public class LearningPoolTest {
 
     @Test
     public void takeTaskHasOneTask() {
-        pool.addTask(new LearningTask(new ArrayList<>(), new Integer[]{1, 0, 1, 0}, "http://127.0.0.1:3000", String.valueOf("uui34yush2hd89heri".hashCode()), new TreeMap<String, String>()));
+        pool.addTask(new LearningTask(new ArrayList<>(), new Integer[]{1, 0, 1, 0}, "http://localhost:3000", String.valueOf("uui34yush2hd89heri".hashCode()), new TreeMap<String, String>()));
         LearningTask task = pool.takeTask();
         assertNotNull(task);
         assertEquals(pool.getTaskSize(), 0);
