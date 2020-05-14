@@ -69,15 +69,9 @@ public class CrawlerTest {
         List<LearningTask> result = crawler.crawlingWithDirectives(config, new HashMap<>());
         String firstStateID = String.valueOf(result.get(0).getStateID());
 
-        String actionXpath = "/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]".toUpperCase();
-        Action action = new Action(actionXpath, "");
-        List<Action> actionSet = new LinkedList<>();
-        actionSet.add(action);
-        HighLevelAction highLevelAction = new HighLevelAction(actionSet);
         List<HighLevelAction> highLevelActionLogin = createLoginPageHighLevelActions();
 
         Map<String, List<HighLevelAction>> directives = new HashMap<>();
-//        directives.put(firstStateID, Collections.singletonList(highLevelAction));
         directives.put(firstStateID, highLevelActionLogin);
 
         // second iteration
@@ -100,7 +94,6 @@ public class CrawlerTest {
         Map<String, List<HighLevelAction>> directive_2 = new LinkedHashMap<>();
 
         directive_2.put(secondStateID, highLevelActions);
-//        directive_2.put(firstStateID, Collections.singletonList(highLevelAction));
         directive_2.put(firstStateID, highLevelActionLogin);
 
         // third iteration

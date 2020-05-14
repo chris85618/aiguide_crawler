@@ -55,7 +55,7 @@ public class JsonFileParserTest {
         assertNotNull(data.get(0).get("ip"));
         assertEquals(data.get(0).get("ip"), "140.124.183.85");
         assertNotNull(data.get(1).get("javaPort"));
-        assertEquals(data.get(1).get("javaPort"), "7777");
+        assertEquals(data.get(1).get("javaPort"), "8888");
     }
 
     @Test

@@ -2,10 +2,12 @@ package directive_tree;
 
 import learning_data.LearningResult;
 import learning_data.LearningTask;
-import util.Action;
 import util.HighLevelAction;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class DirectiveTreeHelper {
     private final Directive DTRoot;
@@ -70,6 +72,11 @@ public class DirectiveTreeHelper {
         System.out.println("=========================DirectiveTree=========================");
         printAllNode(DTRoot);
         System.out.println("===============================================================");
+    }
+
+    public void drawDirectiveTree(){
+        GraphDrawer graphDrawer = new GraphDrawer();
+        graphDrawer.draw(this.DTRoot);
     }
 
     private void printAllNode(Directive directive) {
