@@ -8,7 +8,6 @@ import learning_data.LearningResult;
 import learning_data.LearningTask;
 import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
-import util.Action;
 import util.Config;
 import util.GatewayHelper;
 import util.HighLevelAction;
@@ -27,7 +26,6 @@ public class Controller {
     private Map<String, Boolean> taskCompleteMap;
     private LearningPool learningPool;
     private GatewayHelper gatewayHelper;
-    private int task_counter = 0;
 
     public Controller(Config config) {
         this.config = config;
@@ -49,14 +47,11 @@ public class Controller {
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
                     if(taskCompleteMap.get(task.getStateID()) == null){
-                        task_counter++;
                         taskCompleteMap.put(task.getStateID(), false);
                         learningPool.addTask(task);
                         DT.addInputPage(task);
-                        System.out.println("TaskCompleteMap when add InputPage:" + taskCompleteMap);
                     }
                 }
-                System.out.println("Already have " + task_counter + " tasks.");
             }
             isDone = checkCrawlingDone();
             if(!isDone){
@@ -66,6 +61,8 @@ public class Controller {
             }
             DT.printDirectiveTree();
             DT.drawDirectiveTree();
+            System.out.println("The coverage is: " + crawler.getTotalCoverage());
+            System.out.println("Total task is: " + taskCompleteMap.size());
         }
         learningPool.setStopLearning();
         crawler.generateGraph();
@@ -104,26 +101,8 @@ public class Controller {
     }
 
     private void checkResultIsDone(List<LearningResult> results) {
-        for(LearningResult result: results){
-            System.out.println("===================== Learning Result =====================");
-            System.out.println("Learning Result:");
-            System.out.println(result.getTaskID());
-            if(result.getActionSequence() != null){
-                System.out.print("Action Sequence:\n[");
-                for(HighLevelAction ha: result.getActionSequence()){
-                    System.out.print("[");
-                    for(Action a: ha.getActionSequence()){
-                        System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
-                    }
-                    System.out.print("], ");
-                }
-                System.out.println("]");
-            }
-            System.out.println(result.isDone());
-            System.out.println("===========================================================");
+        for(LearningResult result: results)
             if(result.isDone()) taskCompleteMap.put(result.getTaskID(), true);
-            System.out.println("TaskCompleteMap when get LearningResult:" + taskCompleteMap);
-        }
     }
 
 }

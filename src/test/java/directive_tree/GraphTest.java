@@ -17,14 +17,14 @@ public class GraphTest {
         this.graph = new Graph();
     }
 
-//    @Test
-//    public void testSaveFile(){
-//        String filePath = "./src/test/java/directive_tree/test.txt";
-//        this.graph.setTreeStructure(new JsonObject());
-//        this.graph.saveFile(filePath, "./directiveTreeGraphic/d3jsFomat.html");
-//        File directiveTreeFile = new File(filePath);
-//        assertTrue(directiveTreeFile.exists());
-//    }
+    @Test
+    public void testSaveFile(){
+        String filePath = "./src/test/java/directive_tree/test.txt";
+        this.graph.setTreeStructure(new JsonObject());
+        this.graph.saveFile(filePath, "./lib/directive_tree_drawer/d3jsFomat.html");
+        File directiveTreeFile = new File(filePath);
+        assertTrue(directiveTreeFile.exists());
+    }
 
     @Test
     public void testReadFile(){

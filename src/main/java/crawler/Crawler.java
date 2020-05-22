@@ -10,4 +10,5 @@ import java.util.Map;
 public interface Crawler {
     List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives);
     void generateGraph();
+    int getTotalCoverage();
 }

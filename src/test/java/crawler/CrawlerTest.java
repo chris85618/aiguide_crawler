@@ -78,6 +78,7 @@ public class CrawlerTest {
         result = crawler.crawlingWithDirectives(config, ImmutableMap.copyOf(directives));
 
         assertTrue(result.size() > 0);
+
         String secondStateID = String.valueOf(result.get(0).getStateID());
 
 

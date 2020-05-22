@@ -126,4 +126,11 @@ public class Crawljax implements Crawler {
     public void generateGraph() {
 
     }
+
+    @Override
+    public int getTotalCoverage() {
+        int coverage_counter = 0;
+        for(int i: serverInstanceManagement.getTotalCoverage()) if(i != 0) coverage_counter++;
+        return coverage_counter;
+    }
 }

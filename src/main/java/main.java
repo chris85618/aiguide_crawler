@@ -8,4 +8,5 @@ public class main {
         Config config = new Config("./configuration/configuration.json");
         new Controller(config).execute();
     }
+
 }
