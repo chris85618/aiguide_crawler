@@ -17,7 +17,7 @@ class CodeCoverageCollector {
         this.url = "http://localhost:" + port;
     }
 
-    Integer[] getCoverageVector() {
+    Integer[] getBranchCoverageVector() {
         JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
         List<Integer> coverage_vector = new ArrayList<>();
         for(String key: parser.getAllKeys()) {
@@ -26,6 +26,18 @@ class CodeCoverageCollector {
                 for(String str: entry.getValue()) {
                     coverage_vector.add(Integer.parseInt(str));
                 }
+            }
+        }
+        return coverage_vector.toArray(new Integer[0]);
+    }
+
+    Integer[] getStatementCoverageVector() {
+        JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
+        List<Integer> coverage_vector = new ArrayList<>();
+        for(String key: parser.getAllKeys()) {
+            Map<String, String> map = parser.getJsonFileValues(key, "s");
+            for(Map.Entry<String, String> entry: map.entrySet()){
+                coverage_vector.add(Integer.parseInt(entry.getValue()));
             }
         }
         return coverage_vector.toArray(new Integer[0]);

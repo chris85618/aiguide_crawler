@@ -11,6 +11,7 @@ import server_instance.TimeOffManagementServer;
 import util.Config;
 import util.GatewayHelper;
 import util.HighLevelAction;
+import util.LogHelper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,6 +53,7 @@ public class Controller {
                         DT.addInputPage(task);
                     }
                 }
+                LogHelper.writeAllLog();
             }
             isDone = checkCrawlingDone();
             if(!isDone){
@@ -61,8 +63,10 @@ public class Controller {
             }
             DT.printDirectiveTree();
             DT.drawDirectiveTree();
-            System.out.println("The coverage is: " + crawler.getTotalCoverage());
-            System.out.println("Total task is: " + taskCompleteMap.size());
+            LogHelper.summary("The statement coverage is: " + crawler.getTotalCoverage().get("statement"));
+            LogHelper.summary("The branch coverage is: " + crawler.getTotalCoverage().get("branch"));
+            LogHelper.summary("Total task is: " + taskCompleteMap.size() + " , Remain task is: " + learningPool.getTaskSize());
+            LogHelper.writeAllLog();
         }
         learningPool.setStopLearning();
         crawler.generateGraph();

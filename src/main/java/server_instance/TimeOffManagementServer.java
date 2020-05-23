@@ -123,8 +123,17 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     }
 
     @Override
-    public Integer[] getCoverageVector() {
-        Integer[] coverageVector = codeCoverageCollector.getCoverageVector();
+    public Integer[] getBranchCoverageVector() {
+        Integer[] coverageVector = codeCoverageCollector.getBranchCoverageVector();
+        for(int i = 0; i < coverageVector.length; i++){
+            if(coverageVector[i] != 0) coverageVector[i] = 300;
+        }
+        return coverageVector;
+    }
+
+    @Override
+    public Integer[] getStatementCoverageVector() {
+        Integer[] coverageVector = codeCoverageCollector.getStatementCoverageVector();
         for(int i = 0; i < coverageVector.length; i++){
             if(coverageVector[i] != 0) coverageVector[i] = 300;
         }

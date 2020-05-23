@@ -32,9 +32,11 @@ public class Crawljax implements Crawler {
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
         List<LearningTarget> learningTargets = aiGuidePlugin.getLearningTarget();
-        int coverage_counter = 0;
-        for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
-        System.out.println("**************** Current coverage: " + coverage_counter + " ****************");
+        int branchCoverageCounter = 0, statementCoverageCounter = 0;
+        for(int i: serverInstanceManagement.getTotalStatementCoverage()) if(i == 300) statementCoverageCounter++;
+        for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i == 300) branchCoverageCounter++;
+        System.out.println("**************** Current statement coverage: " + statementCoverageCounter + " ****************");
+        System.out.println("**************** Current branch coverage: " + branchCoverageCounter + " ****************");
         System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
         return convertToLearningTask(learningTargets);
@@ -44,26 +46,17 @@ public class Crawljax implements Crawler {
         List<LearningTask> learningTasks = new LinkedList<>();
 
         for (LearningTarget learningTarget : learningTargets) {
-            String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalCoverage())).hashCode() + "";
+            String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalBranchCoverage())).hashCode() + "";
             String domHash = learningTarget.getDom().hashCode() + "";
             int coverage_counter = 0;
-            for(int i: serverInstanceManagement.getTotalCoverage()) if(i == 300) coverage_counter++;
+            for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i == 300) coverage_counter++;
             System.out.println("--------------------------------------------------------------");
             System.out.println("coverage num: " + coverage_counter);
             System.out.println("stateID: " + stateID);
-            System.out.print("action sequence:\n[");
-            for(List<util.Action> ha : convertToUtilAction(learningTarget.getActionSequence())){
-                System.out.print("[");
-                for(util.Action a : ha){
-                    System.out.print("('" + a.getXpath() + "', '" + a.getValue() + "')");
-                }
-                System.out.print("], ");
-            }
-            System.out.println("]");
             System.out.println("--------------------------------------------------------------");
             domHashCompareTable.put(stateID, domHash);
             learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
-                                                serverInstanceManagement.getTotalCoverage(),
+                                                serverInstanceManagement.getTotalBranchCoverage(),
                                                 learningTarget.getTargetURL(),
                                                 stateID,
                                                 new HashMap<>()));
@@ -128,9 +121,14 @@ public class Crawljax implements Crawler {
     }
 
     @Override
-    public int getTotalCoverage() {
+    public Map getTotalCoverage() {
+        Map<String, Integer> summary = new HashMap<>();
         int coverage_counter = 0;
-        for(int i: serverInstanceManagement.getTotalCoverage()) if(i != 0) coverage_counter++;
-        return coverage_counter;
+        for(int i: serverInstanceManagement.getTotalStatementCoverage()) if(i != 0) coverage_counter++;
+        summary.put("statement", coverage_counter);
+        coverage_counter = 0;
+        for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i != 0) coverage_counter++;
+        summary.put("branch", coverage_counter);
+        return summary;
     }
 }

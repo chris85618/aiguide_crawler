@@ -10,6 +10,7 @@ public abstract class ServerInstanceManagement {
     public abstract void createServerInstance();
     public abstract void closeServerInstance();
     public abstract void restartServerInstance();
-    public abstract Integer[] getCoverageVector();
+    public abstract Integer[] getBranchCoverageVector();
+    public abstract Integer[] getStatementCoverageVector();
     public abstract void resetCoverage();
 }

@@ -2,6 +2,7 @@ package learning_data;
 
 import util.ActionFactory;
 import util.HighLevelAction;
+import util.LogHelper;
 
 import java.util.*;
 
@@ -22,17 +23,24 @@ public class LearningPool {
         boolean succ;
         succ = learningTasks.offer(task);
         assert succ : "add LearningTask fail";
+        LogHelper.info("Now learningTask size is: " + learningTasks.size());
     }
 
     public synchronized void addResult(LearningResult result) {
-        if(result.isDone()) processingTasks.remove(result.getTaskID());
+        if(result.isDone()) {
+            processingTasks.remove(result.getTaskID());
+            LogHelper.info("Task ID: " + result.getTaskID() + " is done.");
+        }
         boolean succ;
         succ = learningResults.offer(result);
         assert succ : "add LearningResult fail";
     }
 
     public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, boolean isDone) {
-        if(isDone) processingTasks.remove(taskID);
+        if(isDone) {
+            processingTasks.remove(taskID);
+            LogHelper.info("Task ID: " + taskID + " is done.");
+        }
         boolean succ;
         succ = learningResults.offer(new LearningResult(actionSequence, taskID, isDone));
         assert succ : "add LearningResult fail";
@@ -42,6 +50,7 @@ public class LearningPool {
         LearningTask task = learningTasks.poll();
         if(task != null)
             processingTasks.put(task.getStateID(), task);
+        LogHelper.info("Now learningTask size is: " + learningTasks.size());
         return task;
     }
 

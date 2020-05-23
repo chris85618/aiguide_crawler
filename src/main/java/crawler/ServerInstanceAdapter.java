@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 public class ServerInstanceAdapter implements ServerInstanceManagement {
     private final server_instance.ServerInstanceManagement serverInstanceManagement;
-    private Integer[] totalCoverage = null;
+    private Integer[] totalBranchCoverage = null;
+    private Integer[] totalStatementCoverage = null;
 
     public ServerInstanceAdapter(server_instance.ServerInstanceManagement serverInstanceManagement) {
         this.serverInstanceManagement = serverInstanceManagement;
@@ -14,21 +15,37 @@ public class ServerInstanceAdapter implements ServerInstanceManagement {
 
     @Override
     public void recordCoverage() {
-        if(totalCoverage == null) totalCoverage = serverInstanceManagement.getCoverageVector();
+        if(totalBranchCoverage == null || totalStatementCoverage == null) {
+            totalStatementCoverage = serverInstanceManagement.getStatementCoverageVector();
+            totalBranchCoverage = serverInstanceManagement.getBranchCoverageVector();
+        }
         else {
-            Integer[] currentCoverage = serverInstanceManagement.getCoverageVector();
-            for (int i = 0; i < totalCoverage.length; i++)
-                if (!totalCoverage[i].equals(currentCoverage[i]))
-                    totalCoverage[i] = 300;
+            Integer[] currentStatementCoverage = serverInstanceManagement.getStatementCoverageVector();
+            for (int i = 0; i < totalStatementCoverage.length; i++) {
+                if (!totalStatementCoverage[i].equals(currentStatementCoverage[i])) {
+                    totalStatementCoverage[i] = 300;
+                }
+            }
+
+            Integer[] currentBranchCoverage = serverInstanceManagement.getBranchCoverageVector();
+            for (int i = 0; i < totalBranchCoverage.length; i++)
+                if (!totalBranchCoverage[i].equals(currentBranchCoverage[i])) {
+                    totalBranchCoverage[i] = 300;
+                }
         }
     }
 
     void resetRecordCoverage() {
-        Arrays.fill(totalCoverage, 0);
+        Arrays.fill(totalStatementCoverage, 0);
+        Arrays.fill(totalBranchCoverage, 0);
     }
 
-    Integer[] getTotalCoverage() {
-        return totalCoverage;
+    Integer[] getTotalStatementCoverage() {
+        return totalStatementCoverage;
+    }
+
+    Integer[] getTotalBranchCoverage() {
+        return totalBranchCoverage;
     }
 
     @Override
