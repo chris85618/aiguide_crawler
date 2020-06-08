@@ -48,9 +48,10 @@ public class LearningPool {
 
     public synchronized LearningTask takeTask() {
         LearningTask task = learningTasks.poll();
-        if(task != null)
+        if(task != null){
             processingTasks.put(task.getStateID(), task);
-        LogHelper.info("Now learningTask size is: " + learningTasks.size());
+            LogHelper.info("Now learningTask size is: " + learningTasks.size());
+        }
         return task;
     }
 

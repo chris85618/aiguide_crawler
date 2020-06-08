@@ -3,6 +3,7 @@ package directive_tree;
 import learning_data.LearningResult;
 import learning_data.LearningTask;
 import util.HighLevelAction;
+import util.LogHelper;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -41,6 +42,7 @@ public class DirectiveTreeHelper {
     public LinkedHashMap<String, List<HighLevelAction>> takeFirstUnprocessedCrawlerDirectives() {
         processingLeaf = unprocessedLeaves.poll();
         if(processingLeaf == null) return null;
+        LogHelper.debug("Next processing Leaf is: " + processingLeaf.getID());
         return getCrawlerDirectives(processingLeaf);
     }
 

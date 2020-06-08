@@ -15,19 +15,14 @@
 			"python port": "8866"
 		},
 		{
-			"ip": "140.124.183.89",
-			"java port": "8989",
-			"python port": "8899"
-		},
-		{
-			"ip": "140.124.183.90",
-			"java port": "9090",
-			"python port": "9900"
-		},
-		{
 			"ip": "140.124.183.96",
 			"java port": "9696",
 			"python port": "9966"
+		},
+		{
+			"ip": "140.124.181.240",
+			"java port": "4040",
+			"python port": "4400"
 		},
 		{
 			"ip": "127.0.0.1",
@@ -37,7 +32,7 @@
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "6",
+		"depth": "8",
 		"root url": "http://localhost:3001/login/"
 	}
 }

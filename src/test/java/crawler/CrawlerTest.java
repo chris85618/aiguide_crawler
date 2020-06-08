@@ -83,14 +83,10 @@ public class CrawlerTest {
 
 
         HighLevelAction highLevelAction_1 = createPerformAllValidHighLevelAction();
-        HighLevelAction highLevelAction_11 = createPerformAllValidHighLevelAction();
         HighLevelAction highLevelAction_2 = createPerformClickCreateHighLevelAction();
-        HighLevelAction highLevelAction_22 = createPerformClickCreateHighLevelAction();
 
         List<HighLevelAction> highLevelActions = new LinkedList<>();
-//        highLevelActions.add(highLevelAction_22);
         highLevelActions.add(highLevelAction_1);
-//        highLevelActions.add(highLevelAction_11);
         highLevelActions.add(highLevelAction_2);
         Map<String, List<HighLevelAction>> directive_2 = new LinkedHashMap<>();
 
@@ -105,7 +101,7 @@ public class CrawlerTest {
             System.out.println(learningTask.getActionSequence().size());
             System.out.println(Arrays.toString(learningTask.getCoverage()));
         }
-        assertEquals(28, result.size());
+        assertEquals(2, result.size());
     }
 
     private HighLevelAction createPerformClickCreateHighLevelAction() {

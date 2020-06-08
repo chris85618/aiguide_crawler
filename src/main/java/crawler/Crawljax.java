@@ -11,6 +11,7 @@ import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
 import server_instance.ServerInstanceManagement;
 import util.Config;
 import util.HighLevelAction;
+import util.LogHelper;
 
 import java.util.*;
 
@@ -28,6 +29,7 @@ public class Crawljax implements Crawler {
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
         serverInstanceManagement.recordCoverage();
+        LogHelper.debug("Start crawling");
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
@@ -61,6 +63,7 @@ public class Crawljax implements Crawler {
                                                 stateID,
                                                 new HashMap<>()));
         }
+        LogHelper.debug("End crawling");
         return learningTasks;
     }
 
