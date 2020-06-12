@@ -1,28 +1,18 @@
 {
-	"application": "timetimeoff-management",
+	"application": "nodebb",
 	"application port": "3001",
 	"server IP": "140.124.183.87",
 	"sleep time": "30",
 	"agents": [
 		{
-			"ip": "140.124.183.85",
-			"java port": "8585",
-			"python port": "8855"
+			"ip": "140.124.181.237",
+			"java port": "3737",
+			"python port": "3377"
 		},
 		{
-			"ip": "140.124.183.86",
-			"java port": "8686",
-			"python port": "8866"
-		},
-		{
-			"ip": "140.124.183.96",
-			"java port": "9696",
-			"python port": "9966"
-		},
-		{
-			"ip": "140.124.181.240",
-			"java port": "4040",
-			"python port": "4400"
+			"ip": "140.124.183.238",
+			"java port": "3838",
+			"python port": "3388"
 		},
 		{
 			"ip": "127.0.0.1",
@@ -32,7 +22,7 @@
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "8",
+		"depth": "7",
 		"root url": "http://localhost:3001/login/"
 	}
 }

@@ -29,7 +29,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         " ports:\n" +
         "  - \"127.0.0.1:%d:3000\"";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
-        compose_file = dockerFolder + "docker_compose_" + (server_port % 3000) + ".yml";
+        compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
         try {
             FileWriter fw = new FileWriter(compose_file);
             fw.write(compose_file_content);

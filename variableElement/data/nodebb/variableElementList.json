@@ -1,0 +1,400 @@
+{
+    "variableList": [
+        {
+            "state": "state2",
+            "url": "http://localhost:%d/register",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/FORM[1]/INPUT[4]",
+            "attribute": "value"
+        },
+        {
+            "state": "state4",
+            "url": "http://localhost:%d/login",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state7",
+            "url": "http://localhost:%d/categories",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[1]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state7",
+            "url": "http://localhost:%d/categories",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[1]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state12",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[2]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state12",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[2]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/DIV[1]/I[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[1]/A[1]/I[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[3]/A[1]/SPAN[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[2]/DIV[1]/I[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[1]/A[1]/I[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[3]/A[1]/SPAN[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[6]/A[1]/SPAN[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state14",
+            "url": "http://localhost:%d/",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[6]/A[1]/SPAN[1]",
+            "attribute": "class"
+        },
+        {
+            "state": "state17",
+            "url": "http://localhost:%d/tags",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[3]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state17",
+            "url": "http://localhost:%d/tags",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[3]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state21",
+            "url": "http://localhost:%d/popular",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[4]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state21",
+            "url": "http://localhost:%d/popular",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[4]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state25",
+            "url": "http://localhost:%d/categories",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state25",
+            "url": "http://localhost:%d/categories",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state26",
+            "url": "http://localhost:%d/users",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[5]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state26",
+            "url": "http://localhost:%d/users",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[5]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state12",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[2]/UL[1]/LI[1]/DIV[5]/SPAN[1]",
+            "attribute": "title"
+        },
+        {
+            "state": "state12",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[2]/UL[1]/LI[1]/DIV[5]/SPAN[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state23",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[3]/DIV[1]",
+            "attribute": "title"
+        },
+        {
+            "state": "state23",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[3]/DIV[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state23",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[3]/STRONG[2]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state38",
+            "url": "http://localhost:%d/unread",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state38",
+            "url": "http://localhost:%d/unread",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state39",
+            "url": "http://localhost:%d/unread",
+            "element": "/HTML[1]/BODY[1]/DIV[4]/DIV[1]/UL[1]/LI[1]",
+            "attribute": "data-uuid"
+        },
+        {
+            "state": "state39",
+            "url": "http://localhost:%d/unread",
+            "element": "/HTML[1]/BODY[1]/DIV[5]",
+            "attribute": "data-uuid"
+        },
+        {
+            "state": "state40",
+            "url": "http://localhost:%d/groups",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[6]/A[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state40",
+            "url": "http://localhost:%d/groups",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[4]/LI[6]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state32",
+            "url": "http://localhost:%d/topic/1/welcome-to-your-nodebb",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[1]/DIV[2]/DIV[1]/DIV[3]/DIV[2]/SPAN[1]",
+            "attribute": "title"
+        },
+        {
+            "state": "state32",
+            "url": "http://localhost:%d/topic/1/welcome-to-your-nodebb",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[1]/DIV[2]/DIV[1]/DIV[3]/DIV[2]/SPAN[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state33",
+            "url": "http://localhost:%d/category/2/general-discussion",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[1]/UL[1]/LI[1]/DIV[5]/SPAN[1]",
+            "attribute": "title"
+        },
+        {
+            "state": "state33",
+            "url": "http://localhost:%d/category/2/general-discussion",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[1]/UL[1]/LI[1]/DIV[5]/SPAN[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state49",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state49",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state49",
+            "url": "http://localhost:%d/recent",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/OL[1]/LI[2]/SPAN[1]/A[1]",
+            "attribute": "href"
+        },
+        {
+            "state": "state23",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[3]/STRONG[2]",
+            "attribute": "datetime"
+        },
+        {
+            "state": "state23",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[3]/STRONG[2]",
+            "attribute": "title"
+        },
+        {
+            "state": "state59",
+            "url": "http://localhost:%d/login?local=1",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state61",
+            "url": "http://localhost:%d/tags",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state61",
+            "url": "http://localhost:%d/tags",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state73",
+            "url": "http://localhost:%d/popular",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state73",
+            "url": "http://localhost:%d/popular",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state81",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[5]/DIV[1]/DIV[1]/UL[1]/LI[1]/DIV[1]/DIV[2]/A[1]/DIV[1]",
+            "attribute": "aria-describedby"
+        },
+        {
+            "state": "state81",
+            "url": "http://localhost:%d/user/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[5]/DIV[1]/DIV[1]/UL[1]/LI[1]/DIV[1]/DIV[2]/A[1]/DIV[2]",
+            "attribute": "id"
+        },
+        {
+            "state": "state83",
+            "url": "http://localhost:%d/users",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state83",
+            "url": "http://localhost:%d/users",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state84",
+            "url": "http://localhost:%d/users?section=flagged",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state84",
+            "url": "http://localhost:%d/users?section=flagged",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state89",
+            "url": "http://localhost:%d/groups",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state89",
+            "url": "http://localhost:%d/groups",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state90",
+            "url": "http://localhost:%d/users?section=banned",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[2]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state90",
+            "url": "http://localhost:%d/users?section=banned",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/DIV[1]/DIV[2]/UL[1]/LI[3]/UL[1]/LI[16]/FORM[1]/INPUT[1]",
+            "attribute": "value"
+        },
+        {
+            "state": "state93",
+            "url": "http://localhost:%d/login",
+            "element": "/HTML[1]/BODY[1]/DIV[2]/DIV[1]",
+            "attribute": "id"
+        },
+        {
+            "state": "state93",
+            "url": "http://localhost:%d/login",
+            "element": "/HTML[1]/BODY[1]/DIV[2]/DIV[1]",
+            "attribute": "timeoutid"
+        },
+        {
+            "state": "state97",
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[1]/DIV[1]/STRONG[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state97",
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[2]/DIV[1]/STRONG[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state97",
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[3]/DIV[1]/STRONG[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state97",
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[1]/DIV[3]/DIV[2]/DIV[1]/DIV[2]/DIV[1]/UL[1]/LI[2]/SPAN[1]/SPAN[1]",
+            "attribute": "TextContent"
+        },
+        {
+            "state": "state97",
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[2]/DIV[2]/DIV[1]/DIV[4]/SPAN[1]",
+            "attribute": "TextContent"
+        }
+    ]
+}

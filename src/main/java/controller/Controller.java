@@ -6,6 +6,7 @@ import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
 import learning_data.LearningResult;
 import learning_data.LearningTask;
+import server_instance.NodeBBServer;
 import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
 import util.Config;
@@ -30,12 +31,19 @@ public class Controller {
 
     public Controller(Config config) {
         this.config = config;
-        this.serverInstance = new TimeOffManagementServer(this.config.AUT_PORT);
+        this.serverInstance = createServerInstanceManagement();
         this.crawler = new Crawljax(serverInstance);
         this.DT = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();
         this.gatewayHelper = new GatewayHelper(this.config.SERVER_IP, this.config.AGENTS, this.learningPool);
+    }
+
+    private ServerInstanceManagement createServerInstanceManagement() {
+        if(config.AUT_NAME.equals("timetimeoff-management")) return new TimeOffManagementServer(this.config.AUT_PORT);
+        else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_PORT);
+
+        throw new RuntimeException("AUT not fount when create server instance.");
     }
 
     public void execute() throws InterruptedException {
