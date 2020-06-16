@@ -16,8 +16,8 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     private String compose_file;
     private CodeCoverageCollector codeCoverageCollector;
 
-    public TimeOffManagementServer(int server_port) {
-        super(server_port);
+    public TimeOffManagementServer(String appName, int server_port) {
+        super(appName, server_port);
         createDockerComposeFile();
         this.codeCoverageCollector = new CodeCoverageCollector(server_port);
     }
@@ -120,6 +120,11 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     public void restartServerInstance() {
         closeServerInstance();
         createServerInstance();
+    }
+
+    @Override
+    public String getAppName() {
+        return appName;
     }
 
     @Override

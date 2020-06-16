@@ -1,5 +1,5 @@
 {
-	"application": "nodebb",
+	"application": "timeoff-management",
 	"application port": "3001",
 	"server IP": "140.124.183.87",
 	"sleep time": "30",
@@ -15,6 +15,11 @@
 			"python port": "3388"
 		},
 		{
+			"ip": "140.124.183.239",
+			"java port": "3939",
+			"python port": "3399"
+		},
+		{
 			"ip": "127.0.0.1",
 			"java port": "8787",
 			"python port": "8877"
@@ -22,7 +27,7 @@
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "7",
+		"depth": "14",
 		"root url": "http://localhost:3001/login/"
 	}
 }

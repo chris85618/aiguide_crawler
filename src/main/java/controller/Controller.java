@@ -40,8 +40,8 @@ public class Controller {
     }
 
     private ServerInstanceManagement createServerInstanceManagement() {
-        if(config.AUT_NAME.equals("timetimeoff-management")) return new TimeOffManagementServer(this.config.AUT_PORT);
-        else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_PORT);
+        if(config.AUT_NAME.equals("timeoff-management")) return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
 
         throw new RuntimeException("AUT not fount when create server instance.");
     }

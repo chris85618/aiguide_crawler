@@ -16,8 +16,8 @@ public class NodeBBServer extends ServerInstanceManagement {
     private String compose_file;
     private CodeCoverageCollector codeCoverageCollector;
 
-    public NodeBBServer(int server_port) {
-        super(server_port);
+    public NodeBBServer(String appName, int server_port) {
+        super(appName, server_port);
         createDockerComposeFile();
         this.codeCoverageCollector = new CodeCoverageCollector(server_port);
     }
@@ -98,6 +98,12 @@ public class NodeBBServer extends ServerInstanceManagement {
             }
             else if(waitingCount == MAXIMUM_WAITING_COUNT * 2) throw new RuntimeException("Something went wrong when creating NodeBB...");
         }
+        try {
+            Thread.sleep(2000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     private void recreateTimeOffManagement() {
@@ -126,6 +132,11 @@ public class NodeBBServer extends ServerInstanceManagement {
     public void restartServerInstance() {
         closeServerInstance();
         createServerInstance();
+    }
+
+    @Override
+    public String getAppName() {
+        return appName;
     }
 
     @Override
