@@ -23,7 +23,7 @@ public class CrawlerTest {
     @Before
     public void setUp() throws Exception {
         this.config = new Config("./src/test/configuration/crawlerTestConfiguration.json");
-        this.serverInstanceManagement = new TimeOffManagementServer(config.AUT_PORT);
+        this.serverInstanceManagement = new TimeOffManagementServer(config.AUT_NAME, config.AUT_PORT);
         this.serverInstanceManagement.createServerInstance();
         this.crawler = new Crawljax(serverInstanceManagement);
     }
