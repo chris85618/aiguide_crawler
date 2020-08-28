@@ -62,6 +62,7 @@ public class Directive {
     }
 
     private String printActionSequence() {
+        if(actionSequence == null) return "";
         StringBuilder str;
         str = new StringBuilder();
         for(HighLevelAction ha : actionSequence){

@@ -6,8 +6,6 @@ import java.util.Arrays;
 
 public class ServerInstanceAdapter implements ServerInstanceManagement {
     private final server_instance.ServerInstanceManagement serverInstanceManagement;
-    private Integer[] totalBranchCoverage = null;
-    private Integer[] totalStatementCoverage = null;
 
     public ServerInstanceAdapter(server_instance.ServerInstanceManagement serverInstanceManagement) {
         this.serverInstanceManagement = serverInstanceManagement;
@@ -15,38 +13,18 @@ public class ServerInstanceAdapter implements ServerInstanceManagement {
 
     @Override
     public void recordCoverage() {
-        if(totalBranchCoverage == null || totalStatementCoverage == null) {
-            totalStatementCoverage = serverInstanceManagement.getStatementCoverageVector();
-            totalBranchCoverage = serverInstanceManagement.getBranchCoverageVector();
-        }
-        else {
-            Integer[] currentStatementCoverage = serverInstanceManagement.getStatementCoverageVector();
-            for (int i = 0; i < totalStatementCoverage.length; i++) {
-                if (!totalStatementCoverage[i].equals(currentStatementCoverage[i])) {
-                    totalStatementCoverage[i] = 300;
-                }
-            }
-
-            Integer[] currentBranchCoverage = serverInstanceManagement.getBranchCoverageVector();
-            for (int i = 0; i < totalBranchCoverage.length; i++)
-                if (!totalBranchCoverage[i].equals(currentBranchCoverage[i])) {
-                    totalBranchCoverage[i] = 300;
-                }
-        }
+        serverInstanceManagement.recordCoverage();
     }
 
     void resetRecordCoverage() {
-        Arrays.fill(totalStatementCoverage, 0);
-        Arrays.fill(totalBranchCoverage, 0);
+        serverInstanceManagement.resetTotalCoverage();
     }
 
     Integer[] getTotalStatementCoverage() {
-        return totalStatementCoverage;
+        return serverInstanceManagement.getTotalStatementCoverageVector();
     }
 
-    Integer[] getTotalBranchCoverage() {
-        return totalBranchCoverage;
-    }
+    Integer[] getTotalBranchCoverage() { return serverInstanceManagement.getTotalBranchCoverageVector(); }
 
     @Override
     public void createServerInstance() {

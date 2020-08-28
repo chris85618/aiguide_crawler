@@ -12,6 +12,8 @@ import java.util.Map;
 
 class CodeCoverageCollector {
     private String url;
+    private Integer[] totalBranchCoverage = null;
+    private Integer[] totalStatementCoverage = null;
 
     CodeCoverageCollector(int port) {
         this.url = "http://localhost:" + port;
@@ -58,5 +60,40 @@ class CodeCoverageCollector {
             e.printStackTrace();
             throw new RuntimeException("Reset coverage error!!");
         }
+    }
+
+    public void recordCoverage() {
+        if(totalBranchCoverage == null || totalStatementCoverage == null) {
+            totalStatementCoverage = getStatementCoverageVector();
+            totalBranchCoverage = getBranchCoverageVector();
+        }
+        else {
+            Integer[] currentStatementCoverage = getStatementCoverageVector();
+            for (int i = 0; i < totalStatementCoverage.length; i++) {
+                if (currentStatementCoverage[i] != 0) {
+                    totalStatementCoverage[i] = currentStatementCoverage[i];
+                }
+            }
+
+            Integer[] currentBranchCoverage = getBranchCoverageVector();
+            for (int i = 0; i < totalBranchCoverage.length; i++) {
+                if (currentBranchCoverage[i] != 0) {
+                    totalBranchCoverage[i] = currentBranchCoverage[i];
+                }
+            }
+        }
+    }
+
+    public Integer[] getTotalBranchCoverageVector() {
+        return totalBranchCoverage.clone();
+    }
+
+    public Integer[] getTotalStatementCoverageVector() {
+        return totalStatementCoverage.clone();
+    }
+
+    public void resetTotalCoverage() {
+        totalBranchCoverage = null;
+        totalStatementCoverage = null;
     }
 }

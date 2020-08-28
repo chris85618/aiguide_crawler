@@ -102,10 +102,24 @@ public class DirectiveTreeHelperTest {
         as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
         highLevelActionList.add(new HighLevelAction(as));
 
+        List<List<Action>> actionsList = new LinkedList<>();
+        List<Action> actionList1 = new LinkedList<>();
+        actionList1.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "6666"));
+        actionList1.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", "66666"));
+        actionList1.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "666666"));
+        List<Action> actionList2 = new LinkedList<>();
+        actionList2.add(new Action("/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div[2]/div/div[2]", "7777"));
+        List<Action> actionList3 = new LinkedList<>();
+        actionList3.add(new Action("/html/body/div[1]/div/div[1]/div[1]/div[90]/div[2]/div[2]/div[1]/div/div", "8888"));
+        actionList3.add(new Action("/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/a/div[1]/div/div/div/img", "88888"));
+        actionsList.add(actionList1);
+        actionsList.add(actionList2);
+        actionsList.add(actionList3);
+
         task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/register", "register", null);
-        task2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/forgot-password/", "forgot-password", null);
+        task2 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost/forgot-password/", "forgot-password", null);
         task3 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/login/", "login", null);
-        task1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/settings/general/", "settings", null);
+        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/settings/general/", "settings", null);
         task1_2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/users/edit/", "edit", null);
 
         result1 = new LearningResult(highLevelActionList, "register", false);
@@ -174,8 +188,22 @@ public class DirectiveTreeHelperTest {
         as.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
         as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
 
+        List<List<Action>> actionsList = new LinkedList<>();
+        List<Action> actionList1 = new LinkedList<>();
+        actionList1.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "6666"));
+        actionList1.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", "66666"));
+        actionList1.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "666666"));
+        List<Action> actionList2 = new LinkedList<>();
+        actionList2.add(new Action("/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div[2]/div/div[2]", "7777"));
+        List<Action> actionList3 = new LinkedList<>();
+        actionList3.add(new Action("/html/body/div[1]/div/div[1]/div[1]/div[90]/div[2]/div[2]/div[1]/div/div", "8888"));
+        actionList3.add(new Action("/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/a/div[1]/div/div/div/img", "88888"));
+        actionsList.add(actionList1);
+        actionsList.add(actionList2);
+        actionsList.add(actionList3);
+
         task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/register", "register", null);
-        task1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/forgot-password/", "forgot-password", null);
+        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/forgot-password/", "forgot-password", null);
         task1_1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/login/", "login", null);
 
         result1 = new LearningResult(highLevelActionList, "register", false);

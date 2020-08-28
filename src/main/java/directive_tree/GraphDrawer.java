@@ -46,15 +46,6 @@ public class GraphDrawer {
         return inputPageJson;
     }
 
-//    public void printAllNode(Directive directive) {
-//        System.out.println(directive.toString());
-//        for (InputPage ip : directive.getChild()) {
-//            System.out.println(ip.toString());
-//            for (Directive d : ip.getChild())
-//                printAllNode(d);
-//        }
-//    }
-
     public void generateGraph(JsonObject directiveTreeJson, String fileName) {
         Graph DTGraph = new Graph();
         DTGraph.setTreeStructure(directiveTreeJson);

@@ -13,19 +13,9 @@ public class main {
         LogHelper.info("AI GUIDE Start...");
 
         Config config = new Config("./configuration/configuration.json");
-        copyVE("./variableElement/data/" + config.AUT_NAME + "/variableElementList.json");
         new Controller(config).execute();
 
         LogHelper.info("AI GUIDE Close...");
         LogHelper.writeAllLog();
-    }
-
-    private static void copyVE(String source) {
-        try {
-            File src = new File(source), dst = new File("./variableElement/variableElementList.json");
-            Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }catch (Exception e){
-            System.out.println("Not fount variableElementList...");
-        }
     }
 }

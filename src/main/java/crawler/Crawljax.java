@@ -34,12 +34,6 @@ public class Crawljax implements Crawler {
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
         List<LearningTarget> learningTargets = aiGuidePlugin.getLearningTarget();
-        int branchCoverageCounter = 0, statementCoverageCounter = 0;
-        for(int i: serverInstanceManagement.getTotalStatementCoverage()) if(i == 300) statementCoverageCounter++;
-        for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i == 300) branchCoverageCounter++;
-        System.out.println("**************** Current statement coverage: " + statementCoverageCounter + " ****************");
-        System.out.println("**************** Current branch coverage: " + branchCoverageCounter + " ****************");
-        System.out.println("**************** Current crawlerDirectives size: " + crawlerDirectives.size() + " ****************");
 //        mergingGraph(aiGuidePlugin.getStateFlowGraph());
         return convertToLearningTask(learningTargets);
     }
@@ -50,12 +44,6 @@ public class Crawljax implements Crawler {
         for (LearningTarget learningTarget : learningTargets) {
             String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalBranchCoverage())).hashCode() + "";
             String domHash = learningTarget.getDom().hashCode() + "";
-            int coverage_counter = 0;
-            for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i == 300) coverage_counter++;
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("coverage num: " + coverage_counter);
-            System.out.println("stateID: " + stateID);
-            System.out.println("--------------------------------------------------------------");
             domHashCompareTable.put(stateID, domHash);
             learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
                                                 serverInstanceManagement.getTotalBranchCoverage(),
@@ -96,7 +84,6 @@ public class Crawljax implements Crawler {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
-        System.out.println(actions);
         return new State(domHash, actions);
     }
 
@@ -123,15 +110,4 @@ public class Crawljax implements Crawler {
 
     }
 
-    @Override
-    public Map getTotalCoverage() {
-        Map<String, Integer> summary = new HashMap<>();
-        int coverage_counter = 0;
-        for(int i: serverInstanceManagement.getTotalStatementCoverage()) if(i != 0) coverage_counter++;
-        summary.put("statement", coverage_counter);
-        coverage_counter = 0;
-        for(int i: serverInstanceManagement.getTotalBranchCoverage()) if(i != 0) coverage_counter++;
-        summary.put("branch", coverage_counter);
-        return summary;
-    }
 }

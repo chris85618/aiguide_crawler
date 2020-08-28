@@ -2,9 +2,12 @@ package directive_tree;
 
 import learning_data.LearningResult;
 import learning_data.LearningTask;
+import util.Action;
 import util.HighLevelAction;
 import util.LogHelper;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,16 +66,40 @@ public class DirectiveTreeHelper {
     }
 
     private InputPage convertToInputPage(LearningTask task) {
-        return new InputPage(processingLeaf, task.getStateID(), task.getTargetURL());
+        return new InputPage(processingLeaf, task.getStateID(), task.getTargetURL(), convertToHighLevelActionSequence(task.getActionSequence()));
     }
 
     private Directive convertToDirective(LearningResult result) {
         return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence());
     }
 
+    private List<HighLevelAction> convertToHighLevelActionSequence(List<List<Action>> actionSequence) {
+        if(actionSequence == null) return null;
+        List<HighLevelAction> highLevelActions = new LinkedList<>();
+        for(List<Action> list: actionSequence) {
+            highLevelActions.add(new HighLevelAction(list));
+        }
+        return highLevelActions;
+    }
+
+    public void writeDirectiveTree() {
+        String file_name = "./directiveTreeGraphic/DT.txt";
+        try {
+            FileWriter DTWriter = new FileWriter(file_name);
+            DTWriter.write("=========================DirectiveTree=========================" + '\n');
+            String str = AllNodesToString(DTRoot);
+            DTWriter.write(str);
+            DTWriter.write("===============================================================" + '\n');
+            DTWriter.close();
+        }catch (IOException e){
+            System.out.println("Write DT error!!!");
+            e.printStackTrace();
+        }
+    }
+
     public void printDirectiveTree() {
         System.out.println("=========================DirectiveTree=========================");
-        printAllNode(DTRoot);
+        System.out.println(AllNodesToString(DTRoot));
         System.out.println("===============================================================");
     }
 
@@ -81,12 +108,13 @@ public class DirectiveTreeHelper {
         graphDrawer.draw(this.DTRoot);
     }
 
-    private void printAllNode(Directive directive) {
-        System.out.println(directive.toString());
+    private String AllNodesToString(Directive directive) {
+        String data = directive.toString() + "\n";
         for (InputPage ip : directive.getChild()) {
-            System.out.println(ip.toString());
+            data = data.concat(ip.toString() + "\n");
             for (Directive d : ip.getChild())
-                printAllNode(d);
+                data = data.concat(AllNodesToString(d));
         }
+        return data;
     }
 }

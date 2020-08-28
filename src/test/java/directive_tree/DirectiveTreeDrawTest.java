@@ -30,7 +30,7 @@ public class DirectiveTreeDrawTest {
 
     @Test
     public void testInputPageConvertToJson() {
-        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/register");
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/register", null);
         JsonObject inputPageJson = graphDrawer.convertInputPageToJson(inputPage);
 
         assertEquals("test", inputPageJson.get("stateID").getAsString());
@@ -42,7 +42,7 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testDirectiveHasOneChildren(){
         Directive directive = new Directive(null, null);
-        InputPage inputPage = new InputPage(null, "test", "/main");
+        InputPage inputPage = new InputPage(null, "test", "/main", null);
         directive.addInputPage(inputPage);
 
         JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
@@ -55,8 +55,8 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testDirectiveHasTowChildren(){
         Directive directive = new Directive(null, null);
-        InputPage inputPage1 = new InputPage(directive, "test1", "https://127.0.0.1/main1");
-        InputPage inputPage2 = new InputPage(directive, "test2", "https://127.0.0.1/main2");
+        InputPage inputPage1 = new InputPage(directive, "test1", "https://127.0.0.1/main1", null);
+        InputPage inputPage2 = new InputPage(directive, "test2", "https://127.0.0.1/main2", null);
         directive.addInputPage(inputPage1);
         directive.addInputPage(inputPage2);
 
@@ -71,7 +71,7 @@ public class DirectiveTreeDrawTest {
 
     @Test
     public void testInputPageHasOneChildren(){
-        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/main33");
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/main33", null);
         Directive directive = new Directive(inputPage, null);
         inputPage.addDirective(directive);
 
@@ -85,7 +85,7 @@ public class DirectiveTreeDrawTest {
 
     @Test
     public void testInputPageHasTwoChildrenHas(){
-        InputPage inputPage = new InputPage(null, "test", "main");
+        InputPage inputPage = new InputPage(null, "test", "main", null);
         Directive directive1 = new Directive(inputPage, null);
         Directive directive2 = new Directive(inputPage, null);
         inputPage.addDirective(directive1);
@@ -104,9 +104,9 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testChilderhasChilder(){
         Directive DTRoot = new Directive(null,null);
-        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register");
-        InputPage inputPage2 = new InputPage(DTRoot, "\"forgot-password\"", "https://127.0.0.1/forgot-password/");
-        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/");
+        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", null);
+        InputPage inputPage2 = new InputPage(DTRoot, "\"forgot-password\"", "https://127.0.0.1/forgot-password/", null);
+        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", null);
         Directive directive1 = new Directive(inputPage1,null);
         Directive directive2 = new Directive(inputPage1, null);
 
@@ -129,9 +129,9 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testGenerateGraph(){
         Directive DTRoot = new Directive(null,null);
-        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register");
-        InputPage inputPage2 = new InputPage(DTRoot, "forgot-password", "https://127.0.0.1/forgot-password/");
-        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/");
+        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", null);
+        InputPage inputPage2 = new InputPage(DTRoot, "forgot-password", "https://127.0.0.1/forgot-password/", null);
+        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", null);
         Directive directive1 = new Directive(inputPage1,null);
         Directive directive2 = new Directive(inputPage1, null);
 

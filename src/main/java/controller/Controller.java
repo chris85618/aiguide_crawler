@@ -69,10 +69,10 @@ public class Controller {
                 results = waitAndGetLearningResults();
                 DT.addDirectives(results);
             }
-            DT.printDirectiveTree();
+            DT.writeDirectiveTree();
             DT.drawDirectiveTree();
-            LogHelper.summary("The statement coverage is: " + crawler.getTotalCoverage().get("statement"));
-            LogHelper.summary("The branch coverage is: " + crawler.getTotalCoverage().get("branch"));
+            LogHelper.summary("The statement coverage is: " + serverInstance.getTotalCoverage().get("statement"));
+            LogHelper.summary("The branch coverage is: " + serverInstance.getTotalCoverage().get("branch"));
             LogHelper.summary("Total task is: " + taskCompleteMap.size() + " , Remain task is: " + learningPool.getTaskSize());
             LogHelper.writeAllLog();
         }
