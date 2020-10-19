@@ -37,13 +37,13 @@
 <script src="./d3.min.js"></script>
 	
 <script>
-var treeData = [{"Type":"Directive","id":"directive_tree.Directive@4776e7c5","children":[{"Type":"InputPage","stateID":"register","targetURL":"https://127.0.0.1/register","children":[{"Type":"Directive","id":"directive_tree.Directive@149de529","children":[]},{"Type":"Directive","id":"directive_tree.Directive@747dd986","children":[]}]},{"Type":"InputPage","stateID":"forgot-password","targetURL":"https://127.0.0.1/forgot-password/","children":[]},{"Type":"InputPage","stateID":"login","targetURL":"https://127.0.0.1/login/","children":[]}]}];
+var treeData = [{"Type":"Directive","id":"directive_tree.Directive@489a9d7c","ActionSequence":[],"children":[{"Type":"InputPage","stateID":"register","targetURL":"https://127.0.0.1/register","children":[{"Type":"Directive","id":"directive_tree.Directive@22f8e141","ActionSequence":[],"children":[]},{"Type":"Directive","id":"directive_tree.Directive@16ebefac","ActionSequence":[],"children":[]}]},{"Type":"InputPage","stateID":"forgot-password","targetURL":"https://127.0.0.1/forgot-password/","children":[]},{"Type":"InputPage","stateID":"login","targetURL":"https://127.0.0.1/login/","children":[]}]}];
 
 // ************** Generate the tree diagram	 *****************
 var treeDirection = "horizontal";
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
-  width = getDirectiveTreeDepth(treeData[0]) * (180+20) - margin.right - margin.left,
+  width = getDirectiveTreeDepth(treeData[0]) * (200+20) - margin.right - margin.left,
 	height = getDirectiveTreeBreadth(treeData[0]) * 100 - margin.top - margin.bottom;
 
 

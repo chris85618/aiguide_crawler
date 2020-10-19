@@ -1,33 +1,13 @@
 {
 	"application": "timeoff-management",
 	"application port": "3001",
-	"server IP": "140.124.181.236",
+	"server IP": "140.124.183.81",
 	"sleep time": "30",
 	"agents": [
 		{
-			"ip": "140.124.181.237",
-			"java port": "3737",
-			"python port": "3377"
-		},
-		{
-			"ip": "140.124.181.238",
-			"java port": "3838",
-			"python port": "3388"
-		},
-		{
-			"ip": "140.124.181.239",
-			"java port": "3939",
-			"python port": "3399"
-		},
-		{
-			"ip": "140.124.181.240",
-			"java port": "4040",
-			"python port": "4400"
-		},
-		{
-			"ip": "127.0.0.1",
-			"java port": "8787",
-			"python port": "8877"
+			"ip": "140.124.181.232",
+			"java port": "3200",
+			"python port": "13200"
 		}
 	],
 	"crawler config": {

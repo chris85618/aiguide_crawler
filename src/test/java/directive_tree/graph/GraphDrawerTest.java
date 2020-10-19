@@ -1,15 +1,19 @@
-package directive_tree;
+package directive_tree.graph;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import directive_tree.Directive;
+import directive_tree.InputPage;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
-public class DirectiveTreeDrawTest {
+public class GraphDrawerTest {
 
     private GraphDrawer graphDrawer;
 
@@ -21,7 +25,7 @@ public class DirectiveTreeDrawTest {
     @Test
     public void testDirectiveConvertToJson() {
         Directive directive = new Directive(null, null);
-        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectiveToJson(directive);
 
         assertEquals (directive.getID(), directiveJson.get("id").getAsString());
         assertEquals ("[]", directiveJson.get("children").toString());
@@ -45,7 +49,7 @@ public class DirectiveTreeDrawTest {
         InputPage inputPage = new InputPage(null, "test", "/main", null);
         directive.addInputPage(inputPage);
 
-        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectiveToJson(directive);
         assertEquals(1, directiveJson.get("children").getAsJsonArray().size());
 
         JsonObject directiveFirstChildren = directiveJson.get("children").getAsJsonArray().get(0).getAsJsonObject();
@@ -60,7 +64,7 @@ public class DirectiveTreeDrawTest {
         directive.addInputPage(inputPage1);
         directive.addInputPage(inputPage2);
 
-        JsonObject directiveJson = graphDrawer.convertDirectviceToJson(directive);
+        JsonObject directiveJson = graphDrawer.convertDirectiveToJson(directive);
         assertEquals(2, directiveJson.get("children").getAsJsonArray().size());
 
         JsonObject directiveFirstChildren = directiveJson.get("children").getAsJsonArray().get(0).getAsJsonObject();
@@ -117,7 +121,7 @@ public class DirectiveTreeDrawTest {
         inputPage1.addDirective(directive1);
         inputPage1.addDirective(directive2);
 
-        JsonObject directiveTreeJson = graphDrawer.convertDirectviceToJson(DTRoot);
+        JsonObject directiveTreeJson = graphDrawer.convertDirectiveToJson(DTRoot);
 
         JsonArray DTRootChildernJson = directiveTreeJson.get("children").getAsJsonArray();
         assertEquals(3, DTRootChildernJson.size());
@@ -142,10 +146,12 @@ public class DirectiveTreeDrawTest {
         inputPage1.addDirective(directive1);
         inputPage1.addDirective(directive2);
 
-        JsonObject DTRootJson = graphDrawer.convertDirectviceToJson(DTRoot);
-        graphDrawer.generateGraph(DTRootJson, "./src/test/java/directive_tree/test.html");
+        JsonObject DTRootJson = graphDrawer.convertDirectiveToJson(DTRoot);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd-HHmm").format(new Date());
+        String graphSavePath = GraphConfig.GRAPH_PATH + "/" + timeStamp;
+        graphDrawer.generateGraph(DTRootJson, graphSavePath, GraphConfig.LIBRARY_PATH);
 
-        File directiveTreeFile = new File("./src/test/java/directive_tree/test.html");
+        File directiveTreeFile = new File(graphSavePath);
         assertEquals(true, directiveTreeFile.exists());
     }
 }
