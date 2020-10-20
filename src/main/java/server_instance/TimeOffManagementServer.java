@@ -1,5 +1,6 @@
 package server_instance;
 
+import server_instance.codeCoverage.*;
 import util.CommandHelper;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         super(appName, server_port);
         createDockerComposeFile();
         copyVE();
-        this.codeCoverageCollector = new CodeCoverageCollector(server_port);
+        this.codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
     }
 
     private void createDockerComposeFile() {

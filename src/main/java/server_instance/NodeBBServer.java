@@ -1,5 +1,7 @@
 package server_instance;
 
+import server_instance.codeCoverage.CodeCoverageCollector;
+import server_instance.codeCoverage.IstanbulCodeCoverageCollector;
 import util.CommandHelper;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,8 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 
 public class NodeBBServer extends ServerInstanceManagement {
@@ -22,7 +22,7 @@ public class NodeBBServer extends ServerInstanceManagement {
         super(appName, server_port);
         createDockerComposeFile();
         copyVE();
-        this.codeCoverageCollector = new CodeCoverageCollector(server_port);
+        this.codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
     }
 
     private void createDockerComposeFile() {

@@ -1,4 +1,4 @@
-package server_instance;
+package server_instance.codeCoverage;
 
 import util.JsonFileParser;
 
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class CodeCoverageCollector {
+public class IstanbulCodeCoverageCollector implements CodeCoverageCollector {
     private String url;
     private Integer[] totalBranchCoverage = null;
     private Integer[] totalStatementCoverage = null;
 
-    CodeCoverageCollector(int port) {
+    public IstanbulCodeCoverageCollector(int port) {
         this.url = "http://localhost:" + port;
     }
 
-    Integer[] getBranchCoverageVector() {
+    public Integer[] getBranchCoverageVector() {
         JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
         List<Integer> coverage_vector = new ArrayList<>();
         for(String key: parser.getAllKeys()) {
@@ -33,7 +33,7 @@ class CodeCoverageCollector {
         return coverage_vector.toArray(new Integer[0]);
     }
 
-    Integer[] getStatementCoverageVector() {
+    public Integer[] getStatementCoverageVector() {
         JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
         List<Integer> coverage_vector = new ArrayList<>();
         for(String key: parser.getAllKeys()) {
@@ -45,7 +45,7 @@ class CodeCoverageCollector {
         return coverage_vector.toArray(new Integer[0]);
     }
 
-    void resetCoverage() {
+    public void resetCoverage() {
         try {
             HttpURLConnection http = (HttpURLConnection) new URL(url + "/coverage/reset").openConnection();
             http.setRequestMethod("GET");
