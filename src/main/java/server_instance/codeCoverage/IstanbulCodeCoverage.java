@@ -5,72 +5,40 @@ import java.util.stream.Collectors;
 
 public class IstanbulCodeCoverage implements CodeCoverage {
 
-    private Integer[] branchCoverageVector = null;
-    private Integer[] statementCoverageVector = null;
-
     public IstanbulCodeCoverage(){}
 
-    public IstanbulCodeCoverage(Integer[] statementCoverageVector, Integer[] branchCoverageVector){
-        this.statementCoverageVector = statementCoverageVector;
-        this.branchCoverageVector = branchCoverageVector;
+    @Override
+    public void setCoverageVector(Integer[] branchCoverageVector) {
+
     }
 
     @Override
-    public void setBranchCoverageVector(Integer[] branchCoverageVector) {
-        this.branchCoverageVector = branchCoverageVector;
+    public Integer[] getCoverageVector() {
+        return new Integer[0];
     }
 
     @Override
-    public void setStatementCoverageVector(Integer[] statementCoverageVector) {
-        this.statementCoverageVector = statementCoverageVector;
+    public int getCoveredAmount() {
+        return 0;
     }
 
     @Override
-    public Integer[] getBranchCoverageVector() {
-        return this.branchCoverageVector;
+    public int getCoverageVectorSize() {
+        return 0;
     }
 
     @Override
-    public Integer[] getStatementCoverageVector() {
-        return this.statementCoverageVector;
+    public double getCoverage() {
+        return 0;
     }
 
     @Override
-    public int getBranchCoveredAmount() {
-        return this.getFilterZeroArray(this.branchCoverageVector).length;
+    public void merge(CodeCoverage codeCoverage) {
+
     }
 
     @Override
-    public int getStatementCoveredAmount() {
-        return this.getFilterZeroArray(this.statementCoverageVector).length;
-    }
+    public void xor(CodeCoverage codeCoverage) {
 
-    @Override
-    public int getBranchCoverageSize() {
-        return this.branchCoverageVector.length;
-    }
-
-    @Override
-    public int getStatementCoverageSize() {
-        return this.statementCoverageVector.length;
-    }
-
-    @Override
-    public double getBranchCoverage() {
-        return 1.0 * this.getBranchCoveredAmount() / this.getBranchCoverageSize();
-    }
-
-    @Override
-    public double getStatementCoverage() {
-        return 1.0 * this.getStatementCoveredAmount() / this.getStatementCoverageSize();
-    }
-
-    @Override
-    public void merge() {
-    }
-
-    private Integer[] getFilterZeroArray(Integer[] array){
-        Integer[] nonZeroArray = (Integer[]) Arrays.stream(array).filter(i -> i!=0).collect(Collectors.toList()).toArray();
-        return nonZeroArray;
     }
 }
