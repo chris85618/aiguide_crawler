@@ -86,6 +86,8 @@
       </div>
       <div class="modal-body">
         <table class="table table-borderless">
+          <p id="coverageImproved">Popover in a modal</p>
+          <p id="learningTargetActionSequenceLength">Popover in a modal</p>
           <thead>
             <tr>
               <th scope="col">xpath</th>
@@ -107,7 +109,11 @@
       var directive_tree_class_id = d.id
       var directive_tree_id = directive_tree_class_id.substr(directive_tree_class_id.indexOf("@") + 1)
       var title = "Directive ID: " + directive_tree_id;
+      var coverageImproved = "Code coverage Improved: " + d.coverageImproved;
+      var learningTargetActionSequenceLength = "Learning Target Action Sequnce Size is :" + d.learningTargetActionSequenceLength;
       $('#exampleModalLabel').html(title);
+      $('#coverageImproved').html(coverageImproved);
+      $('#learningTargetActionSequenceLength').html(learningTargetActionSequenceLength);
       actionSequenceFormate(d.ActionSequence)
       $('#exampleModal').modal('show')
     }

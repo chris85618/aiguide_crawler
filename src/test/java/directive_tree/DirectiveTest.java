@@ -32,7 +32,7 @@ public class DirectiveTest {
     @Test
     public void testGetActionSequenceIsNull() {
         Directive root;
-        root = new Directive(null, null);
+        root = new Directive(null, null,0, 0);
         assertNull(root.getActionSequence());
     }
 
@@ -46,7 +46,7 @@ public class DirectiveTest {
 
     @Test
     public void testAddInputPage() {
-        Directive root = new Directive(null, null);
+        Directive root = new Directive(null, null,0, 0);
         InputPage ip = new InputPage(null, "", "", null);
         root.addInputPage(ip);
         assertEquals(root.getChild().size(), 1);

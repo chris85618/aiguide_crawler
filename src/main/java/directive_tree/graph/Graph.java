@@ -23,7 +23,7 @@ public class Graph {
 
     public void saveFile() {
         String dataContent = "var data = " + directiveTreeJson.toString();
-        FileHelper.createFile("./data.js", dataContent);
+        FileHelper.createFile(graphPath + "/data.js", dataContent);
     }
 
 }

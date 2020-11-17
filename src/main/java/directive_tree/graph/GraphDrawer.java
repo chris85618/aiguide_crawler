@@ -19,6 +19,8 @@ public class GraphDrawer {
         JsonObject directiveJson = new JsonObject();
         directiveJson.addProperty("Type","Directive");
         directiveJson.addProperty("id", directive.getID());
+        directiveJson.addProperty("coverageImproved", String.valueOf(directive.getCoverageImproved()));
+        directiveJson.addProperty("learningTargetActionSequenceLength", String.valueOf(directive.getLearningTargetActionSequenceLength()));
         directiveJson.add("ActionSequence", this.convertHighLevelActionSequenceToJsonArray(directive.getActionSequence()));
 
         JsonArray directiveChildren = new JsonArray();

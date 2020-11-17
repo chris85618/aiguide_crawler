@@ -10,11 +10,26 @@ public class Directive {
     private final List<InputPage> inputPageList;
     private final InputPage parentInputPage;
     private final List<HighLevelAction> actionSequence;
+
+    private final int learningTargetActionSequenceLength;
+
+    private final int coverageImproved;
     private final String id;
 
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
         this.parentInputPage = parentInputPage;
         this.actionSequence = actionSequence;
+        this.coverageImproved = 0;
+        this.learningTargetActionSequenceLength = 0;
+        this.inputPageList = new ArrayList<>();
+        this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+
+    public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength) {
+        this.parentInputPage = parentInputPage;
+        this.actionSequence = actionSequence;
+        this.coverageImproved = coverageImproved;
+        this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
@@ -38,6 +53,15 @@ public class Directive {
     public String getID() {
         return id;
     }
+
+    public int getCoverageImproved() {
+        return coverageImproved;
+    }
+
+    public int getLearningTargetActionSequenceLength() {
+        return learningTargetActionSequenceLength;
+    }
+
 
     public List<InputPage> getChild() {
         return inputPageList;

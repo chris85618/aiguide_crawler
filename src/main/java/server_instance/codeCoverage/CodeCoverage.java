@@ -1,12 +1,14 @@
 package server_instance.codeCoverage;
 
+import java.util.List;
+
 public interface CodeCoverage {
-    void setCoverageVector(Integer[] branchCoverageVector);
-    Integer[] getCoverageVector();
+    void setCodeCoverageVector(List<Integer> codeCoverageVector);
+    List<Integer> getCodeCoverageVector();
+    int getCodeCoverageVectorSize();
     int getCoveredAmount();
-    int getCoverageVectorSize();
-    double getCoverage();
+    double getPercent();
 
     void merge(CodeCoverage codeCoverage);
-    void xor(CodeCoverage codeCoverage);
+    CodeCoverage xor(CodeCoverage codeCoverage);
 }

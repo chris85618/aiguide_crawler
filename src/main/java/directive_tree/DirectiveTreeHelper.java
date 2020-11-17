@@ -20,7 +20,7 @@ public class DirectiveTreeHelper {
     private Directive processingLeaf;
 
     public DirectiveTreeHelper() {
-        this.DTRoot = new Directive(null, null);
+        this.DTRoot = new Directive(null, null, 0, 0);
         this.unprocessedLeaves = new LinkedList<>();
         this.unprocessedLeaves.offer(this.DTRoot);
     }
@@ -71,7 +71,7 @@ public class DirectiveTreeHelper {
     }
 
     private Directive convertToDirective(LearningResult result) {
-        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence());
+        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence(), result.getCoverageImproved(), result.getLearningTargetActionSequenceLength());
     }
 
     private List<HighLevelAction> convertToHighLevelActionSequence(List<List<Action>> actionSequence) {

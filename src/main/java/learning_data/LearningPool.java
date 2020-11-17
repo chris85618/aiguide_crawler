@@ -36,13 +36,13 @@ public class LearningPool {
         assert succ : "add LearningResult fail";
     }
 
-    public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, boolean isDone) {
+    public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, int coverageImproved, int learningTargetActionSequenceLength, boolean isDone) {
         if(isDone) {
             processingTasks.remove(taskID);
             LogHelper.info("Task ID: " + taskID + " is done.");
         }
         boolean succ;
-        succ = learningResults.offer(new LearningResult(actionSequence, taskID, isDone));
+        succ = learningResults.offer(new LearningResult(actionSequence, taskID, coverageImproved, learningTargetActionSequenceLength, isDone));
         assert succ : "add LearningResult fail";
     }
 

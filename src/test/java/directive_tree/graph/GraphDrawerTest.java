@@ -149,8 +149,8 @@ public class GraphDrawerTest {
         JsonObject DTRootJson = graphDrawer.convertDirectiveToJson(DTRoot);
         String timeStamp = new SimpleDateFormat("yyyyMMdd-HHmm").format(new Date());
         String graphSavePath = GraphConfig.GRAPH_PATH + "/" + timeStamp;
+        System.out.println(DTRootJson.toString());
         graphDrawer.generateGraph(DTRootJson, graphSavePath, GraphConfig.LIBRARY_PATH);
-
         File directiveTreeFile = new File(graphSavePath);
         assertEquals(true, directiveTreeFile.exists());
     }

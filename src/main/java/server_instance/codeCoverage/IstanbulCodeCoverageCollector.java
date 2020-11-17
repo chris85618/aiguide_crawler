@@ -12,14 +12,12 @@ import java.util.Map;
 
 public class IstanbulCodeCoverageCollector implements CodeCoverageCollector {
     private String url;
-    private Integer[] totalBranchCoverage = null;
-    private Integer[] totalStatementCoverage = null;
 
     public IstanbulCodeCoverageCollector(int port) {
         this.url = "http://localhost:" + port;
     }
 
-    public Integer[] getBranchCoverageVector() {
+    private List<Integer> getBranchCoverageVector() {
         JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
         List<Integer> coverage_vector = new ArrayList<>();
         for(String key: parser.getAllKeys()) {
@@ -30,10 +28,10 @@ public class IstanbulCodeCoverageCollector implements CodeCoverageCollector {
                 }
             }
         }
-        return coverage_vector.toArray(new Integer[0]);
+        return coverage_vector;
     }
 
-    public Integer[] getStatementCoverageVector() {
+    private List<Integer> getStatementCoverageVector() {
         JsonFileParser parser = new JsonFileParser(this.url + "/coverage/object");
         List<Integer> coverage_vector = new ArrayList<>();
         for(String key: parser.getAllKeys()) {
@@ -42,7 +40,17 @@ public class IstanbulCodeCoverageCollector implements CodeCoverageCollector {
                 coverage_vector.add(Integer.parseInt(entry.getValue()));
             }
         }
-        return coverage_vector.toArray(new Integer[0]);
+        return coverage_vector;
+    }
+
+    @Override
+    public CodeCoverage getBranchCoverage() {
+        return new IstanbulCodeCoverage(this.getBranchCoverageVector());
+    }
+
+    @Override
+    public CodeCoverage getStatementCoverage() {
+        return new IstanbulCodeCoverage(this.getStatementCoverageVector());
     }
 
     public void resetCoverage() {
@@ -62,38 +70,4 @@ public class IstanbulCodeCoverageCollector implements CodeCoverageCollector {
         }
     }
 
-    public void recordCoverage() {
-        if(totalBranchCoverage == null || totalStatementCoverage == null) {
-            totalStatementCoverage = getStatementCoverageVector();
-            totalBranchCoverage = getBranchCoverageVector();
-        }
-        else {
-            Integer[] currentStatementCoverage = getStatementCoverageVector();
-            for (int i = 0; i < totalStatementCoverage.length; i++) {
-                if (currentStatementCoverage[i] != 0) {
-                    totalStatementCoverage[i] = currentStatementCoverage[i];
-                }
-            }
-
-            Integer[] currentBranchCoverage = getBranchCoverageVector();
-            for (int i = 0; i < totalBranchCoverage.length; i++) {
-                if (currentBranchCoverage[i] != 0) {
-                    totalBranchCoverage[i] = currentBranchCoverage[i];
-                }
-            }
-        }
-    }
-
-    public Integer[] getTotalBranchCoverageVector() {
-        return totalBranchCoverage.clone();
-    }
-
-    public Integer[] getTotalStatementCoverageVector() {
-        return totalStatementCoverage.clone();
-    }
-
-    public void resetTotalCoverage() {
-        totalBranchCoverage = null;
-        totalStatementCoverage = null;
-    }
 }

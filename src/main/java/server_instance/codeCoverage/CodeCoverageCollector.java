@@ -1,17 +1,11 @@
 package server_instance.codeCoverage;
 
-public interface CodeCoverageCollector {
-    Integer[] getBranchCoverageVector();
+import java.util.List;
 
-    Integer[] getStatementCoverageVector();
+public interface CodeCoverageCollector {
+    CodeCoverage getBranchCoverage();
+
+    CodeCoverage getStatementCoverage();
 
     void resetCoverage();
-
-    void recordCoverage();
-
-    Integer[] getTotalBranchCoverageVector();
-
-    Integer[] getTotalStatementCoverageVector();
-
-    void resetTotalCoverage();
 }

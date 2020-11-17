@@ -9,6 +9,7 @@ import learning_data.LearningTask;
 import server_instance.NodeBBServer;
 import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
+import server_instance.codeCoverage.CodeCoverage;
 import util.Config;
 import util.GatewayHelper;
 import util.HighLevelAction;
@@ -71,9 +72,15 @@ public class Controller {
             }
             DT.writeDirectiveTree();
             DT.drawDirectiveTree();
-            LogHelper.summary("The statement coverage is: " + serverInstance.getTotalCoverage().get("statement"));
-            LogHelper.summary("The branch coverage is: " + serverInstance.getTotalCoverage().get("branch"));
+
+            CodeCoverage statementCoverage = serverInstance.getTotalCoverage().get("statement");
+            CodeCoverage branchCoverage = serverInstance.getTotalCoverage().get("branch");
+
+            LogHelper.summary("The statement coverage is: " + statementCoverage.getCoveredAmount() + String.format("(%.2f%%)", 100 * statementCoverage.getPercent()));
+            LogHelper.summary("The branch coverage is: " + branchCoverage.getCoveredAmount() + String.format("(%.2f%%)", 100 * branchCoverage.getPercent()));
+
             LogHelper.summary("Total task is: " + taskCompleteMap.size() + " , Remain task is: " + learningPool.getTaskSize());
+
             LogHelper.writeAllLog();
         }
         learningPool.setStopLearning();

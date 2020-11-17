@@ -1,40 +1,54 @@
 package server_instance.codeCoverage;
 
-public abstract class CodeCoverageHelper {
+public class CodeCoverageHelper {
 
     private CodeCoverageCollector codeCoverageCollector;
+    private CodeCoverage branchCoverage;
+    private CodeCoverage statementCoverage;
 
     public CodeCoverageHelper(CodeCoverageCollector codeCoverageCollector){
         this.codeCoverageCollector = codeCoverageCollector;
+        this.resetCumulativeCoverage();
     }
 
-    Integer[]  getBranchCoverageVector(){
-        return codeCoverageCollector.getBranchCoverageVector();
+    public void recordCoverage(){
+        if(!this.isCodeCoverageRecorded()){
+            this.branchCoverage = this.getBranchCoverage();
+            this.statementCoverage = this.getStatementCoverage();
+        }
+        else{
+            this.branchCoverage.merge(this.getBranchCoverage());
+            this.statementCoverage.merge(this.getStatementCoverage());
+        }
+
     }
 
-    Integer[] getStatementCoverageVector(){
-        return codeCoverageCollector.getStatementCoverageVector();
+    public void resetCumulativeCoverage(){
+        this.branchCoverage = null;
+        this.statementCoverage = null;
     }
 
-    void resetCoverage(){
-        codeCoverageCollector.resetCoverage();
+    public CodeCoverage getBranchCoverage(){
+        return this.codeCoverageCollector.getBranchCoverage();
     }
 
-    public abstract int getBranchCoverageAmount();
-    public abstract String getBranchCoverage();
+    public CodeCoverage getStatementCoverage(){
+        return this.codeCoverageCollector.getStatementCoverage();
+    }
 
-    public abstract int getStatementCoverageAmount();
-    public abstract String getStatementCoverage();
+    public CodeCoverage getCumulativeBranchCoverage(){
+        return this.branchCoverage;
+    }
 
-    public abstract void recordCoverage();
-    public abstract void resetCumulativeCoverage();
+    public CodeCoverage getCumulativeStatementCoverage(){
+        return this.statementCoverage;
+    }
 
-    public abstract Integer[] getCumulativeBranchCoverageVector();
-    public abstract int getCumulativeBranchCoverageAmount();
-    public abstract String getCumulativeBranchCoverage();
+    public void resetCoverage(){
+        this.codeCoverageCollector.resetCoverage();
+    }
 
-    public abstract Integer[] getCumulativeStatementCoverageVector();
-    public abstract int getCumulativeStatementCoverageAmount();
-    public abstract String getCumulativeStatementCoverage();
-
+    private Boolean isCodeCoverageRecorded(){
+        return (this.branchCoverage != null) || (this.statementCoverage != null);
+    }
 }

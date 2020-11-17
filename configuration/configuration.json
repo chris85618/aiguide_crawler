@@ -5,14 +5,14 @@
 	"sleep time": "30",
 	"agents": [
 		{
-			"ip": "140.124.181.232",
-			"java port": "3200",
-			"python port": "13200"
+			"ip": "140.124.183.92",
+			"java port": "9200",
+			"python port": "19200"
 		}
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "1",
+		"depth": "3",
 		"root url": "http://localhost:3001/login/"
 	}
 }

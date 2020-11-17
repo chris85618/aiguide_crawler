@@ -15,13 +15,13 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     private final int MAXIMUM_WAITING_COUNT = 20;
     private final String dockerFolder = "./src/main/java/server_instance/dockerFile/";
     private String compose_file;
-    private CodeCoverageCollector codeCoverageCollector;
 
     public TimeOffManagementServer(String appName, int server_port) {
         super(appName, server_port);
         createDockerComposeFile();
         copyVE();
-        this.codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
+        CodeCoverageCollector codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
+        this.codeCoverageHelper = new CodeCoverageHelper(codeCoverageCollector);
     }
 
     private void createDockerComposeFile() {
@@ -130,38 +130,13 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     }
 
     @Override
-    public Integer[] getBranchCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getBranchCoverageVector());
-    }
-
-    @Override
-    public Integer[] getStatementCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getStatementCoverageVector());
-    }
-
-    @Override
-    public Integer[] getTotalBranchCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getTotalBranchCoverageVector());
-    }
-
-    @Override
-    public Integer[] getTotalStatementCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getTotalStatementCoverageVector());
-    }
-
-    @Override
     public void recordCoverage() {
-        codeCoverageCollector.recordCoverage();
+        this.codeCoverageHelper.recordCoverage();
     }
 
     @Override
     public void resetCoverage() {
-        codeCoverageCollector.resetCoverage();
-    }
-
-    @Override
-    public void resetTotalCoverage() {
-        codeCoverageCollector.resetTotalCoverage();
+        codeCoverageHelper.resetCoverage();
     }
 
     public boolean isServerActive(String url, int expectedStatusCode) {
@@ -189,12 +164,5 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
             throw new RuntimeException("Unknown response status code!!");
         }
         return code;
-    }
-
-    private Integer[] covertToOneHot(Integer[] coverageVector) {
-        for(int i = 0; i < coverageVector.length; i++){
-            if(coverageVector[i] != 0) coverageVector[i] = 300;
-        }
-        return  coverageVector;
     }
 }

@@ -29,7 +29,7 @@ public class LearningPoolTest {
 
     @Test
     public void addResult() {
-        pool.addResult(new LearningResult(new ArrayList<>() , "1234", false));
+        pool.addResult(new LearningResult(new ArrayList<>() , "1234", 0, 0, false));
         assertEquals(1, pool.getResultSize());
     }
 
@@ -55,7 +55,7 @@ public class LearningPoolTest {
 
     @Test
     public void takeResultHasOneResult() {
-        pool.addResult(new LearningResult(new ArrayList<>(), "1234", false));
+        pool.addResult(new LearningResult(new ArrayList<>(), "1234", 0, 0, false));
         LearningResult result = pool.takeResult();
         assertNotNull(result);
         assertEquals(pool.getResultSize(), 0);

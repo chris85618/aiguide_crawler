@@ -143,38 +143,8 @@ public class NodeBBServer extends ServerInstanceManagement {
     }
 
     @Override
-    public Integer[] getBranchCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getBranchCoverageVector());
-    }
-
-    @Override
-    public Integer[] getStatementCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getStatementCoverageVector());
-    }
-
-    @Override
-    public Integer[] getTotalBranchCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getTotalBranchCoverageVector());
-    }
-
-    @Override
-    public Integer[] getTotalStatementCoverageVector() {
-        return covertToOneHot(codeCoverageCollector.getTotalStatementCoverageVector());
-    }
-
-    @Override
-    public void recordCoverage() {
-        codeCoverageCollector.recordCoverage();
-    }
-
-    @Override
     public void resetCoverage() {
         codeCoverageCollector.resetCoverage();
-    }
-
-    @Override
-    public void resetTotalCoverage() {
-        codeCoverageCollector.resetTotalCoverage();
     }
 
     public boolean isServerActive(String url, int expectedStatusCode) {

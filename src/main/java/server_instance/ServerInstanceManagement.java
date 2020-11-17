@@ -1,5 +1,9 @@
 package server_instance;
 
+import server_instance.codeCoverage.CodeCoverage;
+import server_instance.codeCoverage.CodeCoverageCollector;
+import server_instance.codeCoverage.CodeCoverageHelper;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -9,6 +13,7 @@ import java.util.Map;
 public abstract class ServerInstanceManagement {
     protected int server_port;
     protected String appName;
+    protected CodeCoverageHelper codeCoverageHelper;
 
     public ServerInstanceManagement(String appName, int server_port) {
         this.appName = appName;
@@ -19,13 +24,31 @@ public abstract class ServerInstanceManagement {
     public abstract void closeServerInstance();
     public abstract void restartServerInstance();
     public abstract String getAppName();
-    public abstract Integer[] getBranchCoverageVector();
-    public abstract Integer[] getStatementCoverageVector();
-    public abstract Integer[] getTotalBranchCoverageVector();
-    public abstract Integer[] getTotalStatementCoverageVector();
-    public abstract void recordCoverage();
+    public Integer[] getBranchCoverageVector(){
+        return this.codeCoverageHelper.getBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+    }
+
+    public Integer[] getStatementCoverageVector(){
+        return this.codeCoverageHelper.getStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+    }
+
+    public Integer[] getTotalBranchCoverageVector(){
+        return this.codeCoverageHelper.getCumulativeBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+    }
+
+    public Integer[] getTotalStatementCoverageVector(){
+        return this.codeCoverageHelper.getCumulativeStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+    }
+
+    public void recordCoverage(){
+        codeCoverageHelper.recordCoverage();
+    }
+
+    public void resetTotalCoverage(){
+        codeCoverageHelper.resetCumulativeCoverage();
+    }
+
     public abstract void resetCoverage();
-    public abstract void resetTotalCoverage();
 
     protected void copyVE() {
         String source = "./variableElement/data/" + appName + "/variableElementList.json";
@@ -37,14 +60,10 @@ public abstract class ServerInstanceManagement {
         }
     }
 
-    public Map<String, Integer> getTotalCoverage() {
-        Map<String, Integer> summary = new HashMap<>();
-        int coverage_counter = 0;
-        for(int i: getTotalStatementCoverageVector()) if(i != 0) coverage_counter++;
-        summary.put("statement", coverage_counter);
-        coverage_counter = 0;
-        for(int i: getTotalBranchCoverageVector()) if(i != 0) coverage_counter++;
-        summary.put("branch", coverage_counter);
+    public Map<String, CodeCoverage> getTotalCoverage() {
+        Map<String, CodeCoverage> summary = new HashMap<>();
+        summary.put("statement", this.codeCoverageHelper.getCumulativeBranchCoverage());
+        summary.put("branch", this.codeCoverageHelper.getCumulativeStatementCoverage());
         return summary;
     }
 }
