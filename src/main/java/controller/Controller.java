@@ -22,7 +22,7 @@ import java.util.TreeMap;
 
 
 public class Controller {
-    private DirectiveTreeHelper DT;
+    private DirectiveTreeHelper directiveTreeHelper;
     private Config config;
     private ServerInstanceManagement serverInstance;
     private Crawler crawler;
@@ -34,7 +34,7 @@ public class Controller {
         this.config = config;
         this.serverInstance = createServerInstanceManagement();
         this.crawler = new Crawljax(serverInstance);
-        this.DT = new DirectiveTreeHelper();
+        this.directiveTreeHelper = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();
         this.gatewayHelper = new GatewayHelper(this.config.SERVER_IP, this.config.AGENTS, this.learningPool);
@@ -52,14 +52,14 @@ public class Controller {
         gatewayHelper.startGateway();
         serverInstance.createServerInstance();
         while(!isDone){
-            while(!DT.isTreeComplete()){
-                LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = DT.takeFirstUnprocessedCrawlerDirectives();
+            while(!directiveTreeHelper.isTreeComplete()){
+                LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
                     if(taskCompleteMap.get(task.getStateID()) == null){
                         taskCompleteMap.put(task.getStateID(), false);
                         learningPool.addTask(task);
-                        DT.addInputPage(task);
+                        directiveTreeHelper.addInputPage(task);
                     }
                 }
                 LogHelper.writeAllLog();
@@ -68,10 +68,10 @@ public class Controller {
             if(!isDone){
                 List<LearningResult> results;
                 results = waitAndGetLearningResults();
-                DT.addDirectives(results);
+                directiveTreeHelper.addDirectives(results);
             }
-            DT.writeDirectiveTree();
-            DT.drawDirectiveTree();
+            directiveTreeHelper.writeDirectiveTree();
+            directiveTreeHelper.drawDirectiveTree();
 
             CodeCoverage statementCoverage = serverInstance.getTotalCoverage().get("statement");
             CodeCoverage branchCoverage = serverInstance.getTotalCoverage().get("branch");
