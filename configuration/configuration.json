@@ -12,7 +12,7 @@
 	],
 	"crawler config": {
 		"crawler": "crawljax",
-		"depth": "3",
+		"depth": "5",
 		"root url": "http://localhost:3001/login/"
 	}
 }
