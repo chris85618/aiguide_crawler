@@ -2,7 +2,7 @@ package server_instance;
 
 import crawler.Crawler;
 import crawler.Crawljax;
-import learning_data.LearningTask;
+import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

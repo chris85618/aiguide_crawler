@@ -2,7 +2,7 @@ package crawler;
 
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.state.StateFlowGraph;
-import learning_data.LearningTask;
+import usecase.learningPool.learningTask.LearningTask;
 import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
 import ntut.edu.aiguide.crawljax.plugins.domain.LearningTarget;
@@ -28,6 +28,16 @@ public class Crawljax implements Crawler {
 
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
+        for (List<HighLevelAction> highLevelActions: crawlerDirectives.values()){
+            System.out.println("===========Directive===========");
+            for (HighLevelAction highLevelAction: highLevelActions){
+
+                System.out.println("\t===========HighLevelAction===========");
+                for (util.Action action: highLevelAction.getActionSequence()){
+                    System.out.println("\t"+ action.getXpath() + ", " + action.getValue());
+                }
+            }
+        }
         serverInstanceManagement.recordCoverage();
         LogHelper.debug("Start crawling");
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
@@ -46,7 +56,7 @@ public class Crawljax implements Crawler {
             String domHash = learningTarget.getDom().hashCode() + "";
             domHashCompareTable.put(stateID, domHash);
             learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
-                                                serverInstanceManagement.getTotalBranchCoverage(),
+                                                serverInstanceManagement.getTotalStatementCoverage(),
                                                 learningTarget.getTargetURL(),
                                                 stateID,
                                                 new HashMap<>()));
@@ -100,8 +110,8 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
         crawljaxFactory.setClickOnce(true);
-        crawljaxFactory.setEventWaitingTime(1000);
-        crawljaxFactory.setPageWaitingTime(1000);
+        crawljaxFactory.setEventWaitingTime(1500);
+        crawljaxFactory.setPageWaitingTime(1500);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 

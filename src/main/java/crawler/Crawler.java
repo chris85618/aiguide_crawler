@@ -1,6 +1,6 @@
 package crawler;
 
-import learning_data.LearningTask;
+import usecase.learningPool.learningTask.LearningTask;
 import util.Config;
 import util.HighLevelAction;
 

@@ -1,4 +1,4 @@
-package learning_data;
+package usecase.learningPool.learningTask;
 
 
 import java.util.HashMap;

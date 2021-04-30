@@ -3,6 +3,8 @@ package learning_data;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import usecase.learningPool.learningResult.LearningResult;
+import usecase.learningPool.learningTask.LearningTask;
 
 import java.util.ArrayList;
 import java.util.TreeMap;

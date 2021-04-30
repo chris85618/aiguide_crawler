@@ -1,24 +1,26 @@
-package controller;
+package adpater.controller;
 
+import adpater.learningPool.Py4JLearningPool;
 import crawler.Crawler;
 import crawler.Crawljax;
 import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
-import learning_data.LearningResult;
-import learning_data.LearningTask;
+import usecase.learningPool.ILearningPool;
+import usecase.learningPool.learningResult.LearningResult;
+import usecase.learningPool.learningResult.dto.LearningResultDTO;
+import usecase.learningPool.learningResult.mapper.LearningResultDTOMapper;
+import usecase.learningPool.learningTask.LearningTask;
 import server_instance.NodeBBServer;
 import server_instance.ServerInstanceManagement;
 import server_instance.TimeOffManagementServer;
 import server_instance.codeCoverage.CodeCoverage;
+import usecase.learningPool.learningTask.mapper.LearningTaskDTOMapper;
 import util.Config;
 import util.GatewayHelper;
 import util.HighLevelAction;
 import util.LogHelper;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class Controller {
@@ -28,7 +30,7 @@ public class Controller {
     private Crawler crawler;
     private Map<String, Boolean> taskCompleteMap;
     private LearningPool learningPool;
-    private GatewayHelper gatewayHelper;
+    private ILearningPool learningPoolServer;
 
     public Controller(Config config) {
         this.config = config;
@@ -37,7 +39,7 @@ public class Controller {
         this.directiveTreeHelper = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();
-        this.gatewayHelper = new GatewayHelper(this.config.SERVER_IP, this.config.AGENTS, this.learningPool);
+        this.learningPoolServer = new Py4JLearningPool("127.0.0.1", "127.0.0.1", 5000, 5001);
     }
 
     private ServerInstanceManagement createServerInstanceManagement() {
@@ -49,7 +51,7 @@ public class Controller {
 
     public void execute() throws InterruptedException {
         boolean isDone = false;
-        gatewayHelper.startGateway();
+        this.learningPoolServer.startLearningPool();
         serverInstance.createServerInstance();
         while(!isDone){
             while(!directiveTreeHelper.isTreeComplete()){
@@ -58,7 +60,7 @@ public class Controller {
                 for(LearningTask task: learningTaskList){
                     if(taskCompleteMap.get(task.getStateID()) == null){
                         taskCompleteMap.put(task.getStateID(), false);
-                        learningPool.addTask(task);
+                        learningPoolServer.enQueueLearningTaskDTO(LearningTaskDTOMapper.mappingLearningTaskDTOFrom(task));
                         directiveTreeHelper.addInputPage(task);
                     }
                 }
@@ -84,9 +86,9 @@ public class Controller {
             LogHelper.writeAllLog();
         }
         learningPool.setStopLearning();
+        this.learningPoolServer.stopLearningPool();
         crawler.generateGraph();
         serverInstance.closeServerInstance();
-        gatewayHelper.closeGateway(config.SLEEP_TIME);
     }
 
     private boolean checkCrawlingDone() {
@@ -97,15 +99,17 @@ public class Controller {
                 break;
             }
         }
-        if(learningPool.getTaskSize() != 0) isDone = false;
-        if(learningPool.getResultSize() != 0) isDone = false;
+//        if(learningPool.getTaskSize() != 0) isDone = false;
+//        if(learningPool.getResultSize() != 0) isDone = false;
+        if(!this.learningPoolServer.isLearningTaskDTOQueueEmpty()) isDone = false;
+        if(!this.learningPoolServer.isLearningResultDTOQueueEmpty()) isDone = false;
         return isDone;
     }
 
     private List<LearningResult> waitAndGetLearningResults() {
         List<LearningResult> results;
         while (true){
-            results = learningPool.takeResults();
+            results = this.getAllLearningResult();
             if(!results.isEmpty()){
                 checkResultIsDone(results);
                 return results;
@@ -122,6 +126,14 @@ public class Controller {
     private void checkResultIsDone(List<LearningResult> results) {
         for(LearningResult result: results)
             if(result.isDone()) taskCompleteMap.put(result.getTaskID(), true);
+    }
+
+    private List<LearningResult> getAllLearningResult(){
+        List<LearningResult> learningResultList = new ArrayList<>();
+        while(!this.learningPoolServer.isLearningResultDTOQueueEmpty()){
+            learningResultList.add(LearningResultDTOMapper.mappingLearningResultFrom(this.learningPoolServer.deQueueLearningResultDTO()));
+        }
+        return learningResultList;
     }
 
 }

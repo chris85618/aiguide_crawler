@@ -1,7 +1,7 @@
 package directive_tree;
 
-import learning_data.LearningResult;
-import learning_data.LearningTask;
+import usecase.learningPool.learningResult.LearningResult;
+import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package crawler;
 
 import com.google.common.collect.ImmutableMap;
-import learning_data.LearningTask;
+import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

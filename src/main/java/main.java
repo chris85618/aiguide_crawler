@@ -1,10 +1,6 @@
-import controller.Controller;
+import adpater.controller.Controller;
 import util.Config;
 import util.LogHelper;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 
 public class main {

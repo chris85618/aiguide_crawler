@@ -1,5 +1,7 @@
 package learning_data;
 
+import usecase.learningPool.learningResult.LearningResult;
+import usecase.learningPool.learningTask.LearningTask;
 import util.ActionFactory;
 import util.HighLevelAction;
 import util.LogHelper;

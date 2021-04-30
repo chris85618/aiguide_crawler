@@ -82,7 +82,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         String url = "http://127.0.0.1:%d";
         while(!isServerActive(String.format(url, server_port), 200)) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             }catch (InterruptedException e){
                 e.printStackTrace();
                 throw new RuntimeException();
@@ -97,6 +97,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
     }
 
     private void recreateTimeOffManagement() {
+        System.out.println("recreate Server");
         closeServerInstance();
         createServer();
     }
@@ -106,13 +107,26 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         CommandHelper.executeCommand("docker-compose", "-f", compose_file, "up", "-d");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
-        System.out.println("\nServer Port is " + server_port + ", Waiting time is :" + timeElapsed);
+        System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);
     }
 
     @Override
     public void closeServerInstance() {
+        String url = "http://127.0.0.1:%d";
+        boolean isFirst = true;
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker-compose", "-f", compose_file, "rm", "-svf");
+        while(isServerActive(String.format(url, server_port), 200)) {
+            if (isFirst){
+                try {
+                    Thread.sleep(1000);
+                    isFirst = false;
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+            CommandHelper.executeCommand("docker-compose", "-f", compose_file, "rm", "-svf");
+        }
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Closing server instance waiting time is :" + timeElapsed);
@@ -120,6 +134,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
 
     @Override
     public void restartServerInstance() {
+        System.out.println("restart Server");
         closeServerInstance();
         createServerInstance();
     }
