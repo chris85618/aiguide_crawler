@@ -39,7 +39,11 @@ public class Controller {
         this.directiveTreeHelper = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.learningPool = new LearningPool();
-        this.learningPoolServer = new Py4JLearningPool("127.0.0.1", "127.0.0.1", 5000, 5001);
+        Map<String, String> agentConfig = this.config.AGENTS.get(0);
+        this.learningPoolServer = new Py4JLearningPool("140.124.181.235",
+                agentConfig.get("ip"),
+                Integer.parseInt(agentConfig.get("java port")),
+                Integer.parseInt(agentConfig.get("python port")));
     }
 
     private ServerInstanceManagement createServerInstanceManagement() {

@@ -49,6 +49,10 @@ public class Py4JLearningPool implements ILearningPool {
                     .callbackClient(this.pythonPort, InetAddress.getByName(this.pythonIp))
                     .build();
             server.start();
+            System.out.println("Java ip: " + this.javaIp +
+                    "\nJava Port: " + this.javaPort +
+                    "\nPython ip: " + this.pythonIp +
+                    "\nPython port: " + this.pythonPort);
         } catch (UnknownHostException e) {
             e.printStackTrace();
             throw new RuntimeException("Can not find host name");

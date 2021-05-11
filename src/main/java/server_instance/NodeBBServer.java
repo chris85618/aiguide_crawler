@@ -1,6 +1,7 @@
 package server_instance;
 
 import server_instance.codeCoverage.CodeCoverageCollector;
+import server_instance.codeCoverage.CodeCoverageHelper;
 import server_instance.codeCoverage.IstanbulCodeCoverageCollector;
 import util.CommandHelper;
 import java.io.File;
@@ -16,13 +17,13 @@ public class NodeBBServer extends ServerInstanceManagement {
     private final int MAXIMUM_WAITING_COUNT = 120;
     private final String dockerFolder = "./src/main/java/server_instance/dockerFile/";
     private String compose_file;
-    private CodeCoverageCollector codeCoverageCollector;
 
     public NodeBBServer(String appName, int server_port) {
         super(appName, server_port);
         createDockerComposeFile();
         copyVE();
-        this.codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
+        CodeCoverageCollector codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
+        this.codeCoverageHelper = new CodeCoverageHelper(codeCoverageCollector);
     }
 
     private void createDockerComposeFile() {
@@ -144,7 +145,7 @@ public class NodeBBServer extends ServerInstanceManagement {
 
     @Override
     public void resetCoverage() {
-        codeCoverageCollector.resetCoverage();
+        codeCoverageHelper.resetCoverage();
     }
 
     public boolean isServerActive(String url, int expectedStatusCode) {

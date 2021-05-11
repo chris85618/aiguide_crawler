@@ -47,7 +47,8 @@ public class IstanbulCodeCoverage implements CodeCoverage {
 
     @Override
     public void merge(CodeCoverage codeCoverage) {
-        if (codeCoverage.getCodeCoverageVectorSize() != this.getCodeCoverageVectorSize()) throw new RuntimeException();
+        if (codeCoverage.getCodeCoverageVectorSize() != this.getCodeCoverageVectorSize())
+            throw new RuntimeException("Error: " + codeCoverage.getCodeCoverageVectorSize() + ", " + this.getCodeCoverageVectorSize());
         List<Integer> targetCodeCoverageVector = codeCoverage.getCodeCoverageVector();
         for(int i = 0; i < this.getCodeCoverageVectorSize(); i++){
             if (this.codeCoverageVector.get(i)==0)
