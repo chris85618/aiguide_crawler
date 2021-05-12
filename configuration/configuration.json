@@ -1,11 +1,11 @@
 {
-	"application": "timeoff-management",
+	"application": "nodebb",
 	"application port": "3001",
-	"server IP": "140.124.181.235",
+	"server IP": "127.0.0.1",
 	"sleep time": "30",
 	"agents": [
 		{
-			"ip": "140.124.181.232",
+			"ip": "127.0.0.1",
 			"java port": "3500",
 			"python port": "3501"
 		}

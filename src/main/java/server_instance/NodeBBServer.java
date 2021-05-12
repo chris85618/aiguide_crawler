@@ -12,7 +12,6 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-
 public class NodeBBServer extends ServerInstanceManagement {
     private final int MAXIMUM_WAITING_COUNT = 120;
     private final String dockerFolder = "./src/main/java/server_instance/dockerFile/";

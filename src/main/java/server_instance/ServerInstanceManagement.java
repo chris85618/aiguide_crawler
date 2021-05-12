@@ -62,8 +62,8 @@ public abstract class ServerInstanceManagement {
 
     public Map<String, CodeCoverage> getTotalCoverage() {
         Map<String, CodeCoverage> summary = new HashMap<>();
-        summary.put("statement", this.codeCoverageHelper.getCumulativeBranchCoverage());
-        summary.put("branch", this.codeCoverageHelper.getCumulativeStatementCoverage());
+        summary.put("branch", this.codeCoverageHelper.getCumulativeBranchCoverage());
+        summary.put("statement", this.codeCoverageHelper.getCumulativeStatementCoverage());
         return summary;
     }
 }

@@ -51,6 +51,7 @@ public class Crawljax implements Crawler {
     private List<LearningTask> convertToLearningTask(List<LearningTarget> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
 
+        serverInstanceManagement.recordCoverage();
         for (LearningTarget learningTarget : learningTargets) {
             String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalBranchCoverage())).hashCode() + "";
             String domHash = learningTarget.getDom().hashCode() + "";

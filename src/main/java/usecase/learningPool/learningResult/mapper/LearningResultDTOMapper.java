@@ -22,7 +22,7 @@ public class LearningResultDTOMapper {
         boolean[] codeCoverageVector = learningResultDTO.getCodeCoverageVector();
         boolean[] originalCodeCoverageVector = learningResultDTO.getOriginalCodeCoverageVector();
         for (int i=0; i< codeCoverageVector.length; i++){
-            if (originalCodeCoverageVector[i] && !codeCoverageVector[i]){
+            if (!originalCodeCoverageVector[i] && codeCoverageVector[i]){
                 codeCoverageImprove++;
             }
         }

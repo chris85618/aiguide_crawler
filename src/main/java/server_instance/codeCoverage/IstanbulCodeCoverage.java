@@ -48,12 +48,17 @@ public class IstanbulCodeCoverage implements CodeCoverage {
     @Override
     public void merge(CodeCoverage codeCoverage) {
         if (codeCoverage.getCodeCoverageVectorSize() != this.getCodeCoverageVectorSize())
-            throw new RuntimeException("Error: " + codeCoverage.getCodeCoverageVectorSize() + ", " + this.getCodeCoverageVectorSize());
+            System.out.println("Warning: Origin code coverage size is " + this.getCodeCoverageVectorSize() +
+                                        ", New code coverage size is " + codeCoverage.getCodeCoverageVectorSize());
         List<Integer> targetCodeCoverageVector = codeCoverage.getCodeCoverageVector();
-        for(int i = 0; i < this.getCodeCoverageVectorSize(); i++){
-            if (this.codeCoverageVector.get(i)==0)
+        for(int i = 0; i < codeCoverage.getCodeCoverageVectorSize(); i++){
+            if (i > this.getCodeCoverageVectorSize() - 1){
+                this.codeCoverageVector.add(targetCodeCoverageVector.get(i));
+            }
+            else if (this.codeCoverageVector.get(i)==0)
                 this.codeCoverageVector.set(i, targetCodeCoverageVector.get(i));
         }
+        System.out.println("Debug: New Origin code coverage size is " + this.getCodeCoverageVectorSize());
     }
 
     @Override
