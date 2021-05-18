@@ -111,8 +111,9 @@ public class Crawljax implements Crawler {
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);
         crawljaxFactory.setClickOnce(true);
-        crawljaxFactory.setEventWaitingTime(1500);
-        crawljaxFactory.setPageWaitingTime(1500);
+        crawljaxFactory.setWrapElementMode(true);
+        crawljaxFactory.setEventWaitingTime(2000);
+        crawljaxFactory.setPageWaitingTime(2000);
         return crawljaxFactory.createCrawlerCrawlJaxRunner(config.ROOT_URL, aiGuidePlugin);
     }
 
