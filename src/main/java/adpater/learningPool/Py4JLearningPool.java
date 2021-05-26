@@ -21,6 +21,7 @@ public class Py4JLearningPool implements ILearningPool {
     private final int javaPort;
     private final int pythonPort;
     private GatewayServer server;
+    private boolean isAgentDone;
 
 
     private final Queue<LearningTaskDTO> learningTaskDTOQueue;
@@ -31,6 +32,7 @@ public class Py4JLearningPool implements ILearningPool {
         this.pythonIp = pythonIp;
         this.javaPort = javaPort;
         this.pythonPort = pythonPort;
+        this.isAgentDone = false;
 
         learningTaskDTOQueue = new ArrayDeque<>();
         learningResultDTOQueue = new ArrayDeque<>();
@@ -65,6 +67,16 @@ public class Py4JLearningPool implements ILearningPool {
     @Override
     public void stopLearningPool() {
         server.shutdown();
+    }
+
+    @Override
+    public synchronized boolean getAgentDone() {
+        return this.isAgentDone;
+    }
+
+    @Override
+    public synchronized void setAgentDone(boolean isAgentDone) {
+        this.isAgentDone = isAgentDone;
     }
 
     @Override

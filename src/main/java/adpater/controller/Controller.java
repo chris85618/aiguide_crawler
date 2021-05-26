@@ -47,7 +47,7 @@ public class Controller {
     }
 
     private ServerInstanceManagement createServerInstanceManagement() {
-        if(config.AUT_NAME.equals("timeoff-management")) return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        if(config.AUT_NAME.equals("timeoff")) return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
         else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
 
         throw new RuntimeException("AUT not fount when create server instance.");
@@ -112,7 +112,9 @@ public class Controller {
 
     private List<LearningResult> waitAndGetLearningResults() {
         List<LearningResult> results;
+        boolean isDone = true;
         while (true){
+            isDone = !this.learningPoolServer.getAgentDone();
             results = this.getAllLearningResult();
             if(!results.isEmpty()){
                 checkResultIsDone(results);
