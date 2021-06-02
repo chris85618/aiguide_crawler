@@ -110,6 +110,7 @@ public class NodeBBServer extends ServerInstanceManagement {
     }
 
     private void recreateTimeOffManagement() {
+        System.out.println("recreate Server");
         closeServerInstance();
         createServer();
     }

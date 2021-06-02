@@ -5,6 +5,7 @@ import crawler.Crawler;
 import crawler.Crawljax;
 import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
+import server_instance.KeystoneJSServer;
 import usecase.learningPool.ILearningPool;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningResult.dto.LearningResultDTO;
@@ -49,6 +50,7 @@ public class Controller {
     private ServerInstanceManagement createServerInstanceManagement() {
         if(config.AUT_NAME.equals("timeoff")) return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
         else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        else if(config.AUT_NAME.equals("keystoneJS")) return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
 
         throw new RuntimeException("AUT not fount when create server instance.");
     }
@@ -113,7 +115,7 @@ public class Controller {
     private List<LearningResult> waitAndGetLearningResults() {
         List<LearningResult> results;
         boolean isDone = true;
-        while (true){
+        while (isDone){
             isDone = !this.learningPoolServer.getAgentDone();
             results = this.getAllLearningResult();
             if(!results.isEmpty()){
@@ -127,6 +129,7 @@ public class Controller {
                 throw new RuntimeException();
             }
         }
+        return new ArrayList<>();
     }
 
     private void checkResultIsDone(List<LearningResult> results) {
