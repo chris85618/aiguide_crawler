@@ -30,6 +30,7 @@ public class Controller {
     private ServerInstanceManagement serverInstance;
     private Crawler crawler;
     private Map<String, Boolean> taskCompleteMap;
+    private List<String> inputPageUrlList;
     private LearningPool learningPool;
     private ILearningPool learningPoolServer;
 
@@ -39,6 +40,7 @@ public class Controller {
         this.crawler = new Crawljax(serverInstance);
         this.directiveTreeHelper = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
+        this.inputPageUrlList = new ArrayList<>();
         this.learningPool = new LearningPool();
         Map<String, String> agentConfig = this.config.AGENTS.get(0);
         this.learningPoolServer = new Py4JLearningPool(this.config.SERVER_IP,
@@ -48,9 +50,14 @@ public class Controller {
     }
 
     private ServerInstanceManagement createServerInstanceManagement() {
-        if(config.AUT_NAME.equals("timeoff")) return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
-        else if(config.AUT_NAME.equals("nodebb")) return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
-        else if(config.AUT_NAME.equals("keystoneJS")) return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        switch (config.AUT_NAME) {
+            case "timeoff":
+                return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "nodebb":
+                return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "keystoneJS":
+                return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        }
 
         throw new RuntimeException("AUT not fount when create server instance.");
     }
@@ -59,12 +66,13 @@ public class Controller {
         boolean isDone = false;
         this.learningPoolServer.startLearningPool();
         serverInstance.createServerInstance();
-        while(!isDone){
+        while(!isDone && !this.learningPoolServer.getAgentDone()){
             while(!directiveTreeHelper.isTreeComplete()){
                 LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
-                    if(taskCompleteMap.get(task.getStateID()) == null){
+                    if(taskCompleteMap.get(task.getStateID()) == null && !this.inputPageUrlList.contains(task.getTargetURL())){
+                        this.inputPageUrlList.add(task.getTargetURL());
                         taskCompleteMap.put(task.getStateID(), false);
                         learningPoolServer.enQueueLearningTaskDTO(LearningTaskDTOMapper.mappingLearningTaskDTOFrom(task));
                         directiveTreeHelper.addInputPage(task);
