@@ -85,7 +85,7 @@ public class Controller {
                 LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
-                    if(taskCompleteMap.get(task.getStateID()) == null && !this.inputPageUrlList.contains(task.getTargetURL()) && task.getTargetURL().contains("signin")){
+                    if(taskCompleteMap.get(task.getStateID()) == null && !this.inputPageUrlList.contains(task.getTargetURL())){
                         this.inputPageUrlList.add(task.getTargetURL());
                         taskCompleteMap.put(task.getStateID(), false);
                         learningPoolServer.enQueueLearningTaskDTO(LearningTaskDTOMapper.mappingLearningTaskDTOFrom(task));
