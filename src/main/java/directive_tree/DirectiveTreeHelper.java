@@ -9,20 +9,21 @@ import util.LogHelper;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class DirectiveTreeHelper {
     private final Directive DTRoot;
     private Queue<Directive> unprocessedLeaves;
     private Directive processingLeaf;
 
-    public DirectiveTreeHelper() {
-        this.DTRoot = new Directive(null, null, 0, 0);
+    public DirectiveTreeHelper(Directive dtRoot) {
+        this.DTRoot = dtRoot;
         this.unprocessedLeaves = new LinkedList<>();
         this.unprocessedLeaves.offer(this.DTRoot);
+    }
+
+    public DirectiveTreeHelper() {
+        this(new Directive(null, null, 0, 0, true));
     }
 
     public void addDirectives(List<LearningResult> results) {

@@ -16,6 +16,8 @@ public class Directive {
     private final int coverageImproved;
     private final String id;
 
+    private final boolean isRoot;
+
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
         this.parentInputPage = parentInputPage;
         this.actionSequence = actionSequence;
@@ -23,15 +25,21 @@ public class Directive {
         this.learningTargetActionSequenceLength = 0;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.isRoot = false;
     }
 
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength) {
+        this(parentInputPage, actionSequence, coverageImproved, learningTargetActionSequenceLength, false);
+    }
+
+    public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isRoot) {
         this.parentInputPage = parentInputPage;
         this.actionSequence = actionSequence;
         this.coverageImproved = coverageImproved;
         this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.isRoot = isRoot;
     }
 
     public List<HighLevelAction> getActionSequence() {
@@ -39,7 +47,7 @@ public class Directive {
     }
 
     public Boolean isDTRoot() {
-        return actionSequence == null;
+        return this.isRoot;
     }
 
     public void addInputPage(InputPage ip) {

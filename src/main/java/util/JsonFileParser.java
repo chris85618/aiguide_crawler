@@ -73,6 +73,15 @@ public class JsonFileParser {
         return data;
     }
 
+    public List<String> getJsonFileArray(String... elementNames) {
+        JsonElement jsonElement = getJsonFileValueAsJsonElement(elementNames);
+        List<String> arraryStrings = new ArrayList<>();
+        for(JsonElement ele: jsonElement.getAsJsonArray()){
+            arraryStrings.add(ele.getAsString());
+        }
+        return arraryStrings;
+    }
+
     public String getJsonFileValue(String... elementNames) {
         JsonElement tmp = getJsonFileValueAsJsonElement(elementNames);
         return tmp.getAsString();

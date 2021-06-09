@@ -28,6 +28,7 @@ public class Crawljax implements Crawler {
 
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
+        System.out.println("Directive size: " + crawlerDirectives.size());
         for (List<HighLevelAction> highLevelActions: crawlerDirectives.values()){
             System.out.println("===========Directive===========");
             for (HighLevelAction highLevelAction: highLevelActions){

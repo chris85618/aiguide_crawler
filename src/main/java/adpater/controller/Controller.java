@@ -3,23 +3,18 @@ package adpater.controller;
 import adpater.learningPool.Py4JLearningPool;
 import crawler.Crawler;
 import crawler.Crawljax;
+import directive_tree.Directive;
 import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
-import server_instance.KeystoneJSServer;
+import server_instance.*;
 import usecase.learningPool.ILearningPool;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningResult.dto.LearningResultDTO;
 import usecase.learningPool.learningResult.mapper.LearningResultDTOMapper;
 import usecase.learningPool.learningTask.LearningTask;
-import server_instance.NodeBBServer;
-import server_instance.ServerInstanceManagement;
-import server_instance.TimeOffManagementServer;
 import server_instance.codeCoverage.CodeCoverage;
 import usecase.learningPool.learningTask.mapper.LearningTaskDTOMapper;
-import util.Config;
-import util.GatewayHelper;
-import util.HighLevelAction;
-import util.LogHelper;
+import util.*;
 
 import java.util.*;
 
@@ -38,7 +33,7 @@ public class Controller {
         this.config = config;
         this.serverInstance = createServerInstanceManagement();
         this.crawler = new Crawljax(serverInstance);
-        this.directiveTreeHelper = new DirectiveTreeHelper();
+        this.directiveTreeHelper = new DirectiveTreeHelper(createDefaultDirective());
         this.taskCompleteMap = new TreeMap<>();
         this.inputPageUrlList = new ArrayList<>();
         this.learningPool = new LearningPool();
@@ -49,6 +44,23 @@ public class Controller {
                 Integer.parseInt(agentConfig.get("python port")));
     }
 
+    private Directive createDefaultDirective(){
+        List<HighLevelAction> highLevelActionList = new ArrayList<>();
+
+        List<Action> actionList = new ArrayList<>();
+
+        actionList = new ArrayList<>();
+        actionList.add(new Action("/HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/FORM[1]/DIV[1]/INPUT[1]", "vector@selab.com"));
+        actionList.add(new Action("/HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/FORM[1]/DIV[2]/INPUT[1]", "password"));
+        highLevelActionList.add(new HighLevelAction(actionList));
+
+        actionList = new ArrayList<>();
+        actionList.add(new Action("/HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/FORM[1]/BUTTON[1]", ""));
+        highLevelActionList.add(new HighLevelAction(actionList));
+
+        return new Directive(null, highLevelActionList, 0, 0, true);
+    }
+
     private ServerInstanceManagement createServerInstanceManagement() {
         switch (config.AUT_NAME) {
             case "timeoff":
@@ -57,6 +69,8 @@ public class Controller {
                 return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "keystoneJS":
                 return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "wagtails":
+                return new WagtailsServer(this.config.AUT_NAME, this.config.AUT_PORT);
         }
 
         throw new RuntimeException("AUT not fount when create server instance.");
@@ -71,7 +85,7 @@ public class Controller {
                 LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
                 for(LearningTask task: learningTaskList){
-                    if(taskCompleteMap.get(task.getStateID()) == null && !this.inputPageUrlList.contains(task.getTargetURL())){
+                    if(taskCompleteMap.get(task.getStateID()) == null && !this.inputPageUrlList.contains(task.getTargetURL()) && task.getTargetURL().contains("signin")){
                         this.inputPageUrlList.add(task.getTargetURL());
                         taskCompleteMap.put(task.getStateID(), false);
                         learningPoolServer.enQueueLearningTaskDTO(LearningTaskDTOMapper.mappingLearningTaskDTOFrom(task));
