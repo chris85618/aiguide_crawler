@@ -33,7 +33,8 @@ public class Controller {
         this.config = config;
         this.serverInstance = createServerInstanceManagement();
         this.crawler = new Crawljax(serverInstance);
-        this.directiveTreeHelper = new DirectiveTreeHelper(createDefaultDirective());
+//        this.directiveTreeHelper = new DirectiveTreeHelper(createDefaultDirective());
+        this.directiveTreeHelper = new DirectiveTreeHelper();
         this.taskCompleteMap = new TreeMap<>();
         this.inputPageUrlList = new ArrayList<>();
         this.learningPool = new LearningPool();
