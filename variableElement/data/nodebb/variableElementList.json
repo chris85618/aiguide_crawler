@@ -2753,6 +2753,36 @@
             "url": "http://localhost:%d/user/vector",
             "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[3]/STRONG[2]",
             "attribute": "datetime"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/UL[1]/LI[2]/A[1]",
+            "attribute": "class"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/NAV[1]/UL[1]/LI[3]/A[1]",
+            "attribute": "class"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[1]/DIV[2]/P[1]/BUTTON[1]",
+            "attribute": "class"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/MAIN[1]/DIV[1]/DIV[1]/DIV[2]/DIV[1]/DIV[2]/P[1]/BUTTON[2]",
+            "attribute": "class"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[1]/UL[1]/DIV[1]/LI[2]/A[1]",
+            "attribute": "class"
+        },
+        {
+            "url": "http://localhost:%d/admin",
+            "element": "/HTML[1]/BODY[1]/NAV[1]/SECTION[1]/UL[1]/DIV[1]/LI[3]/A[1]",
+            "attribute": "class"
         }
     ]
 }
