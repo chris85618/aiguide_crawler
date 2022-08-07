@@ -32,7 +32,7 @@ public class DirectiveTest {
     @Test
     public void testGetActionSequenceIsNull() {
         Directive root;
-        root = new Directive(null, null,0, 0);
+        root = new Directive(null, "",  null,0, 0);
         assertNull(root.getActionSequence());
     }
 
@@ -46,15 +46,15 @@ public class DirectiveTest {
 
     @Test
     public void testAddInputPage() {
-        Directive root = new Directive(null, null,0, 0);
-        InputPage ip = new InputPage(null, "", "", null);
+        Directive root = new Directive(null, "", null,0, 0);
+        InputPage ip = new InputPage(null, "", "", "", null, null);
         root.addInputPage(ip);
         assertEquals(root.getChild().size(), 1);
     }
 
     @Test
     public void testGetParent() {
-        InputPage parent = new InputPage(null, "", "", null);
+        InputPage parent = new InputPage(null, "", "", "", null, null);
         Directive root = new Directive(parent, null);
         assertEquals(root.getParent(), parent);
     }
@@ -88,17 +88,17 @@ public class DirectiveTest {
         Directive d1, d2, d3;
         InputPage ip0, ip1;
 
-        ip0 = new InputPage(DTRoot, "IP0", "", null);
-        ip1 = new InputPage(DTRoot, "IP1", "", null);
+        ip0 = new InputPage(DTRoot, "IP0", "", "", null, null);
+        ip1 = new InputPage(DTRoot, "IP1", "", "", null, null);
 
         d1 = new Directive(ip0, null);
         d2 = new Directive(ip0, null);
         d3 = new Directive(ip1, null);
 
-        d1.addInputPage(new InputPage(d1, "IP0-1", "", null));
-        d2.addInputPage(new InputPage(d2, "IP0-2", "", null));
-        d2.addInputPage(new InputPage(d2, "IP0-3", "", null));
-        d3.addInputPage(new InputPage(d3, "IP1-1", "", null));
+        d1.addInputPage(new InputPage(d1, "IP0-1", "", "", null, null));
+        d2.addInputPage(new InputPage(d2, "IP0-2", "", "", null, null));
+        d2.addInputPage(new InputPage(d2, "IP0-3", "", "", null, null));
+        d3.addInputPage(new InputPage(d3, "IP1-1", "", "", null, null));
 
         ip0.addDirective(d1);
         ip0.addDirective(d2);

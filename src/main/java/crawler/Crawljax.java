@@ -2,12 +2,15 @@ package crawler;
 
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.state.StateFlowGraph;
+import directive_tree.CrawlerDirective;
+import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import usecase.learningPool.learningTask.LearningTask;
 import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
 import ntut.edu.aiguide.crawljax.plugins.domain.LearningTarget;
 import ntut.edu.aiguide.crawljax.plugins.domain.State;
-import ntut.edu.tw.irobot.CrawlJaxRunnerFactory;
 import server_instance.ServerInstanceManagement;
 import util.Config;
 import util.HighLevelAction;
@@ -17,6 +20,7 @@ import java.util.*;
 
 public class Crawljax implements Crawler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Crawljax.class);
     private StateFlowGraph stateFlowGraph;
     private final ServerInstanceAdapter serverInstanceManagement;
     private Map<String, String> domHashCompareTable;
@@ -27,11 +31,11 @@ public class Crawljax implements Crawler {
     }
 
     @Override
-    public List<LearningTask> crawlingWithDirectives(Config config, Map<String, List<HighLevelAction>> crawlerDirectives) {
+    public List<LearningTask> crawlingWithDirectives(Config config, List<CrawlerDirective> crawlerDirectives) {
         System.out.println("Directive size: " + crawlerDirectives.size());
-        for (List<HighLevelAction> highLevelActions: crawlerDirectives.values()){
+        for (CrawlerDirective crawlerDirective: crawlerDirectives){
             System.out.println("===========Directive===========");
-            for (HighLevelAction highLevelAction: highLevelActions){
+            for (HighLevelAction highLevelAction: crawlerDirective.getHighLevelActions()){
 
                 System.out.println("\t===========HighLevelAction===========");
                 for (util.Action action: highLevelAction.getActionSequence()){
@@ -51,17 +55,29 @@ public class Crawljax implements Crawler {
 
     private List<LearningTask> convertToLearningTask(List<LearningTarget> learningTargets) {
         List<LearningTask> learningTasks = new LinkedList<>();
+        LOGGER.debug("function convertToLearningTask()");
 
         serverInstanceManagement.recordCoverage();
         for (LearningTarget learningTarget : learningTargets) {
-            String stateID = (learningTarget.getDom() + Arrays.toString(serverInstanceManagement.getTotalBranchCoverage())).hashCode() + "";
             String domHash = learningTarget.getDom().hashCode() + "";
+            LOGGER.debug("The domHash is {}", domHash);
+            LOGGER.debug("The targetURL is {}", learningTarget.getTargetURL());
+            String stateID = (learningTarget.getTargetURL()).hashCode() + "";
+
+            LOGGER.debug("The formXPaths is {}", learningTarget.getFormXPaths());
+            LOGGER.debug("The stateID is {}", stateID);
             domHashCompareTable.put(stateID, domHash);
-            learningTasks.add(new LearningTask(convertToUtilAction(learningTarget.getActionSequence()),
-                                                serverInstanceManagement.getTotalStatementCoverage(),
-                                                learningTarget.getTargetURL(),
-                                                stateID,
-                                                new HashMap<>()));
+            learningTasks.add(
+                    new LearningTask(
+                            convertToUtilAction(learningTarget.getActionSequence()),
+                            serverInstanceManagement.getTotalStatementCoverage(),
+                            learningTarget.getTargetURL(),
+                            stateID,
+                            learningTarget.getDom(),
+                            learningTarget.getFormXPaths(),
+                            new HashMap<>()
+                    )
+            );
         }
         LogHelper.debug("End crawling");
         return learningTasks;
@@ -85,18 +101,19 @@ public class Crawljax implements Crawler {
      * @param AUT_PORT
      * @return
      */
-    private AIGuidePlugin createAIGuidePlugin(Map<String, List<HighLevelAction>> crawlerDirectives, int AUT_PORT) {
+    private AIGuidePlugin createAIGuidePlugin(List<CrawlerDirective> crawlerDirectives, int AUT_PORT) {
         Stack<State> directiveStack = new Stack<>();
-        for (Map.Entry<String, List<HighLevelAction>> set : crawlerDirectives.entrySet())
-            directiveStack.push(createCrawlerState(domHashCompareTable.get(set.getKey()), set.getValue()));
+        for (CrawlerDirective crawlerDirective : crawlerDirectives)
+            directiveStack.push(createCrawlerState(domHashCompareTable.get(crawlerDirective.getStateId()), crawlerDirective.getDom(), crawlerDirective.getHighLevelActions()));
         return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT);
     }
 
-    private State createCrawlerState(String domHash, List<HighLevelAction> highLevelActions) {
+
+    private State createCrawlerState(String domHash, String dom, List<HighLevelAction> highLevelActions) {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
-        return new State(domHash, actions);
+        return new State(domHash, dom, actions);
     }
 
     private List<Action> transferToCrawlerAction(List<util.Action> actionSequence) {
@@ -107,7 +124,9 @@ public class Crawljax implements Crawler {
     }
 
     private CrawljaxRunner createCrawljaxRunner(Config config, AIGuidePlugin aiGuidePlugin) {
+//        MyCrawlJaxRunnerFactory crawljaxFactory = new MyCrawlJaxRunnerFactory();
         CrawlJaxRunnerFactory crawljaxFactory = new CrawlJaxRunnerFactory();
+
         crawljaxFactory.setDepth(config.CRAWLER_DEPTH);
         crawljaxFactory.setHeadLess(false);
         crawljaxFactory.setRecordMode(true);

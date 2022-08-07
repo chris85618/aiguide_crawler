@@ -44,7 +44,7 @@ public class LearningPool {
             LogHelper.info("Task ID: " + taskID + " is done.");
         }
         boolean succ;
-        succ = learningResults.offer(new LearningResult(actionSequence, taskID, coverageImproved, learningTargetActionSequenceLength, isDone));
+        succ = learningResults.offer(new LearningResult(actionSequence, taskID, "", coverageImproved, learningTargetActionSequenceLength, isDone));
         assert succ : "add LearningResult fail";
     }
 

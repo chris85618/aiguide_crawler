@@ -34,7 +34,7 @@ public class GraphDrawerTest {
 
     @Test
     public void testInputPageConvertToJson() {
-        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/register", null);
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/register", "", null, null);
         JsonObject inputPageJson = graphDrawer.convertInputPageToJson(inputPage);
 
         assertEquals("test", inputPageJson.get("stateID").getAsString());
@@ -46,7 +46,7 @@ public class GraphDrawerTest {
     @Test
     public void testDirectiveHasOneChildren(){
         Directive directive = new Directive(null, null);
-        InputPage inputPage = new InputPage(null, "test", "/main", null);
+        InputPage inputPage = new InputPage(null, "test", "/main", "", null, null);
         directive.addInputPage(inputPage);
 
         JsonObject directiveJson = graphDrawer.convertDirectiveToJson(directive);
@@ -59,8 +59,8 @@ public class GraphDrawerTest {
     @Test
     public void testDirectiveHasTowChildren(){
         Directive directive = new Directive(null, null);
-        InputPage inputPage1 = new InputPage(directive, "test1", "https://127.0.0.1/main1", null);
-        InputPage inputPage2 = new InputPage(directive, "test2", "https://127.0.0.1/main2", null);
+        InputPage inputPage1 = new InputPage(directive, "test1", "https://127.0.0.1/main1", "", null, null);
+        InputPage inputPage2 = new InputPage(directive, "test2", "https://127.0.0.1/main2", "", null, null);
         directive.addInputPage(inputPage1);
         directive.addInputPage(inputPage2);
 
@@ -75,7 +75,7 @@ public class GraphDrawerTest {
 
     @Test
     public void testInputPageHasOneChildren(){
-        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/main33", null);
+        InputPage inputPage = new InputPage(null, "test", "https://127.0.0.1/main33", "", null, null);
         Directive directive = new Directive(inputPage, null);
         inputPage.addDirective(directive);
 
@@ -89,7 +89,7 @@ public class GraphDrawerTest {
 
     @Test
     public void testInputPageHasTwoChildrenHas(){
-        InputPage inputPage = new InputPage(null, "test", "main", null);
+        InputPage inputPage = new InputPage(null, "test", "main", "", null, null);
         Directive directive1 = new Directive(inputPage, null);
         Directive directive2 = new Directive(inputPage, null);
         inputPage.addDirective(directive1);
@@ -108,9 +108,9 @@ public class GraphDrawerTest {
     @Test
     public void testChilderhasChilder(){
         Directive DTRoot = new Directive(null,null);
-        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", null);
-        InputPage inputPage2 = new InputPage(DTRoot, "\"forgot-password\"", "https://127.0.0.1/forgot-password/", null);
-        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", null);
+        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", "", null, null);
+        InputPage inputPage2 = new InputPage(DTRoot, "\"forgot-password\"", "https://127.0.0.1/forgot-password/", "", null, null);
+        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", "", null, null);
         Directive directive1 = new Directive(inputPage1,null);
         Directive directive2 = new Directive(inputPage1, null);
 
@@ -133,9 +133,9 @@ public class GraphDrawerTest {
     @Test
     public void testGenerateGraph(){
         Directive DTRoot = new Directive(null,null);
-        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", null);
-        InputPage inputPage2 = new InputPage(DTRoot, "forgot-password", "https://127.0.0.1/forgot-password/", null);
-        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", null);
+        InputPage inputPage1 = new InputPage(DTRoot, "register", "https://127.0.0.1/register", "", null, null);
+        InputPage inputPage2 = new InputPage(DTRoot, "forgot-password", "https://127.0.0.1/forgot-password/", "", null, null);
+        InputPage inputPage3 = new InputPage(DTRoot, "login","https://127.0.0.1/login/", "", null, null);
         Directive directive1 = new Directive(inputPage1,null);
         Directive directive2 = new Directive(inputPage1, null);
 

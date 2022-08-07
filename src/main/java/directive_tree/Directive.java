@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Directive {
     private final List<InputPage> inputPageList;
     private final InputPage parentInputPage;
+    private String formXPath;
     private final List<HighLevelAction> actionSequence;
 
     private final int learningTargetActionSequenceLength;
@@ -28,12 +29,13 @@ public class Directive {
         this.isRoot = false;
     }
 
-    public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength) {
-        this(parentInputPage, actionSequence, coverageImproved, learningTargetActionSequenceLength, false);
+    public Directive(InputPage parentInputPage, String formXPath, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength) {
+        this(parentInputPage, formXPath, actionSequence, coverageImproved, learningTargetActionSequenceLength, false);
     }
 
-    public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isRoot) {
+    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isRoot) {
         this.parentInputPage = parentInputPage;
+        this.formXPath = formXPath;
         this.actionSequence = actionSequence;
         this.coverageImproved = coverageImproved;
         this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
@@ -51,6 +53,9 @@ public class Directive {
     }
 
     public void addInputPage(InputPage ip) {
+//        if (ip.getParent().getParent() != null) {
+//            ip.getParent().getParent().setDone();
+//        }
         inputPageList.add(ip);
     }
 
@@ -60,6 +65,10 @@ public class Directive {
 
     public String getID() {
         return id;
+    }
+
+    public String getFormXPath() {
+        return formXPath;
     }
 
     public int getCoverageImproved() {

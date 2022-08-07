@@ -22,6 +22,7 @@ public class Py4JLearningPool implements ILearningPool {
     private final int pythonPort;
     private GatewayServer server;
     private boolean isAgentDone;
+    private boolean isPauseAgent;
 
 
     private final Queue<LearningTaskDTO> learningTaskDTOQueue;
@@ -33,6 +34,7 @@ public class Py4JLearningPool implements ILearningPool {
         this.javaPort = javaPort;
         this.pythonPort = pythonPort;
         this.isAgentDone = false;
+        this.isPauseAgent = false;
 
         learningTaskDTOQueue = new ArrayDeque<>();
         learningResultDTOQueue = new ArrayDeque<>();
@@ -113,5 +115,15 @@ public class Py4JLearningPool implements ILearningPool {
 
     public HighLevelActionDTOBuilder getHighLevelActionDTOBuilder(){
         return new HighLevelActionDTOBuilder();
+    }
+
+    @Override
+    public synchronized boolean getPauseAgent() {
+        return isPauseAgent;
+    }
+
+    @Override
+    public synchronized void setPauseAgent(boolean isPauseAgent) {
+        this.isPauseAgent = isPauseAgent;
     }
 }

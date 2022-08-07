@@ -1,6 +1,8 @@
 package directive_tree;
 
 import directive_tree.graph.GraphDrawer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningTask.LearningTask;
 import util.Action;
@@ -12,6 +14,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class DirectiveTreeHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DirectiveTreeHelper.class);
+
     private final Directive DTRoot;
     private Queue<Directive> unprocessedLeaves;
     private Directive processingLeaf;
@@ -23,7 +28,7 @@ public class DirectiveTreeHelper {
     }
 
     public DirectiveTreeHelper() {
-        this(new Directive(null, null, 0, 0, true));
+        this(new Directive(null, "",null, 0, 0, true));
     }
 
     public void addDirectives(List<LearningResult> results) {
@@ -44,8 +49,9 @@ public class DirectiveTreeHelper {
         processingLeaf.addInputPage(ip);
     }
 
-    public LinkedHashMap<String, List<HighLevelAction>> takeFirstUnprocessedCrawlerDirectives() {
+    public List<CrawlerDirective> takeFirstUnprocessedCrawlerDirectives() {
         processingLeaf = unprocessedLeaves.poll();
+        LOGGER.debug("The unprocessedLeaves size is {}", unprocessedLeaves.size());
         if(processingLeaf == null) return null;
         LogHelper.debug("Next processing Leaf is: " + processingLeaf.getID());
         return getCrawlerDirectives(processingLeaf);
@@ -55,24 +61,24 @@ public class DirectiveTreeHelper {
         return unprocessedLeaves.isEmpty();
     }
 
-    private LinkedHashMap<String, List<HighLevelAction>> getCrawlerDirectives(Directive d) {
-        LinkedHashMap<String, List<HighLevelAction>> crawlerDirectives = new LinkedHashMap<>();
+    private List<CrawlerDirective> getCrawlerDirectives(Directive d) {
+        List<CrawlerDirective> crawlerDirectives = new ArrayList<>();
         Directive currentDirective = d;
         assert d != null: "Directive is null in getCrawlerDirectives method";
         while(!currentDirective.isDTRoot()){
             InputPage ip = currentDirective.getParent();
-            crawlerDirectives.put(ip.getStateID(), currentDirective.getActionSequence());
+            crawlerDirectives.add(new CrawlerDirective(ip.getStateID(), ip.getDom(), currentDirective.getActionSequence()));
             currentDirective = ip.getParent();
         }
         return crawlerDirectives;
     }
 
     private InputPage convertToInputPage(LearningTask task) {
-        return new InputPage(processingLeaf, task.getStateID(), task.getTargetURL(), convertToHighLevelActionSequence(task.getActionSequence()));
+        return new InputPage(processingLeaf, task.getStateID(), task.getTargetURL(), task.getDom(), task.getFormXPaths(), convertToHighLevelActionSequence(task.getActionSequence()));
     }
 
     private Directive convertToDirective(LearningResult result) {
-        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getActionSequence(), result.getCoverageImproved(), result.getLearningTargetActionSequenceLength());
+        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getFormXPath(), result.getActionSequence(), result.getCoverageImproved(), result.getLearningTargetActionSequenceLength());
     }
 
     private List<HighLevelAction> convertToHighLevelActionSequence(List<List<Action>> actionSequence) {

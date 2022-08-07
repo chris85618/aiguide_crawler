@@ -8,6 +8,7 @@ import java.util.List;
 public class LearningResultDTOBuilder {
     private List<HighLevelActionDTO> highLevelActionDTOList;
     private String taskID;
+    private String formXPath;
     private boolean[] codeCoverageVector;
     private boolean[] originalCodeCoverageVector;
     private boolean isDone;
@@ -30,6 +31,10 @@ public class LearningResultDTOBuilder {
         this.taskID = taskID;
     }
 
+    public void setFormXPath(String formXPath) {
+        this.formXPath = formXPath;
+    }
+
     public void setCodeCoverageVector(boolean[] codeCoverageVector){
         this.codeCoverageVector = codeCoverageVector;
     }
@@ -43,6 +48,6 @@ public class LearningResultDTOBuilder {
     }
 
     public LearningResultDTO build(){
-        return new LearningResultDTO(highLevelActionDTOList, taskID, codeCoverageVector, originalCodeCoverageVector, isDone);
+        return new LearningResultDTO(highLevelActionDTOList, taskID, formXPath, codeCoverageVector, originalCodeCoverageVector, isDone);
     }
 }

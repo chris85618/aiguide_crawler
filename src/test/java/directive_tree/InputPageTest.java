@@ -18,7 +18,7 @@ public class InputPageTest {
 
     @Test
     public void addDirective() {
-        InputPage ip = new InputPage(null, "", "", null);
+        InputPage ip = new InputPage(null, "", "", "", null, null);
         ip.addDirective(new Directive(null, null));
         ip.addDirective(new Directive(null, null));
         assertEquals(ip.getChild().size(), 2);
@@ -27,19 +27,19 @@ public class InputPageTest {
     @Test
     public void getParent() {
         Directive d = new Directive(null, null);
-        InputPage ip = new InputPage(d, null, "", null);
+        InputPage ip = new InputPage(d, null, "", "", null, null);
         assertEquals(ip.getParent(), d);
     }
 
     @Test
     public void getCompareStateIDIsTrue() {
-        InputPage ip = new InputPage(null, "1234", "", null);
+        InputPage ip = new InputPage(null, "1234", "", "", null, null);
         assertEquals(ip.compareStateID("1234"), true);
     }
 
     @Test
     public void getCompareStateIDIsFalse() {
-        InputPage ip = new InputPage(null, "1234", "", null);
+        InputPage ip = new InputPage(null, "1234", "", "", null, null);
         assertEquals(ip.compareStateID("123"), false);
     }
 }

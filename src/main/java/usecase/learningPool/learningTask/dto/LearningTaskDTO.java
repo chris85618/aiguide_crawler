@@ -14,22 +14,25 @@ public class LearningTaskDTO {
     private final boolean[] codeCoverageVector;
     private final String targetURL;
     private final String stateID;
+    private final List<String> formXPaths;
     private final Map<String, String> learningConfig;
 
     public LearningTaskDTO(List<HighLevelActionDTO> highLevelActionDTOList,
                            boolean[] codeCoverageVector,
                            String targetURL,
                            String stateID,
+                           List<String> formXPaths,
                            Map<String, String> learningConfig) {
         this.highLevelActionDTOList = highLevelActionDTOList;
         this.codeCoverageVector = codeCoverageVector;
         this.targetURL = targetURL;
         this.stateID = stateID;
+        this.formXPaths = formXPaths;
         this.learningConfig = learningConfig;
     }
 
-    public LearningTaskDTO(List<HighLevelActionDTO> highLevelActionDTOList, boolean[] codeCoverageVector, String targetURL, String stateID){
-        this(highLevelActionDTOList, codeCoverageVector, targetURL, stateID, new LinkedHashMap<>());
+    public LearningTaskDTO(List<HighLevelActionDTO> highLevelActionDTOList, boolean[] codeCoverageVector, String targetURL, List<String> formXPaths, String stateID){
+        this(highLevelActionDTOList, codeCoverageVector, targetURL, stateID, formXPaths, new LinkedHashMap<>());
     }
 
     public List<HighLevelActionDTO> getHighLevelActionDTOList() {
@@ -46,6 +49,10 @@ public class LearningTaskDTO {
 
     public String getStateID() {
         return stateID;
+    }
+
+    public List<String> getFormXPaths() {
+        return formXPaths;
     }
 
     public Map<String, String> getLearningConfig() {

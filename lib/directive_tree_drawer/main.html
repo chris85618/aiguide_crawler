@@ -46,8 +46,8 @@
 
   // ************** Generate the tree diagram	 *****************
   var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    width = getDirectiveTreeDepth(treeData[0]) * (200+20) - margin.right - margin.left,
-    height = getDirectiveTreeBreadth(treeData[0]) * 100 - margin.top - margin.bottom;
+    width = getDirectiveTreeDepth(treeData[0]) * (2000+20) - margin.right - margin.left,
+    height = getDirectiveTreeBreadth(treeData[0]) * 240 - margin.top - margin.bottom;
 
 
   var svg = d3.select("body").append("svg")
@@ -86,6 +86,7 @@
       </div>
       <div class="modal-body">
         <table class="table table-borderless">
+          <p id="formXPath">Popover in a modal</p>
           <p id="coverageImproved">Popover in a modal</p>
           <p id="learningTargetActionSequenceLength">Popover in a modal</p>
           <thead>
@@ -109,9 +110,11 @@
       var directive_tree_class_id = d.id
       var directive_tree_id = directive_tree_class_id.substr(directive_tree_class_id.indexOf("@") + 1)
       var title = "Directive ID: " + directive_tree_id;
+      var formXPath = "Form XPath: " + d.formXPath;
       var coverageImproved = "Code coverage Improved: " + d.coverageImproved;
       var learningTargetActionSequenceLength = "Learning Target Action Sequnce Size is :" + d.learningTargetActionSequenceLength;
       $('#exampleModalLabel').html(title);
+      $('#formXPath').html(formXPath);
       $('#coverageImproved').html(coverageImproved);
       $('#learningTargetActionSequenceLength').html(learningTargetActionSequenceLength);
       actionSequenceFormate(d.ActionSequence)

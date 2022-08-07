@@ -46,7 +46,7 @@ public class DirectiveTreeHelperTest {
     public void convertToInputPage() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method convertToInputPage = DirectiveTreeHelper.class.getDeclaredMethod("convertToInputPage", LearningTask.class);
         convertToInputPage.setAccessible(true);
-        LearningTask task = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://www.facebook.com/", "135478965456", null);
+        LearningTask task = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://www.facebook.com/", "135478965456", "", null, null);
         InputPage ip;
         ip = (InputPage) convertToInputPage.invoke(DT, task);
         assertTrue(ip.compareStateID("135478965456"));
@@ -62,7 +62,7 @@ public class DirectiveTreeHelperTest {
         as.add(new Action("//*[@id=\"u_fetchstream_7_1s\"]/div[2]/div[1]/div[2]/div[3]/div/div/div/div/a/div", "1234"));
         as.add(new Action("//*[@id=\"home_birthdays\"]/div/div/div/div", null));
         as.add(new Action("//*[@id=\"js_t\"]/div/div/div[1]/div[1]/h1/a/span", "hello"));
-        LearningResult result = new LearningResult(highLevelActionList, "eehrt4h564rth464h", 0, 0, false);
+        LearningResult result = new LearningResult(highLevelActionList, "eehrt4h564rth464h", "", 0, 0, false);
         Directive d;
         d = (Directive) convertToDirective.invoke(DT, result);
         assertEquals(d.getActionSequence().get(0).getActionSequence().get(1).getXpath(), "//*[@id=\"home_birthdays\"]/div/div/div/div");
@@ -73,7 +73,7 @@ public class DirectiveTreeHelperTest {
         DirectiveTreeHelper DTH = constructDTHelper();
         DTH.printDirectiveTree();
         DTH.drawDirectiveTree();
-        Map crawlerDirectives = DTH.takeFirstUnprocessedCrawlerDirectives();
+        List crawlerDirectives = DTH.takeFirstUnprocessedCrawlerDirectives();
         assertNull(crawlerDirectives);
         assertTrue(DTH.isTreeComplete());
     }
@@ -116,18 +116,18 @@ public class DirectiveTreeHelperTest {
         actionsList.add(actionList2);
         actionsList.add(actionList3);
 
-        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/register", "register", null);
-        task2 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost/forgot-password/", "forgot-password", null);
-        task3 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/login/", "login", null);
-        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/settings/general/", "settings", null);
-        task1_2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/users/edit/", "edit", null);
+        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/register", "register", "", null, null);
+        task2 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost/forgot-password/", "forgot-password", "", null, null);
+        task3 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost/login/", "login", "", null, null);
+        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/settings/general/", "settings", "", null, null);
+        task1_2 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "http://localhost:3000/users/edit/", "edit", "", null, null);
 
-        result1 = new LearningResult(highLevelActionList, "register", 0, 0, false);
-        result2 = new LearningResult(highLevelActionList, "register", 0, 0, false);
-        result3 = new LearningResult(highLevelActionList, "forgot-password", 0, 0, false);
-        result4 = new LearningResult(highLevelActionList, "settings", 0, 0, false);
-        result5 = new LearningResult(highLevelActionList, "settings", 0, 0, false);
-        result6 = new LearningResult(highLevelActionList, "edit", 0, 0, false);
+        result1 = new LearningResult(highLevelActionList, "register", "", 0, 0, false);
+        result2 = new LearningResult(highLevelActionList, "register", "", 0, 0, false);
+        result3 = new LearningResult(highLevelActionList, "forgot-password", "", 0, 0, false);
+        result4 = new LearningResult(highLevelActionList, "settings", "", 0, 0, false);
+        result5 = new LearningResult(highLevelActionList, "settings", "", 0, 0, false);
+        result6 = new LearningResult(highLevelActionList, "edit", "", 0, 0, false);
 
         // processing directive: Home(Root page)
         DTH.takeFirstUnprocessedCrawlerDirectives();
@@ -141,9 +141,9 @@ public class DirectiveTreeHelperTest {
         results.add(result2);
         results.add(result3);
         // Set all InputPage done
-        results.add(new LearningResult(null, "register", 0, 0, true));
-        results.add(new LearningResult(null, "forgot-password", 0, 0, true));
-        results.add(new LearningResult(null, "login", 0, 0, true));
+        results.add(new LearningResult(null, "register", "", 0, 0, true));
+        results.add(new LearningResult(null, "forgot-password", "", 0, 0, true));
+        results.add(new LearningResult(null, "login", "", 0, 0, true));
         DTH.addDirectives(results);
 
         // processing directive: Register success
@@ -158,9 +158,9 @@ public class DirectiveTreeHelperTest {
         results.clear();
         results.add(result4);
         results.add(result5);
-        results.add(new LearningResult(null, "settings", 0, 0, true));
+        results.add(new LearningResult(null, "settings", "", 0, 0, true));
         results.add(result6);
-        results.add(new LearningResult(null, "edit", 0, 0, true));
+        results.add(new LearningResult(null, "edit", "", 0, 0, true));
         DTH.addDirectives(results);
 
         //processing directive: D3
@@ -202,13 +202,13 @@ public class DirectiveTreeHelperTest {
         actionsList.add(actionList2);
         actionsList.add(actionList3);
 
-        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/register", "register", null);
-        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/forgot-password/", "forgot-password", null);
-        task1_1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/login/", "login", null);
+        task1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/register", "register", "", null, null);
+        task1_1 = new LearningTask(actionsList, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/forgot-password/", "forgot-password", "", null, null);
+        task1_1_1 = new LearningTask(null, new Integer[]{0, 300, 300, 0}, "https://localhost:3000/login/", "login", "", null, null);
 
-        result1 = new LearningResult(highLevelActionList, "register", 0, 0, false);
-        result2 = new LearningResult(highLevelActionList, "forgot-password", 0, 0, false);
-        result3 = new LearningResult(highLevelActionList, "login", 0, 0, false);
+        result1 = new LearningResult(highLevelActionList, "register", "", 0, 0, false);
+        result2 = new LearningResult(highLevelActionList, "forgot-password", "", 0, 0, false);
+        result3 = new LearningResult(highLevelActionList, "login", "", 0, 0, false);
 
         DTH.takeFirstUnprocessedCrawlerDirectives();
 
@@ -216,7 +216,7 @@ public class DirectiveTreeHelperTest {
 
         List<LearningResult> results = new ArrayList<>();
         results.add(result1);
-        results.add(new LearningResult(null, "register", 0, 0, true));
+        results.add(new LearningResult(null, "register", "", 0, 0, true));
         DTH.addDirectives(results);
 
         DTH.takeFirstUnprocessedCrawlerDirectives();
@@ -224,35 +224,44 @@ public class DirectiveTreeHelperTest {
 
         results.clear();
         results.add(result2);
-        results.add(new LearningResult(null, "forgot-password", 0, 0, true));
+        results.add(new LearningResult(null, "forgot-password", "", 0, 0, true));
         DTH.addDirectives(results);
 
         String[] actual = new String[]{"forgot-password", "register"};
-        Map<String, List<HighLevelAction>> m;
-        m = DTH.takeFirstUnprocessedCrawlerDirectives();
+//        Map<String, List<HighLevelAction>> m;
+//        m = DTH.takeFirstUnprocessedCrawlerDirectives();
 //        for(String s : actual){
 //            assertNotNull(m.get(s));
 //        }
-        for(String id: m.keySet()){
-            assertEquals(id, actual[i++]);
+//        for(String id: m.keySet()){
+//            assertEquals(id, actual[i++]);
+//        }
+        List<CrawlerDirective> crawlerDirectives;
+        crawlerDirectives = DTH.takeFirstUnprocessedCrawlerDirectives();
+        for(CrawlerDirective crawlerDirective: crawlerDirectives){
+            assertEquals(crawlerDirective.getStateId(), actual[i++]);
         }
+
         DTH.addInputPage(task1_1_1);
 
         results.clear();
         results.add(result3);
-        results.add(new LearningResult(null, "login", 0, 0, true));
+        results.add(new LearningResult(null, "login", "", 0, 0, true));
         DTH.addDirectives(results);
 
         actual = new String[]{"login", "forgot-password", "register"};
-        m = DTH.takeFirstUnprocessedCrawlerDirectives();
+//        m = DTH.takeFirstUnprocessedCrawlerDirectives();
 //        for(String s : actual){
 //            assertNotNull(m.get(s));
 //        }
         i = 0;
-        for(String id: m.keySet()){
-            assertEquals(id, actual[i++]);
+//        for(String id: m.keySet()){
+//            assertEquals(id, actual[i++]);
+//        }
+        crawlerDirectives = DTH.takeFirstUnprocessedCrawlerDirectives();
+        for(CrawlerDirective crawlerDirective: crawlerDirectives){
+            assertEquals(crawlerDirective.getStateId(), actual[i++]);
         }
-
         assertTrue(DTH.isTreeComplete());
     }
 }

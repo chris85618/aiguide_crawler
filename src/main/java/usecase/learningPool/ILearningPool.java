@@ -12,4 +12,6 @@ public interface ILearningPool {
     boolean isLearningTaskDTOQueueEmpty();
     LearningResultDTO deQueueLearningResultDTO();
     boolean isLearningResultDTOQueueEmpty();
+    boolean getPauseAgent();
+    void setPauseAgent(boolean isPauseAgent);
 }

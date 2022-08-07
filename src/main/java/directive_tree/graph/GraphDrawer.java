@@ -19,6 +19,7 @@ public class GraphDrawer {
         JsonObject directiveJson = new JsonObject();
         directiveJson.addProperty("Type","Directive");
         directiveJson.addProperty("id", directive.getID());
+        directiveJson.addProperty("formXPath", directive.getFormXPath());
         directiveJson.addProperty("coverageImproved", String.valueOf(directive.getCoverageImproved()));
         directiveJson.addProperty("learningTargetActionSequenceLength", String.valueOf(directive.getLearningTargetActionSequenceLength()));
         directiveJson.add("ActionSequence", this.convertHighLevelActionSequenceToJsonArray(directive.getActionSequence()));
@@ -41,7 +42,8 @@ public class GraphDrawer {
 
         String targetURL = inputPage.getTargetURL();
 //        inputPageJson.addProperty("targetURL",targetURL.substring(targetURL.indexOf("/", "https://".length()),targetURL.length()));
-        inputPageJson.addProperty("targetURL",targetURL);
+        inputPageJson.addProperty("targetURL", targetURL);
+//        inputPageJson.addProperty("formXPath", inputPage.getFormXPath());
 
 
         JsonArray inputPageChildren = new JsonArray();

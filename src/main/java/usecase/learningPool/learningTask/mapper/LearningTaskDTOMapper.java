@@ -26,6 +26,7 @@ public class LearningTaskDTOMapper {
         for (int i=0; i < codeCoverageVectorLength; i++){
             codeCoverageVector[i] = !(learningTask.getCoverage()[i] == 0);
         }
-        return new LearningTaskDTO(highLevelActionDTOList, codeCoverageVector, learningTask.getTargetURL(), learningTask.getStateID(), learningTask.getLearningConfig());
+        return new LearningTaskDTO(highLevelActionDTOList, codeCoverageVector, learningTask.getTargetURL(),
+                learningTask.getStateID(), learningTask.getFormXPaths(), learningTask.getLearningConfig());
     }
 }
