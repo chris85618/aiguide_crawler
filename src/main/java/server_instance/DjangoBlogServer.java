@@ -79,7 +79,7 @@ public class DjangoBlogServer extends ServerInstanceManagement {
     public void createServerInstance() {
         int waitingCount = 0;
         createServer();
-        String url = "http://127.0.0.1:%d/login";
+        String url = "http://127.0.0.1:%d/";
         while(!isServerActive(String.format(url, server_port), 200)) {
             try {
                 Thread.sleep(1000);
