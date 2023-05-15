@@ -3,6 +3,7 @@ package server_instance;
 import server_instance.codeCoverage.CodeCoverageCollector;
 import server_instance.codeCoverage.CodeCoverageHelper;
 import server_instance.codeCoverage.IstanbulCodeCoverageCollector;
+import server_instance.codeCoverage.NoCodeCoverageCollector;
 import util.CommandHelper;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class KimaiServer extends ServerInstanceManagement {
         super(appName, server_port);
         createDockerComposeFile();
         copyVE();
-        CodeCoverageCollector codeCoverageCollector = new IstanbulCodeCoverageCollector(server_port);
+        CodeCoverageCollector codeCoverageCollector = new NoCodeCoverageCollector();
         this.codeCoverageHelper = new CodeCoverageHelper(codeCoverageCollector);
     }
 
@@ -31,17 +32,16 @@ public class KimaiServer extends ServerInstanceManagement {
 
         String compose_file_content = "version: '3.5'\n" +
                 "services:\n" +
+                "\n" +
                 "  sqldb:\n" +
                 "    image: mysql:5.7\n" +
+                "    volumes:\n" +
+                "      - kimai-mysql:/var/lib/mysql\n" +
                 "    environment:\n" +
                 "      - MYSQL_DATABASE=kimai\n" +
                 "      - MYSQL_USER=kimaiuser\n" +
-                "      - MYSQL_PASSWORD=selab1623\n" +
-                "      - MYSQL_ROOT_PASSWORD=selab1623\n" +
-                "    ports:\n" +
-                "      - 3336:3306\n" +
-                "    volumes:\n" +
-                "      - mysql:/var/lib/mysql\n" +
+                "      - MYSQL_PASSWORD=kimaipassword\n" +
+                "      - MYSQL_ROOT_PASSWORD=changemeplease\n" +
                 "    command: --default-storage-engine innodb\n" +
                 "    restart: unless-stopped\n" +
                 "    healthcheck:\n" +
@@ -50,49 +50,23 @@ public class KimaiServer extends ServerInstanceManagement {
                 "      start_period: 10s\n" +
                 "      timeout: 10s\n" +
                 "      retries: 3\n" +
-                "  nginx:\n" +
-                "    image: tobybatch/nginx-fpm-reverse-proxy\n" +
-                "    ports:\n" +
-                "      - %d:80\n" +
-                "    volumes:\n" +
-                "      - public:/opt/kimai/public:ro\n" +
-                "    restart: unless-stopped\n" +
-                "    depends_on:\n" +
-                "      - kimai\n" +
-                "    healthcheck:\n" +
-                "      test:  wget --spider http://nginx/health || exit 1\n" +
-                "      interval: 20s\n" +
-                "      start_period: 10s\n" +
-                "      timeout: 10s\n" +
-                "      retries: 3\n" +
+                "\n" +
                 "  kimai:\n" +
-                "    image: kimai/kimai2:fpm-dev\n" +
+                "    image: kimai/kimai2:apache\n" +
+                "    volumes:\n" +
+                "      - kimai-var:/opt/kimai/var\n" +
+                "    ports:\n" +
+                "      - %d:8001\n" +
                 "    environment:\n" +
                 "      - ADMINMAIL=vector@selab.com\n" +
                 "      - ADMINPASS=selab1623\n" +
                 "      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai\n" +
                 "      - TRUSTED_HOSTS=nginx,localhost,127.0.0.1\n" +
-                "      - memory_limit=500\n" +
-                "    volumes:\n" +
-                "      - public:/opt/kimai/public\n" +
                 "    restart: unless-stopped\n" +
-                "  phpmyadmin:\n" +
-                "    image: phpmyadmin\n" +
-                "    restart: always\n" +
-                "    ports:\n" +
-                "      - 8081:80\n" +
-                "    environment:\n" +
-                "      - PMA_ARBITRARY=1\n" +
-                "  postfix:\n" +
-                "    image: catatnight/postfix:latest\n" +
-                "    environment:\n" +
-                "      maildomain: neontribe.co.uk\n" +
-                "      smtp_user: kimai:kimai\n" +
-                "    restart: unless-stopped\n" +
+                "\n" +
                 "volumes:\n" +
-                "    var:\n" +
-                "    public:\n" +
-                "    mysql:";
+                "  kimai-var:\n" +
+                "  kimai-mysql:";
 
         compose_file_content = String.format(compose_file_content, server_port);
         compose_file = dockerFolder + "docker_compose_kimai_" + (server_port % 3000) + ".yml";
