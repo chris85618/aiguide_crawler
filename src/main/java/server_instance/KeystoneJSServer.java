@@ -37,12 +37,12 @@ public class KeystoneJSServer extends ServerInstanceManagement {
                 "    links:\n" +
                 "      - nameOfMongoDB\n" +
                 "    environment:\n" +
-                "    - MONGO_URI=mongodb://nameOfMongoDB:27017/\n" +
+                "      - MONGO_URI=mongodb://nameOfMongoDB:27017/\n" +
                 "  nameOfMongoDB:\n" +
                 "    image: ntutselab/mongo\n" +
                 "    ports:\n" +
-                "      - '%d:27017'\n";
-        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, 27000 + server_port % 3000);
+                "      - '27017:27017'\n";
+        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_keystonejs_" + (server_port % 3000) + ".yml";
         try {
             FileWriter fw = new FileWriter(compose_file);
