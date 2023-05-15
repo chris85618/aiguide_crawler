@@ -26,10 +26,12 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
 
     private void createDockerComposeFile() {
         createDockerFileFolder();
-        String compose_file_content = "timeoff_management_with_coverage_%d:\n" +
-        " image: ntutselab/timeoff_management_with_coverage\n" +
-        " ports:\n" +
-        "  - \"127.0.0.1:%d:3000\"";
+        String compose_file_content =
+        "services:\n" +
+        "  timeoff_management_with_coverage_%d:\n" +
+        "    image: ntutselab/timeoff_management_with_coverage\n" +
+        "    ports:\n" +
+        "      - \"127.0.0.1:%d:3000\"";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
         try {
