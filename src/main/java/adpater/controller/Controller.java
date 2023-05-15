@@ -82,6 +82,8 @@ public class Controller {
                 return new DjangoBlogServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "spring_petclinic_with_no_coverage":
                 return new SpringPetclinicServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "kimai":
+                return new KimaiServer(this.config.AUT_NAME, this.config.AUT_PORT);
         }
 
         throw new RuntimeException("AUT not fount when create server instance.");
