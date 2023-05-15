@@ -78,9 +78,9 @@ public class Controller {
                 return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "wagtails":
                 return new WagtailsServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "django_blog":
+            case "django_blog_with_no_coverage":
                 return new DjangoBlogServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "spring_petclinic":
+            case "spring_petclinic_with_no_coverage":
                 return new SpringPetclinicServer(this.config.AUT_NAME, this.config.AUT_PORT);
         }
 
