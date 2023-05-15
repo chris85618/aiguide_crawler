@@ -29,18 +29,19 @@ public class KeystoneJSServer extends ServerInstanceManagement {
     private void createDockerComposeFile() {
         createDockerFileFolder();
         String compose_file_content =
-                "keystonejs_with_coverage_%d:\n" +
-                " image: ntutselab/keystonejs_with_coverage\n" +
-                " ports:\n" +
-                "  - \"%d:3000\"\n" +
-                " links:\n" +
-                "  - nameOfMongoDB\n" +
-                " environment:\n" +
-                "  - MONGO_URI=mongodb://nameOfMongoDB:27017/\n" +
-                "nameOfMongoDB:\n" +
-                " image: mongo\n" +
-                " ports:\n" +
-                "  - \"%d:27017\"" ;
+                "services:\n" +
+                "  keystonejs_with_coverage_%d:\n" +
+                "    image: ntutselab/keystonejs_with_coverage\n" +
+                "    ports:\n" +
+                "      - '%d:3000'\n" +
+                "    links:\n" +
+                "      - nameOfMongoDB\n" +
+                "    environment:\n" +
+                "    - MONGO_URI=mongodb://nameOfMongoDB:27017/\n" +
+                "  nameOfMongoDB:\n" +
+                "    image: ntutselab/mongo\n" +
+                "    ports:\n" +
+                "      - '%d:27017'\n";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, 27000 + server_port % 3000);
         compose_file = dockerFolder + "docker_compose_keystonejs_" + (server_port % 3000) + ".yml";
         try {
