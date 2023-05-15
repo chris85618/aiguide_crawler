@@ -27,16 +27,18 @@ public class NodeBBServer extends ServerInstanceManagement {
 
     private void createDockerComposeFile() {
         createDockerFileFolder();
-        String compose_file_content = "nodebb_%d:\n" +
-                " image: ntutselab/nodebb_with_coverage\n" +
-                " ports:\n" +
-                "  - \"%d:4567\"\n" +
-                " links:\n" +
-                "  - mongodb_%d\n" +
-                " environment:\n" +
-                "  - MONGO_HOST=mongodb_%d\n" +
-                "mongodb_%d:\n" +
-                " image: ntutselab/mongo";
+        String compose_file_content =
+        "services:\n" +
+        "  nodebb_%d:\n" +
+        "    image: ntutselab/nodebb_with_coverage\n" +
+        "    ports:\n" +
+        "      - \"%d:4567\"\n" +
+        "    links:\n" +
+        "      - mongodb_%d\n" +
+        "    environment:\n" +
+        "      - MONGO_HOST=mongodb_%d\n" +
+        "  mongodb_%d:\n" +
+        "    image: ntutselab/mongo";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, server_port % 3000, server_port % 3000, server_port % 3000);
         compose_file = dockerFolder + "docker_compose_nodebb_" + (server_port % 3000) + ".yml";
         try {
