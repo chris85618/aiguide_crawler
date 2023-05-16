@@ -26,10 +26,12 @@ public class DjangoBlogServer extends ServerInstanceManagement {
 
     private void createDockerComposeFile() {
         createDockerFileFolder();
-        String compose_file_content = "django_blog_with_no_coverage_%d:\n" +
-                " image: lidek213/django-blog_for_experiment\n" +
-                " ports:\n" +
-                "  - \"127.0.0.1:%d:3000\"";
+        String compose_file_content =
+        "services:\n" +
+        "  django_blog_with_no_coverage_%d:\n" +
+        "    image: lidek213/django-blog_for_experiment\n" +
+        "    ports:\n" +
+        "      - \"127.0.0.1:%d:3000\"";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_django_blog_" + (server_port % 3000) + ".yml";
         try {
