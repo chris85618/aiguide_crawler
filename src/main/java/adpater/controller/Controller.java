@@ -70,11 +70,11 @@ public class Controller {
 
     private ServerInstanceManagement createServerInstanceManagement() {
         switch (config.AUT_NAME) {
-            case "timeoff_management_with_no_coverage":
+            case "timeoff_management_with_coverage":
                 return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "nodebb_with_no_coverage":
+            case "nodebb_with_coverage":
                 return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "keystonejs_with_no_coverage":
+            case "keystonejs_with_coverage":
                 return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "wagtails":
                 return new WagtailsServer(this.config.AUT_NAME, this.config.AUT_PORT);
