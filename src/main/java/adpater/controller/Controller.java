@@ -4,7 +4,6 @@ import adpater.learningPool.Py4JLearningPool;
 import crawler.Crawler;
 import crawler.Crawljax;
 import directive_tree.CrawlerDirective;
-import directive_tree.Directive;
 import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import server_instance.*;
 import usecase.learningPool.ILearningPool;
 import usecase.learningPool.learningResult.LearningResult;
-import usecase.learningPool.learningResult.dto.LearningResultDTO;
 import usecase.learningPool.learningResult.mapper.LearningResultDTOMapper;
 import usecase.learningPool.learningTask.LearningTask;
 import server_instance.codeCoverage.CodeCoverage;
@@ -94,7 +92,6 @@ public class Controller {
         boolean isAgentDone = false;
         int pauseCount = 1;
         this.learningPoolServer.startLearningPool();
-        serverInstance.createServerInstance();
 //        while(!isDone && !this.learningPoolServer.getAgentDone()){
         while(!isDone){
             if (this.learningPoolServer.isLearningResultDTOQueueEmpty()) {
@@ -106,6 +103,7 @@ public class Controller {
                 }
             }
             while(!directiveTreeHelper.isTreeComplete()){
+                serverInstance.restartServerInstance();
                 List<CrawlerDirective> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
 
                 List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
