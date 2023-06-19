@@ -29,11 +29,13 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
 
     private void createDockerComposeFile() {
         createDockerFileFolder();
-        String compose_file_content = "spring-petclinic_%d:\n" +
-                        "  image: lidek213/spring-petclinic_for_experiment:latest\n" +
-                        "  command: java -jar /spring-petclinic/build/libs/spring-petclinic-2.6.0.jar /spring-petclinic/build/libs/spring-petclinic-2.6.0-plain.jar\n" +
-                        "  ports:\n" +
-                        "    - %d:8080\n";
+        String compose_file_content =
+                        "services:\n" +
+                        "  spring-petclinic_%d:\n" +
+                        "    image: lidek213/spring-petclinic_for_experiment:latest\n" +
+                        "    command: java -jar /spring-petclinic/build/libs/spring-petclinic-2.6.0.jar /spring-petclinic/build/libs/spring-petclinic-2.6.0-plain.jar\n" +
+                        "    ports:\n" +
+                        "      - %d:8080\n";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_spring_petclinic_" + (server_port % 3000) + ".yml";
         try {
