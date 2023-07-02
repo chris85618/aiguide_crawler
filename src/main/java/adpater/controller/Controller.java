@@ -82,6 +82,8 @@ public class Controller {
                 return new SpringPetclinicServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "kimai":
                 return new KimaiServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "oscar":
+                return new OscarServer(this.config.AUT_NAME, this.config.AUT_PORT);
         }
 
         throw new RuntimeException("AUT not fount when create server instance.");
