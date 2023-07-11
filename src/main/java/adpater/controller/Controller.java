@@ -84,6 +84,8 @@ public class Controller {
                 return new KimaiServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "astuto":
                 return new AstutoServer(this.config.AUT_NAME, this.config.AUT_PORT);
+            case "svelte_commerce":
+                return new SvelteCommerceServer(this.config.AUT_NAME, this.config.AUT_PORT);
             case "oscar":
                 return new OscarServer(this.config.AUT_NAME, this.config.AUT_PORT);
         }
