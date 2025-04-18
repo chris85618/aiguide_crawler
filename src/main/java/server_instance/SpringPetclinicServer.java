@@ -66,7 +66,7 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
     }
 
     private String findBusyProcess() {
-        String containerID = CommandHelper.executeCommand("docker-compose", "-f", compose_file, "ps", "-q");
+        String containerID = CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "ps", "-q");
         System.out.println("find the container id is :" + containerID);
         return containerID;
     }
@@ -110,7 +110,7 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker-compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);
@@ -131,7 +131,7 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
                     throw new RuntimeException();
                 }
             }
-            CommandHelper.executeCommand("docker-compose", "-f", compose_file, "rm", "-svf");
+            CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "rm", "-svf");
         }
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
