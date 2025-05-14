@@ -3,6 +3,8 @@ package directive_tree;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import util.Action;
 import util.HighLevelAction;
 
@@ -32,7 +34,7 @@ public class DirectiveTest {
     @Test
     public void testGetActionSequenceIsNull() {
         Directive root;
-        root = new Directive(null, "",  null,0, 0);
+        root = new Directive(null, "",  null,0, 0, new FormInputValueList());
         assertNull(root.getActionSequence());
     }
 
@@ -46,7 +48,7 @@ public class DirectiveTest {
 
     @Test
     public void testAddInputPage() {
-        Directive root = new Directive(null, "", null,0, 0);
+        Directive root = new Directive(null, "", null,0, 0, new FormInputValueList());
         InputPage ip = new InputPage(null, "", "", "", null, null);
         root.addInputPage(ip);
         assertEquals(root.getChild().size(), 1);

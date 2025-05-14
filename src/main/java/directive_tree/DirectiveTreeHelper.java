@@ -3,6 +3,8 @@ package directive_tree;
 import directive_tree.graph.GraphDrawer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningTask.LearningTask;
 import util.Action;
@@ -28,7 +30,7 @@ public class DirectiveTreeHelper {
     }
 
     public DirectiveTreeHelper() {
-        this(new Directive(null, "",null, 0, 0, true));
+        this(new Directive(null, "",null, 0, 0, new FormInputValueList(), true));
     }
 
     public void addDirectives(List<LearningResult> results) {
@@ -67,7 +69,7 @@ public class DirectiveTreeHelper {
         assert d != null: "Directive is null in getCrawlerDirectives method";
         while(!currentDirective.isDTRoot()){
             InputPage ip = currentDirective.getParent();
-            crawlerDirectives.add(new CrawlerDirective(ip.getStateID(), ip.getDom(), currentDirective.getActionSequence()));
+            crawlerDirectives.add(new CrawlerDirective(ip.getStateID(), ip.getDom(), currentDirective.getActionSequence(), currentDirective.getFormInputValueList()));
             currentDirective = ip.getParent();
         }
         return crawlerDirectives;
@@ -78,7 +80,7 @@ public class DirectiveTreeHelper {
     }
 
     private Directive convertToDirective(LearningResult result) {
-        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getFormXPath(), result.getActionSequence(), result.getCoverageImproved(), result.getLearningTargetActionSequenceLength());
+        return new Directive(DTRoot.findInputPageByStateID(result.getTaskID()), result.getFormXPath(), result.getActionSequence(), result.getCoverageImproved(), result.getLearningTargetActionSequenceLength(), result.getFormInputValueList());
     }
 
     private List<HighLevelAction> convertToHighLevelActionSequence(List<List<Action>> actionSequence) {

@@ -9,6 +9,7 @@ import learning_data.LearningPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server_instance.*;
+// import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.ILearningPool;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningResult.mapper.LearningResultDTOMapper;
@@ -63,7 +64,7 @@ public class Controller {
 //        actionList.add(new Action("/HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[2]/FORM[1]/BUTTON[1]", ""));
 //        highLevelActionList.add(new HighLevelAction(actionList));
 //
-//        return new Directive(null, "", highLevelActionList, 0, 0, true);
+//        return new Directive(null, "", highLevelActionList, 0, 0, Form, new FormInputValueList(), true);
 //    }
 
     private ServerInstanceManagement createServerInstanceManagement() {

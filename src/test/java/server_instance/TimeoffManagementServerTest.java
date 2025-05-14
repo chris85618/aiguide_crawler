@@ -3,6 +3,7 @@ package server_instance;
 import crawler.Crawler;
 import crawler.Crawljax;
 import directive_tree.CrawlerDirective;
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
@@ -134,7 +135,8 @@ public class TimeoffManagementServerTest {
         CrawlerDirective crawlerDirective = new CrawlerDirective(
             stateID,
             dom,
-            Collections.singletonList(highLevelAction)
+            Collections.singletonList(highLevelAction),
+            new FormInputValueList()
         );
 
         List<CrawlerDirective> directives = new ArrayList<>();

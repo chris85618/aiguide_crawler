@@ -3,6 +3,8 @@ package learning_data;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningTask.LearningTask;
 
@@ -31,7 +33,7 @@ public class LearningPoolTest {
 
     @Test
     public void addResult() {
-        pool.addResult(new LearningResult(new ArrayList<>() , "1234", "", 0, 0, false));
+        pool.addResult(new LearningResult(new ArrayList<>() , "1234", "", 0, 0, new FormInputValueList(), false));
         assertEquals(1, pool.getResultSize());
     }
 
@@ -57,7 +59,7 @@ public class LearningPoolTest {
 
     @Test
     public void takeResultHasOneResult() {
-        pool.addResult(new LearningResult(new ArrayList<>(), "1234", "",0, 0, false));
+        pool.addResult(new LearningResult(new ArrayList<>(), "1234", "",0, 0, new FormInputValueList(), false));
         LearningResult result = pool.takeResult();
         assertNotNull(result);
         assertEquals(pool.getResultSize(), 0);
