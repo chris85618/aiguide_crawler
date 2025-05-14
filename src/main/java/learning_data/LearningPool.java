@@ -1,5 +1,6 @@
 package learning_data;
 
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.learningResult.LearningResult;
 import usecase.learningPool.learningTask.LearningTask;
 import util.ActionFactory;
@@ -38,13 +39,13 @@ public class LearningPool {
         assert succ : "add LearningResult fail";
     }
 
-    public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, int coverageImproved, int learningTargetActionSequenceLength, boolean isDone) {
+    public synchronized void addResultByData(List<HighLevelAction> actionSequence, String taskID, int coverageImproved, int learningTargetActionSequenceLength, FormInputValueList formInputValueList, boolean isDone) {
         if(isDone) {
             processingTasks.remove(taskID);
             LogHelper.info("Task ID: " + taskID + " is done.");
         }
         boolean succ;
-        succ = learningResults.offer(new LearningResult(actionSequence, taskID, "", coverageImproved, learningTargetActionSequenceLength, isDone));
+        succ = learningResults.offer(new LearningResult(actionSequence, taskID, "", coverageImproved, learningTargetActionSequenceLength, formInputValueList, isDone));
         assert succ : "add LearningResult fail";
     }
 

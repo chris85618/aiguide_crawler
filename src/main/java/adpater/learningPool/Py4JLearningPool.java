@@ -1,19 +1,19 @@
 package adpater.learningPool;
 
-import py4j.GatewayServer;
-import usecase.learningPool.ILearningPool;
-import usecase.learningPool.action.dto.HighLevelActionDTO;
-import usecase.learningPool.action.dto.HighLevelActionDTOBuilder;
-import usecase.learningPool.learningResult.LearningResult;
-import usecase.learningPool.learningResult.dto.LearningResultDTO;
-import usecase.learningPool.learningResult.dto.LearningResultDTOBuilder;
-import usecase.learningPool.learningTask.LearningTask;
-import usecase.learningPool.learningTask.dto.LearningTaskDTO;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+import py4j.GatewayServer;
+import usecase.learningPool.ILearningPool;
+import usecase.learningPool.action.dto.HighLevelActionDTOBuilder;
+import usecase.learningPool.formInputValueList.dto.FormInputValueDTOBuilder;
+import usecase.learningPool.formInputValueList.dto.FormInputValueListDTOBuilder;
+import usecase.learningPool.formInputValueList.dto.InputValueDTOBuilder;
+import usecase.learningPool.learningResult.dto.LearningResultDTO;
+import usecase.learningPool.learningResult.dto.LearningResultDTOBuilder;
+import usecase.learningPool.learningTask.dto.LearningTaskDTO;
 
 public class Py4JLearningPool implements ILearningPool {
     private final String javaIp;
@@ -115,6 +115,18 @@ public class Py4JLearningPool implements ILearningPool {
 
     public HighLevelActionDTOBuilder getHighLevelActionDTOBuilder(){
         return new HighLevelActionDTOBuilder();
+    }
+
+    public InputValueDTOBuilder getInputValueDTOBuilder(){
+        return new InputValueDTOBuilder();
+    }
+
+    public FormInputValueDTOBuilder getFormInputValueDTOBuilder(){
+        return new FormInputValueDTOBuilder();
+    }
+
+    public FormInputValueListDTOBuilder getFormInputValueListDTOBuilder(){
+        return new FormInputValueListDTOBuilder();
     }
 
     @Override
