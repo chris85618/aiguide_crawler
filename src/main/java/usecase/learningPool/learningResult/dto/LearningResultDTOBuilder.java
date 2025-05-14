@@ -1,9 +1,10 @@
 package usecase.learningPool.learningResult.dto;
 
-import usecase.learningPool.action.dto.HighLevelActionDTO;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import usecase.learningPool.action.dto.HighLevelActionDTO;
+import usecase.learningPool.formInputValueList.dto.FormInputValueListDTO;
 
 public class LearningResultDTOBuilder {
     private List<HighLevelActionDTO> highLevelActionDTOList;
@@ -11,6 +12,7 @@ public class LearningResultDTOBuilder {
     private String formXPath;
     private boolean[] codeCoverageVector;
     private boolean[] originalCodeCoverageVector;
+    private FormInputValueListDTO formInputValueListDTO;
     private boolean isDone;
 
     public LearningResultDTOBuilder(){}
@@ -43,11 +45,15 @@ public class LearningResultDTOBuilder {
         this.originalCodeCoverageVector = originalCodeCoverageVector;
     }
 
+    public void setFormInputValueList(FormInputValueListDTO formInputValueListDTO) {
+        this.formInputValueListDTO = formInputValueListDTO;
+    }
+
     public void setDone(boolean done) {
         isDone = done;
     }
 
     public LearningResultDTO build(){
-        return new LearningResultDTO(highLevelActionDTOList, taskID, formXPath, codeCoverageVector, originalCodeCoverageVector, isDone);
+        return new LearningResultDTO(highLevelActionDTOList, taskID, formXPath, codeCoverageVector, originalCodeCoverageVector, formInputValueListDTO, isDone);
     }
 }

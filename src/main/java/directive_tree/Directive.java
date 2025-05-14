@@ -4,6 +4,9 @@ import util.Action;
 import util.HighLevelAction;
 
 import java.util.List;
+
+import usecase.learningPool.formInputValueList.FormInputValueList;
+
 import java.util.ArrayList;
 
 public class Directive {
@@ -17,6 +20,8 @@ public class Directive {
     private final int coverageImproved;
     private final String id;
 
+    private FormInputValueList formInputValueList;
+
     private final boolean isRoot;
 
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
@@ -26,14 +31,15 @@ public class Directive {
         this.learningTargetActionSequenceLength = 0;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.formInputValueList = new FormInputValueList();
         this.isRoot = false;
     }
 
-    public Directive(InputPage parentInputPage, String formXPath, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength) {
-        this(parentInputPage, formXPath, actionSequence, coverageImproved, learningTargetActionSequenceLength, false);
+    public Directive(InputPage parentInputPage, String formXPath, List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, FormInputValueList formInputValueList) {
+        this(parentInputPage, formXPath, actionSequence, coverageImproved, learningTargetActionSequenceLength, formInputValueList, false);
     }
 
-    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isRoot) {
+    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, FormInputValueList formInputValueList, boolean isRoot) {
         this.parentInputPage = parentInputPage;
         this.formXPath = formXPath;
         this.actionSequence = actionSequence;
@@ -41,6 +47,7 @@ public class Directive {
         this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.formInputValueList = formInputValueList;
         this.isRoot = isRoot;
     }
 
@@ -79,6 +86,9 @@ public class Directive {
         return learningTargetActionSequenceLength;
     }
 
+    public FormInputValueList getFormInputValueList() {
+        return formInputValueList;
+    }
 
     public List<InputPage> getChild() {
         return inputPageList;

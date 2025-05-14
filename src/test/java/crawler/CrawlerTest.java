@@ -1,6 +1,7 @@
 package crawler;
 
 import directive_tree.CrawlerDirective;
+import usecase.learningPool.formInputValueList.FormInputValueList;
 import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
@@ -62,7 +63,8 @@ public class CrawlerTest {
         CrawlerDirective crawlerDirective = new CrawlerDirective(
                 firstStateID,
                 firstDom,
-                Collections.singletonList(highLevelAction)
+                Collections.singletonList(highLevelAction),
+                new FormInputValueList()
         );
         List<CrawlerDirective> directives = new ArrayList<>();
         directives.add(crawlerDirective);
@@ -89,7 +91,8 @@ public class CrawlerTest {
         CrawlerDirective firstCrawlerDirective = new CrawlerDirective(
                 firstStateID,
                 firstDom,
-                highLevelActionLogin
+                highLevelActionLogin,
+                new FormInputValueList()
         );
         List<CrawlerDirective> directives = new ArrayList<>();
         directives.add(firstCrawlerDirective);
@@ -114,7 +117,8 @@ public class CrawlerTest {
         CrawlerDirective secondCrawlerDirective = new CrawlerDirective(
             secondStateID,
             secondDom,
-            highLevelActions
+            highLevelActions,
+            new FormInputValueList()
         );
 
         List<CrawlerDirective> directives_2 = new ArrayList<>();
