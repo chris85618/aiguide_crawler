@@ -1,6 +1,6 @@
 package crawler;
 
-import com.google.common.collect.ImmutableMap;
+import directive_tree.CrawlerDirective;
 import usecase.learningPool.learningTask.LearningTask;
 import org.junit.After;
 import org.junit.Before;
@@ -34,17 +34,22 @@ public class CrawlerTest {
     }
 
     @Test
-    public void testWillGetOneLearningTask() {
-        List<LearningTask> result = crawler.crawlingWithDirectives(config, new HashMap<>());
+    public void testWillGetThreeLearningTask() {
+        List<LearningTask> result = crawler.crawlingWithDirectives(config, new ArrayList<>());
         System.out.println(result.get(0).getStateID());
-        assertEquals(1, result.size());
+        assertEquals(3, result.size());
+        System.out.println(result.get(1).getStateID());
+        System.out.println(result.get(2).getStateID());
     }
 
     @Test
     public void testGiveOneDirectiveAndWillGetOneDifferentLearningTask() {
         // first iteration
-        List<LearningTask> result = crawler.crawlingWithDirectives(config, new HashMap<>());
-        String firstStateID = result.get(0).getStateID();
+        List<LearningTask> result = crawler.crawlingWithDirectives(config, new ArrayList<>());
+        final LearningTask firstLearningTask = result.get(0);
+        final String firstStateID = firstLearningTask.getStateID();
+
+        final String firstDom = firstLearningTask.getDom();
 
         String actionXpath = "/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]".toUpperCase();
         Action action = new Action(actionXpath, "");
@@ -54,9 +59,16 @@ public class CrawlerTest {
 
         Map<String, List<HighLevelAction>> directive = new HashMap<>();
         directive.put(firstStateID, Collections.singletonList(highLevelAction));
+        CrawlerDirective crawlerDirective = new CrawlerDirective(
+                firstStateID,
+                firstDom,
+                Collections.singletonList(highLevelAction)
+        );
+        List<CrawlerDirective> directives = new ArrayList<>();
+        directives.add(crawlerDirective);
 
         // second iteration
-        result = crawler.crawlingWithDirectives(config, directive);
+        result = crawler.crawlingWithDirectives(config, directives);
         assertEquals(1, result.size());
         List<List<util.Action>> actions = result.get(0).getActionSequence();
         assertEquals(1, actions.size());
@@ -64,23 +76,33 @@ public class CrawlerTest {
     }
 
     @Test
-    public void testGiveTwoDirectiveAndWillGetNineLearningTask() {
+    public void testGiveTwoDirectiveAndWillGetThreeLearningTask() {
         // first iteration
-        List<LearningTask> result = crawler.crawlingWithDirectives(config, new HashMap<>());
-        String firstStateID = String.valueOf(result.get(0).getStateID());
+        List<LearningTask> result = crawler.crawlingWithDirectives(config, new ArrayList<>());
+        final LearningTask firstLearningTask = result.get(0);
+        final String firstStateID = String.valueOf(firstLearningTask.getStateID());
+
+        final String firstDom = firstLearningTask.getDom();
 
         List<HighLevelAction> highLevelActionLogin = createLoginPageHighLevelActions();
 
-        Map<String, List<HighLevelAction>> directives = new HashMap<>();
-        directives.put(firstStateID, highLevelActionLogin);
-
+        CrawlerDirective firstCrawlerDirective = new CrawlerDirective(
+                firstStateID,
+                firstDom,
+                highLevelActionLogin
+        );
+        List<CrawlerDirective> directives = new ArrayList<>();
+        directives.add(firstCrawlerDirective);
+        
         // second iteration
-        result = crawler.crawlingWithDirectives(config, ImmutableMap.copyOf(directives));
+        result = crawler.crawlingWithDirectives(config, directives);
 
         assertTrue(result.size() > 0);
 
-        String secondStateID = String.valueOf(result.get(0).getStateID());
+        final LearningTask secondLearningTask = result.get(0);
+        final String secondStateID = String.valueOf(secondLearningTask.getStateID());
 
+        final String secondDom = secondLearningTask.getDom();
 
         HighLevelAction highLevelAction_1 = createPerformAllValidHighLevelAction();
         HighLevelAction highLevelAction_2 = createPerformClickCreateHighLevelAction();
@@ -88,20 +110,26 @@ public class CrawlerTest {
         List<HighLevelAction> highLevelActions = new LinkedList<>();
         highLevelActions.add(highLevelAction_1);
         highLevelActions.add(highLevelAction_2);
-        Map<String, List<HighLevelAction>> directive_2 = new LinkedHashMap<>();
 
-        directive_2.put(secondStateID, highLevelActions);
-        directive_2.put(firstStateID, highLevelActionLogin);
+        CrawlerDirective secondCrawlerDirective = new CrawlerDirective(
+            secondStateID,
+            secondDom,
+            highLevelActions
+        );
+
+        List<CrawlerDirective> directives_2 = new ArrayList<>();
+        directives.add(secondCrawlerDirective);
+        directives.add(firstCrawlerDirective);
 
         // third iteration
-        result = crawler.crawlingWithDirectives(config, directive_2);
+        result = crawler.crawlingWithDirectives(config, directives_2);
 
         for (LearningTask learningTask : result) {
             System.out.println(learningTask.getTargetURL());
             System.out.println(learningTask.getActionSequence().size());
             System.out.println(Arrays.toString(learningTask.getCoverage()));
         }
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
     }
 
     private HighLevelAction createPerformClickCreateHighLevelAction() {

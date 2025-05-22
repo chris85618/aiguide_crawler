@@ -53,9 +53,9 @@ public class JsonFileParserTest {
     public void getJsonFileArrayValuesOneLayer() {
         List<Map<String, String>> data = parser.getJsonFileArrayValues("agents");
         assertNotNull(data.get(0).get("ip"));
-        assertEquals(data.get(0).get("ip"), "140.124.183.85");
-        assertNotNull(data.get(1).get("javaPort"));
-        assertEquals(data.get(1).get("javaPort"), "8888");
+        assertEquals(data.get(0).get("ip"), "140.124.181.234");
+        assertNotNull(data.get(0).get("javaPort"));
+        assertEquals(data.get(0).get("javaPort"), "3400");
     }
 
     @Test
