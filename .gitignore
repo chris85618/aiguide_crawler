@@ -1,5 +1,6 @@
 .idea/
 .gradle/
+.vscode/
 out/
 build/
 log/
