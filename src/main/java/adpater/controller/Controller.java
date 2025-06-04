@@ -98,7 +98,6 @@ public class Controller {
         boolean isAgentDone = false;
         int pauseCount = 1;
         this.learningPoolServer.startLearningPool();
-//        while(!isDone && !this.learningPoolServer.getAgentDone()){
         while(!isDone){
             if (this.learningPoolServer.isLearningResultDTOQueueEmpty()) {
                 if (this.learningPoolServer.getPauseAgent()) {
@@ -137,12 +136,9 @@ public class Controller {
                 List<LearningResult> results;
                 results = waitAndGetLearningResults();
                 directiveTreeHelper.addDirectives(results);
-            }
-            if (this.learningPoolServer.getAgentDone()) {
-                if (isAgentDone) {
-                    isDone = true;
+                if (results.isEmpty()) {
+                    isDone = checkCrawlingDone();
                 }
-                isAgentDone = true;
             }
             directiveTreeHelper.writeDirectiveTree();
             directiveTreeHelper.drawDirectiveTree();
@@ -194,26 +190,25 @@ public class Controller {
     }
 
     private List<LearningResult> waitAndGetLearningResults() {
-        List<LearningResult> results;
-        boolean isDone = true;
-        while (isDone){
-            isDone = !this.learningPoolServer.getAgentDone();
+        List<LearningResult> results = new ArrayList<>();
+        boolean isDone = false;
+        while (!isDone){
             results = this.getAllLearningResult();
             if(!results.isEmpty()){
                 checkResultIsDone(results);
-                return results;
-            }
-            if (this.learningPoolServer.getPauseAgent()) {
                 break;
             }
-            try {
-                Thread.sleep(config.SLEEP_TIME * 1000);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-                throw new RuntimeException();
+            isDone = this.learningPoolServer.getAgentDone();
+            if (!isDone) {
+                try {
+                    Thread.sleep(config.SLEEP_TIME * 1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
             }
         }
-        return new ArrayList<>();
+        return results;
     }
 
     private void checkResultIsDone(List<LearningResult> results) {
