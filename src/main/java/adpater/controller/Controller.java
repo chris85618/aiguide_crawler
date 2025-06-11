@@ -123,7 +123,14 @@ public class Controller {
                         directiveTreeHelper.addInputPage(task);
                     }
                 }
-                LogHelper.writeAllLog();
+                final Map<String, CodeCoverage> totalCoverage = serverInstance.getTotalCoverage();
+                final CodeCoverage statementCoverage = totalCoverage.get("statement");
+                final CodeCoverage branchCoverage = totalCoverage.get("branch");
+
+                LOGGER.info("The statement coverage is: " + statementCoverage.getCoveredAmount() + String.format("(%.2f%%)", 100 * statementCoverage.getPercent()));
+                LOGGER.info("The branch coverage is: " + branchCoverage.getCoveredAmount() + String.format("(%.2f%%)", 100 * branchCoverage.getPercent()));
+
+                LOGGER.info("Total task is: " + taskCompleteMap.size() + " , Remain task is: " + learningPool.getTaskSize());
             }
             isDone = checkCrawlingDone();
             if(!isDone){
