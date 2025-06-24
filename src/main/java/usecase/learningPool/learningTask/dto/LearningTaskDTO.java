@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public class LearningTaskDTO {
-    private final List<HighLevelActionDTO> highLevelActionDTOList;
+    private final HighLevelActionDTO[] highLevelActionDTOList;
     private final boolean[] codeCoverageVector;
     private final String targetURL;
     private final String stateID;
-    private final List<String> formXPaths;
+    private final String[] formXPaths;
     private final Map<String, String> learningConfig;
 
     public LearningTaskDTO(List<HighLevelActionDTO> highLevelActionDTOList,
@@ -22,6 +22,15 @@ public class LearningTaskDTO {
                            String targetURL,
                            String stateID,
                            List<String> formXPaths,
+                           Map<String, String> learningConfig) {
+        this(highLevelActionDTOList.toArray(HighLevelActionDTO[]::new), codeCoverageVector, targetURL, stateID, formXPaths.toArray(String[]::new), learningConfig);
+    }
+
+    public LearningTaskDTO(HighLevelActionDTO[] highLevelActionDTOList,
+                           boolean[] codeCoverageVector,
+                           String targetURL,
+                           String stateID,
+                           String[] formXPaths,
                            Map<String, String> learningConfig) {
         this.highLevelActionDTOList = highLevelActionDTOList;
         this.codeCoverageVector = codeCoverageVector;
@@ -35,7 +44,7 @@ public class LearningTaskDTO {
         this(highLevelActionDTOList, codeCoverageVector, targetURL, stateID, formXPaths, new LinkedHashMap<>());
     }
 
-    public List<HighLevelActionDTO> getHighLevelActionDTOList() {
+    public HighLevelActionDTO[] getHighLevelActionDTOList() {
         return highLevelActionDTOList;
     }
 
@@ -51,7 +60,7 @@ public class LearningTaskDTO {
         return stateID;
     }
 
-    public List<String> getFormXPaths() {
+    public String[] getFormXPaths() {
         return formXPaths;
     }
 

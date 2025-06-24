@@ -6,7 +6,7 @@ import util.HighLevelAction;
 import java.util.List;
 
 public class LearningResultDTO {
-    private final List<HighLevelActionDTO> highLevelActionDTOList;
+    private final HighLevelActionDTO[] highLevelActionDTOList;
     private final String taskID;
     private final String formXPath;
     private final boolean[] codeCoverageVector;
@@ -14,6 +14,10 @@ public class LearningResultDTO {
     private final boolean isDone;
 
     public LearningResultDTO(List<HighLevelActionDTO> highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDone) {
+        this(highLevelActionDTOList.toArray(HighLevelActionDTO[]::new), taskID, formXpath, codeCoverageVector, originalCodeCoverageVector, isDone);
+    }
+
+    public LearningResultDTO(HighLevelActionDTO[] highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDone) {
         this.highLevelActionDTOList = highLevelActionDTOList;
         this.taskID = taskID;
         this.formXPath = formXpath;
@@ -22,7 +26,7 @@ public class LearningResultDTO {
         this.isDone = isDone;
     }
 
-    public List<HighLevelActionDTO> getHighLevelActionDTOList() {
+    public HighLevelActionDTO[] getHighLevelActionDTOList() {
         return highLevelActionDTOList;
     }
 
