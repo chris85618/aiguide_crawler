@@ -34,8 +34,8 @@ public class JsonFileParser {
     }
 
     private JsonElement readJsonFile(Reader reader) {
-//        return JsonParser.parseReader(reader);
-        return new JsonParser().parse(reader);
+        return JsonParser.parseReader(reader);
+//        return new JsonParser().parse(reader);
     }
 
     private JsonElement getJsonFileValueAsJsonElement(String... elementNames) {
