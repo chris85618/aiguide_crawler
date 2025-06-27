@@ -3,6 +3,10 @@ plugins {
     id 'application'
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
 group 'ntut.edu.tw'
 version '1.0-SNAPSHOT'
 
