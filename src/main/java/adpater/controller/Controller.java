@@ -95,7 +95,6 @@ public class Controller {
 
     public void execute() {
         boolean isDone = false;
-        boolean isAgentDone = false;
         int pauseCount = 1;
         this.learningPoolServer.startLearningPool();
         while(!isDone){
@@ -139,6 +138,7 @@ public class Controller {
                 if (results.isEmpty()) {
                     isDone = checkCrawlingDone();
                 }
+                LOGGER.debug("{} Directives added to the tree", results.size());
             }
             directiveTreeHelper.writeDirectiveTree();
             directiveTreeHelper.drawDirectiveTree();
@@ -179,13 +179,20 @@ public class Controller {
         for(Map.Entry<String, Boolean> entry: taskCompleteMap.entrySet()){
             if(!entry.getValue()){
                 isDone = false;
+                LOGGER.debug("entry.getValue() is false with key, task.getStateID(): {}", entry.getKey());
                 break;
             }
         }
 //        if(learningPool.getTaskSize() != 0) isDone = false;
 //        if(learningPool.getResultSize() != 0) isDone = false;
-        if(!this.learningPoolServer.isLearningTaskDTOQueueEmpty()) isDone = false;
-        if(!this.learningPoolServer.isLearningResultDTOQueueEmpty()) isDone = false;
+        if(!this.learningPoolServer.isLearningTaskDTOQueueEmpty()) {
+            isDone = false;
+            LOGGER.debug("this.learningPoolServer.isLearningTaskDTOQueueEmpty() is false");
+        }
+        if(!this.learningPoolServer.isLearningResultDTOQueueEmpty()) {
+            isDone = false;
+            LOGGER.debug("this.learningPoolServer.isLearningResultDTOQueueEmpty() is false");
+        }
         return isDone;
     }
 
