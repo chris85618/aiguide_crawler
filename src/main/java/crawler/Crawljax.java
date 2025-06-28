@@ -16,6 +16,7 @@ import util.Config;
 import util.HighLevelAction;
 import util.LogHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Crawljax implements Crawler {
@@ -24,6 +25,8 @@ public class Crawljax implements Crawler {
     private StateFlowGraph stateFlowGraph;
     private final ServerInstanceAdapter serverInstanceManagement;
     private Map<String, String> domHashCompareTable;
+    private final static String TIMESTAMP = new SimpleDateFormat("yyyy_MM_dd_HH_mm").format(new Date());
+    private final static String SUBMISSION_RESULT_RECORD_FILE_PATH = "./log/" + TIMESTAMP + "_SubmissionResult.csv";
 
     public Crawljax(ServerInstanceManagement serverInstance) {
         this.serverInstanceManagement = new ServerInstanceAdapter(serverInstance);
@@ -105,7 +108,7 @@ public class Crawljax implements Crawler {
         Stack<State> directiveStack = new Stack<>();
         for (CrawlerDirective crawlerDirective : crawlerDirectives)
             directiveStack.push(createCrawlerState(domHashCompareTable.get(crawlerDirective.getStateId()), crawlerDirective.getDom(), crawlerDirective.getHighLevelActions()));
-        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT);
+        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT, SUBMISSION_RESULT_RECORD_FILE_PATH);
     }
 
 
