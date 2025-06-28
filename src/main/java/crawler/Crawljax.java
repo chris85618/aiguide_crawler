@@ -35,6 +35,11 @@ public class Crawljax implements Crawler {
 
     @Override
     public List<LearningTask> crawlingWithDirectives(Config config, List<CrawlerDirective> crawlerDirectives) {
+        return this.crawlingWithDirectives(config, crawlerDirectives, false);
+    }
+
+    @Override
+    public List<LearningTask> crawlingWithDirectives(Config config, List<CrawlerDirective> crawlerDirectives, boolean isStoppingExplorationAfterDirectives) {
         System.out.println("Directive size: " + crawlerDirectives.size());
         for (CrawlerDirective crawlerDirective: crawlerDirectives){
             System.out.println("===========Directive===========");
@@ -48,7 +53,7 @@ public class Crawljax implements Crawler {
         }
         serverInstanceManagement.recordCoverage();
         LogHelper.debug("Start crawling");
-        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
+        AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT, isStoppingExplorationAfterDirectives);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
         crawljaxRunner.call();
         List<LearningTarget> learningTargets = aiGuidePlugin.getLearningTarget();
@@ -104,11 +109,11 @@ public class Crawljax implements Crawler {
      * @param AUT_PORT
      * @return
      */
-    private AIGuidePlugin createAIGuidePlugin(List<CrawlerDirective> crawlerDirectives, int AUT_PORT) {
+    private AIGuidePlugin createAIGuidePlugin(List<CrawlerDirective> crawlerDirectives, int AUT_PORT, boolean isStoppingExplorationAfterDirectives) {
         Stack<State> directiveStack = new Stack<>();
         for (CrawlerDirective crawlerDirective : crawlerDirectives)
             directiveStack.push(createCrawlerState(domHashCompareTable.get(crawlerDirective.getStateId()), crawlerDirective.getDom(), crawlerDirective.getHighLevelActions()));
-        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT, SUBMISSION_RESULT_RECORD_FILE_PATH);
+        return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT, SUBMISSION_RESULT_RECORD_FILE_PATH, isStoppingExplorationAfterDirectives);
     }
 
 

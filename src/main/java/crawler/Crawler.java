@@ -10,5 +10,6 @@ import java.util.Map;
 
 public interface Crawler {
     List<LearningTask> crawlingWithDirectives(Config config, List<CrawlerDirective> crawlerDirectives);
+    List<LearningTask> crawlingWithDirectives(Config config, List<CrawlerDirective> crawlerDirectives, boolean isStoppingExplorationAfterDirectives);
     void generateGraph();
 }
