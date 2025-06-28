@@ -6,6 +6,7 @@ import crawler.Crawljax;
 import directive_tree.CrawlerDirective;
 import directive_tree.DirectiveTreeHelper;
 import learning_data.LearningPool;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server_instance.*;
@@ -112,7 +113,11 @@ public class Controller {
                 serverInstance.restartServerInstance();
                 List<CrawlerDirective> crawlerDirectives = directiveTreeHelper.takeFirstUnprocessedCrawlerDirectives();
 
-                List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives);
+                final boolean isToExplorationAfterDirectives = directiveTreeHelper.isTreeComplete();
+                final boolean isStoppingExplorationAfterDirectives = !isToExplorationAfterDirectives;
+                LOGGER.debug("isStoppingExplorationAfterDirectives is {}", Boolean.toString(isStoppingExplorationAfterDirectives));
+                // List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives, isStoppingExplorationAfterDirectives);
+                List<LearningTask> learningTaskList = crawler.crawlingWithDirectives(config, crawlerDirectives, false);
                 for(LearningTask task: learningTaskList){
                     LOGGER.debug("The task is {}", task);
                     if(taskCompleteMap.get(task.getStateID()) == null && !inputPageUrls.contains(task.getTargetURL())){
