@@ -29,6 +29,7 @@ public class KeystoneJSServer extends ServerInstanceManagement {
     private void createDockerComposeFile() {
         createDockerFileFolder();
         String compose_file_content =
+                "version: '3.4'\n" +
                 "services:\n" +
                 "  keystonejs_with_coverage_%d:\n" +
                 "    image: ntutselab/keystonejs_with_coverage\n" +
@@ -38,10 +39,19 @@ public class KeystoneJSServer extends ServerInstanceManagement {
                 "      - nameOfMongoDB\n" +
                 "    environment:\n" +
                 "      - MONGO_URI=mongodb://nameOfMongoDB:27017/\n" +
+                "    depends_on:\n" +
+                "      nameOfMongoDB:\n" +
+                "        condition: service_healthy\n" +
                 "  nameOfMongoDB:\n" +
                 "    image: ntutselab/mongo\n" +
                 "    ports:\n" +
-                "      - '27017:27017'\n";
+                "      - '27017:27017'\n" +
+                "    healthcheck:\n" +
+                "      test: [\"CMD-SHELL\", \"echo 'db.runCommand(\\\"{ ping: 1 }\\\").ok' | mongo localhost:27017/test --quiet\"]\n" +
+                "      interval: 10s\n" +
+                "      timeout: 5s\n" +
+                "      retries: 5\n" +
+                "      start_period: 10s\n";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_keystonejs_" + (server_port % 3000) + ".yml";
         try {

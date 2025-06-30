@@ -28,6 +28,7 @@ public class NodeBBServer extends ServerInstanceManagement {
     private void createDockerComposeFile() {
         createDockerFileFolder();
         String compose_file_content =
+        "version: '3.4'\n" +
         "services:\n" +
         "  nodebb_%d:\n" +
         "    image: ntutselab/nodebb_with_coverage\n" +
@@ -37,9 +38,18 @@ public class NodeBBServer extends ServerInstanceManagement {
         "      - mongodb_%d\n" +
         "    environment:\n" +
         "      - MONGO_HOST=mongodb_%d\n" +
+        "    depends_on:\n" +
+        "      mongodb_%d:\n" +
+        "        condition: service_healthy\n" +
         "  mongodb_%d:\n" +
-        "    image: ntutselab/mongo";
-        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, server_port % 3000, server_port % 3000, server_port % 3000);
+        "    image: ntutselab/mongo\n" +
+        "    healthcheck:\n" +
+        "      test: [\"CMD-SHELL\", \"echo 'db.runCommand(\\\"{ ping: 1 }\\\").ok' | mongo localhost:27017/test --quiet\"]\n" +
+        "      interval: 10s\n" +
+        "      timeout: 5s\n" +
+        "      retries: 5\n" +
+        "      start_period: 10s\n";
+        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, server_port % 3000, server_port % 3000, server_port % 3000, server_port % 3000);
         compose_file = dockerFolder + "docker_compose_nodebb_" + (server_port % 3000) + ".yml";
         try {
             FileWriter fw = new FileWriter(compose_file);

@@ -62,6 +62,9 @@ public class KimaiServer extends ServerInstanceManagement {
                 "      - ADMINPASS=selab1623\n" +
                 "      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai\n" +
                 "      - TRUSTED_HOSTS=nginx,localhost,127.0.0.1\n" +
+                "    depends_on:\n" +
+                "      sqldb:\n" +
+                "        condition: service_healthy\n" +
                 "    restart: unless-stopped\n" +
                 "\n" +
                 "volumes:\n" +

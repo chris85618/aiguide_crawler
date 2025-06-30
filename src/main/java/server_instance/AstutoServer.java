@@ -39,6 +39,12 @@ public class AstutoServer extends ServerInstanceManagement {
                 "      POSTGRES_PASSWORD: dbpass\n" +
                 "    volumes:\n" +
                 "      - dbdata:/var/lib/postgresql/data\n" +
+                "    healthcheck:\n" +
+                "      test: [\"CMD-SHELL\", \"pg_isready -U astuto\"]\n" +
+                "      interval: 10s\n" +
+                "      timeout: 5s\n" +
+                "      retries: 5\n" +
+                "      start_period: 10s\n" +
                 "  astuto_%d:\n" +
                 "    image: riggraz/astuto\n" +
                 "    environment:\n" +
@@ -49,7 +55,8 @@ public class AstutoServer extends ServerInstanceManagement {
                 "    ports:\n" +
                 "      - \"%d:3000\"\n" +
                 "    depends_on:\n" +
-                "      - db\n" +
+                "      db:\n" +
+                "        condition: service_healthy\n" +
                 "volumes:\n" +
                 "  dbdata:";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
