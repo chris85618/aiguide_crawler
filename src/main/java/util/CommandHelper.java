@@ -20,12 +20,17 @@ public class CommandHelper {
             }
             if(result.length() > 0)
                 result.deleteCharAt(result.length()-1);
+            final int exitCode = process.waitFor();
             stdout.close();
+            System.out.println(Arrays.toString(command) + " response: " + String.valueOf(exitCode));
         }catch (IOException e){
             e.printStackTrace();
             System.out.print("Command is: ");
             System.out.println(Arrays.toString(command));
             throw new RuntimeException("Execute command error!!");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Command (" + Arrays.toString(command) + ") was interrupted", e);
         }
         return result.toString();
     }
