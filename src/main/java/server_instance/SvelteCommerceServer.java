@@ -117,26 +117,30 @@ public class SvelteCommerceServer extends ServerInstanceManagement {
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);
     }
 
+    private boolean isServerClosed() {
+        // e.g. NAME                                      IMAGE                                COMMAND                  SERVICE                      CREATED          STATUS                      PORTS
+        //      dockerfile-keystonejs_with_coverage_1-1   ntutselab/keystonejs_with_coverage   "/bin/sh -c 'node ke…"   keystonejs_with_coverage_1   17 minutes ago   Exited (1) 16 minutes ago   
+        //      dockerfile-nameOfMongoDB-1                ntutselab/mongo                      "docker-entrypoint.s…"   nameOfMongoDB                17 minutes ago   Up 17 minutes (healthy)     0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+        final int totalActiveContainers = CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "ps", "-a").split("\\r\\n|\\r|\\n", -1).length - 1;
+        return totalActiveContainers <= 0;
+    }
+
     @Override
     public void closeServerInstance() {
-        String url = "http://127.0.0.1:%d/";
-        boolean isFirst = true;
+        String url = "http://127.0.0.1:%d";
         long startTime = System.nanoTime();
-        while(isServerActive(String.format(url, server_port), 200)) {
-            if (isFirst){
-                try {
-                    Thread.sleep(1000);
-                    isFirst = false;
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                }
+        while(!this.isServerClosed()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "rm", "-svf");
         }
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
-        System.out.println("\nServer Port is " + server_port + ", Closing server instance waiting time is :" + timeElapsed);
+        System.out.println("\nClosing server instance waiting time is :" + timeElapsed);
     }
 
     @Override
