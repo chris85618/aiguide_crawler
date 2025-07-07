@@ -107,16 +107,16 @@ public class Crawljax implements Crawler {
     private AIGuidePlugin createAIGuidePlugin(List<CrawlerDirective> crawlerDirectives, int AUT_PORT) {
         Stack<State> directiveStack = new Stack<>();
         for (CrawlerDirective crawlerDirective : crawlerDirectives)
-            directiveStack.push(createCrawlerState(domHashCompareTable.get(crawlerDirective.getStateId()), crawlerDirective.getDom(), crawlerDirective.getHighLevelActions()));
+            directiveStack.push(createCrawlerState(domHashCompareTable.get(crawlerDirective.getStateId()), crawlerDirective.getDom(), crawlerDirective.getHighLevelActions(), crawlerDirective.isDuplicatedTest()));
         return new AIGuidePlugin(directiveStack, serverInstanceManagement, AUT_PORT, SUBMISSION_RESULT_RECORD_FILE_PATH);
     }
 
 
-    private State createCrawlerState(String domHash, String dom, List<HighLevelAction> highLevelActions) {
+    private State createCrawlerState(String domHash, String dom, List<HighLevelAction> highLevelActions, boolean isDuplicatedTest) {
         LinkedList<List<Action>> actions = new LinkedList<>();
         for (HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
-        return new State(domHash, dom, actions);
+        return new State(domHash, dom, actions, isDuplicatedTest);
     }
 
     private List<Action> transferToCrawlerAction(List<util.Action> actionSequence) {

@@ -11,13 +11,19 @@ public class LearningResult {
     private final int coverageImproved;
     private final int learningTargetActionSequenceLength;
     private final boolean isDone;
+    private final boolean isDuplicatedTest;
 
     public LearningResult(List<HighLevelAction> actionSequence, String taskID, String formXPath, int coverageImproved, int learningTargetActionSequenceLength, boolean isDone) {
+        this(actionSequence, taskID, formXPath, coverageImproved, learningTargetActionSequenceLength, false, isDone);
+    }
+
+    public LearningResult(List<HighLevelAction> actionSequence, String taskID, String formXPath, int coverageImproved, int learningTargetActionSequenceLength, boolean isDuplicatedTest, boolean isDone) {
         this.actionSequence = actionSequence;
         this.taskID = taskID;
         this.formXPath = formXPath;
         this.coverageImproved = coverageImproved;
         this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
+        this.isDuplicatedTest = isDuplicatedTest;
         this.isDone = isDone;
     }
 
@@ -36,6 +42,10 @@ public class LearningResult {
     }
 
     public int getLearningTargetActionSequenceLength() {return learningTargetActionSequenceLength;}
+
+    public boolean isDuplicatedTest() {
+        return this.isDuplicatedTest;
+    }
 
     public boolean isDone() {
         return isDone;

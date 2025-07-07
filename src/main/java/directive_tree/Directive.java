@@ -17,6 +17,8 @@ public class Directive {
     private final int coverageImproved;
     private final String id;
 
+    private final boolean isDuplicatedTest;
+
     private final boolean isRoot;
 
     public Directive(InputPage parentInputPage, List<HighLevelAction> actionSequence) {
@@ -26,6 +28,7 @@ public class Directive {
         this.learningTargetActionSequenceLength = 0;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.isDuplicatedTest = false;
         this.isRoot = false;
     }
 
@@ -33,7 +36,11 @@ public class Directive {
         this(parentInputPage, formXPath, actionSequence, coverageImproved, learningTargetActionSequenceLength, false);
     }
 
-    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isRoot) {
+    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isDuplicatedTest) {
+        this(parentInputPage, formXPath, actionSequence, coverageImproved, learningTargetActionSequenceLength, isDuplicatedTest, false);
+    }
+
+    public Directive(InputPage parentInputPage, String formXPath , List<HighLevelAction> actionSequence, int coverageImproved, int learningTargetActionSequenceLength, boolean isDuplicatedTest, boolean isRoot) {
         this.parentInputPage = parentInputPage;
         this.formXPath = formXPath;
         this.actionSequence = actionSequence;
@@ -41,11 +48,16 @@ public class Directive {
         this.learningTargetActionSequenceLength = learningTargetActionSequenceLength;
         this.inputPageList = new ArrayList<>();
         this.id = this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+        this.isDuplicatedTest = isDuplicatedTest;
         this.isRoot = isRoot;
     }
 
     public List<HighLevelAction> getActionSequence() {
         return actionSequence;
+    }
+
+    public Boolean isDuplicatedTest() {
+        return this.isDuplicatedTest;
     }
 
     public Boolean isDTRoot() {

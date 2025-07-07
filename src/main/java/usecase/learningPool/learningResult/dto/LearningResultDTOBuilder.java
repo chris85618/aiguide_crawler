@@ -12,8 +12,11 @@ public class LearningResultDTOBuilder {
     private boolean[] codeCoverageVector;
     private boolean[] originalCodeCoverageVector;
     private boolean isDone;
+    private boolean isDuplicatedTest;
 
-    public LearningResultDTOBuilder(){}
+    public LearningResultDTOBuilder(){
+        isDuplicatedTest = false;
+    }
 
     public void setHighLevelActionDTOList(List<HighLevelActionDTO> highLevelActionDTOList) {
         this.highLevelActionDTOList = highLevelActionDTOList;
@@ -43,11 +46,15 @@ public class LearningResultDTOBuilder {
         this.originalCodeCoverageVector = originalCodeCoverageVector;
     }
 
+    public void setDuplicatedTest(final boolean isDuplicatedTest) {
+        this.isDuplicatedTest = isDuplicatedTest;
+    }
+
     public void setDone(boolean done) {
         isDone = done;
     }
 
     public LearningResultDTO build(){
-        return new LearningResultDTO(highLevelActionDTOList, taskID, formXPath, codeCoverageVector, originalCodeCoverageVector, isDone);
+        return new LearningResultDTO(highLevelActionDTOList, taskID, formXPath, codeCoverageVector, originalCodeCoverageVector, isDuplicatedTest, isDone);
     }
 }

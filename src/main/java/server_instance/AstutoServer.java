@@ -41,9 +41,9 @@ public class AstutoServer extends ServerInstanceManagement {
                 "      - dbdata:/var/lib/postgresql/data\n" +
                 "    healthcheck:\n" +
                 "      test: [\"CMD-SHELL\", \"pg_isready -U astuto\"]\n" +
-                "      interval: 10s\n" +
-                "      timeout: 5s\n" +
-                "      retries: 5\n" +
+                "      interval: 2s\n" +
+                "      timeout: 1s\n" +
+                "      retries: 25\n" +
                 "      start_period: 10s\n" +
                 "  astuto_%d:\n" +
                 "    image: riggraz/astuto\n" +
@@ -133,7 +133,7 @@ public class AstutoServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);

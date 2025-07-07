@@ -31,7 +31,13 @@ public class DjangoBlogServer extends ServerInstanceManagement {
         "  django_blog_with_no_coverage_%d:\n" +
         "    image: lidek213/django-blog_for_experiment\n" +
         "    ports:\n" +
-        "      - \"127.0.0.1:%d:3000\"";
+        "      - \"%d:3000\"\n" +
+        "    healthcheck:\n" +
+        "      test: [\"CMD\", \"wget\", \"--spider\", \"-q\", \"-S\", \"-O\", \"/dev/null\", \"http://127.0.0.1:3000\"]\n" +
+        "      interval: 2s\n" +
+        "      timeout: 1s\n" +
+        "      retries: 25\n" +
+        "      start_period: 280s\n";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_django_blog_" + (server_port % 3000) + ".yml";
         try {
@@ -106,7 +112,7 @@ public class DjangoBlogServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);

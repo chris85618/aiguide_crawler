@@ -31,15 +31,19 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         "  timeoff_management_with_coverage_%d:\n" +
         "    image: ntutselab/timeoff_management_with_coverage\n" +
         "    ports:\n" +
-        "      - \"127.0.0.1:%d:3000\"";
+        "      - \"%d:3000\"\n" +
+        "    healthcheck:\n" +
+        "      test: [\"CMD\", \"wget\", \"--spider\", \"-q\", \"-S\", \"-O\", \"/dev/null\", \"http://localhost:3000/login/\"]\n" +
+        "      interval: 2s\n" +
+        "      timeout: 1s\n" +
+        "      retries: 25\n" +
+        "      start_period: 280s";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
-        try {
-            FileWriter fw = new FileWriter(compose_file);
+        try (FileWriter fw = new FileWriter(compose_file)) {
             fw.write(compose_file_content);
             fw.flush();
-            fw.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error!!!");
             e.printStackTrace();
             throw new RuntimeException("Write docker file error!!");
@@ -106,7 +110,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);

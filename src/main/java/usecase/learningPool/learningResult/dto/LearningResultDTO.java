@@ -12,18 +12,28 @@ public class LearningResultDTO {
     private final boolean[] codeCoverageVector;
     private final boolean[] originalCodeCoverageVector;
     private final boolean isDone;
+    private final boolean isDuplicatedTest;
 
     public LearningResultDTO(List<HighLevelActionDTO> highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDone) {
-        this(highLevelActionDTOList.toArray(HighLevelActionDTO[]::new), taskID, formXpath, codeCoverageVector, originalCodeCoverageVector, isDone);
+        this(highLevelActionDTOList.toArray(HighLevelActionDTO[]::new), taskID, formXpath, codeCoverageVector, originalCodeCoverageVector, false, isDone);
+    }
+
+    public LearningResultDTO(List<HighLevelActionDTO> highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDuplicatedTest, boolean isDone) {
+        this(highLevelActionDTOList.toArray(HighLevelActionDTO[]::new), taskID, formXpath, codeCoverageVector, originalCodeCoverageVector, isDuplicatedTest, isDone);
     }
 
     public LearningResultDTO(HighLevelActionDTO[] highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDone) {
+        this(highLevelActionDTOList, taskID, formXpath, codeCoverageVector, originalCodeCoverageVector, false, isDone);
+    }
+
+    public LearningResultDTO(HighLevelActionDTO[] highLevelActionDTOList, String taskID, String formXpath, boolean[] codeCoverageVector, boolean[] originalCodeCoverageVector, boolean isDuplicatedTest, boolean isDone) {
         this.highLevelActionDTOList = highLevelActionDTOList;
         this.taskID = taskID;
         this.formXPath = formXpath;
         this.codeCoverageVector = codeCoverageVector;
         this.originalCodeCoverageVector = originalCodeCoverageVector;
         this.isDone = isDone;
+        this.isDuplicatedTest = isDuplicatedTest;
     }
 
     public HighLevelActionDTO[] getHighLevelActionDTOList() {
@@ -44,6 +54,10 @@ public class LearningResultDTO {
 
     public boolean[] getOriginalCodeCoverageVector() {
         return originalCodeCoverageVector;
+    }
+
+    public boolean isDuplicatedTest() {
+        return this.isDuplicatedTest;
     }
 
     public boolean isDone() {

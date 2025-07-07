@@ -38,6 +38,12 @@ public class NodeBBServer extends ServerInstanceManagement {
         "      - mongodb_%d\n" +
         "    environment:\n" +
         "      - MONGO_HOST=mongodb_%d\n" +
+        "    healthcheck:\n" +
+        "      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:4567\"]\n" +
+        "      interval: 2s\n" +
+        "      timeout: 1s\n" +
+        "      retries: 25\n" +
+        "      start_period: 160s\n" +
         "    depends_on:\n" +
         "      mongodb_%d:\n" +
         "        condition: service_healthy\n" +
@@ -129,7 +135,7 @@ public class NodeBBServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Waiting time is :" + timeElapsed);

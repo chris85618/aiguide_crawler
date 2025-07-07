@@ -35,7 +35,13 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
                         "    image: lidek213/spring-petclinic_for_experiment:latest\n" +
                         "    command: java -jar /spring-petclinic/build/libs/spring-petclinic-2.6.0.jar /spring-petclinic/build/libs/spring-petclinic-2.6.0-plain.jar\n" +
                         "    ports:\n" +
-                        "      - %d:8080\n";
+                        "      - %d:8080\n" +
+                        "    healthcheck:\n" +
+                        "      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:8080/\"]\n" +
+                        "      interval: 2s\n" +
+                        "      timeout: 1s\n" +
+                        "      retries: 25\n" +
+                        "      start_period: 120s";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_spring_petclinic_" + (server_port % 3000) + ".yml";
         try {
@@ -110,7 +116,7 @@ public class SpringPetclinicServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d");
+        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);

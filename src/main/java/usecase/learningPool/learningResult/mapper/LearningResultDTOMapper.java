@@ -27,6 +27,6 @@ public class LearningResultDTOMapper {
             }
         }
 
-        return new LearningResult(highLevelActionList, learningResultDTO.getTaskID(), learningResultDTO.getFormXPath(), codeCoverageImprove, actionAmount, learningResultDTO.isDone());
+        return new LearningResult(highLevelActionList, learningResultDTO.getTaskID(), learningResultDTO.getFormXPath(), codeCoverageImprove, actionAmount, learningResultDTO.isDuplicatedTest(), learningResultDTO.isDone());
     }
 }
