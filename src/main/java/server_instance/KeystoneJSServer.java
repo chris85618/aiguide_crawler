@@ -52,6 +52,8 @@ public class KeystoneJSServer extends ServerInstanceManagement {
                 "    image: ntutselab/mongo\n" +
                 "    ports:\n" +
                 "      - '27017:27017'\n" +
+                "    tmpfs:\n" +
+                "      - /data/db\n" +
                 "    healthcheck:\n" +
                 "      test: [\"CMD-SHELL\", \"echo 'db.runCommand(\\\"{ ping: 1 }\\\").ok' | mongo localhost:27017/test --quiet\"]\n" +
                 "      interval: 10s\n" +

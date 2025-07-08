@@ -49,6 +49,8 @@ public class NodeBBServer extends ServerInstanceManagement {
         "        condition: service_healthy\n" +
         "  mongodb_%d:\n" +
         "    image: ntutselab/mongo\n" +
+        "    tmpfs:\n" +
+        "      - /data/db\n" +
         "    healthcheck:\n" +
         "      test: [\"CMD-SHELL\", \"echo 'db.runCommand(\\\"{ ping: 1 }\\\").ok' | mongo localhost:27017/test --quiet\"]\n" +
         "      interval: 10s\n" +
