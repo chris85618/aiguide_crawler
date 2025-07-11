@@ -34,9 +34,9 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         "      - \"%d:3000\"\n" +
         "    healthcheck:\n" +
         "      test: [\"CMD\", \"wget\", \"--spider\", \"-q\", \"-S\", \"-O\", \"/dev/null\", \"http://localhost:3000/login/\"]\n" +
-        "      interval: 2s\n" +
-        "      timeout: 1s\n" +
-        "      retries: 25\n" +
+        "      interval: 10s\n" +
+        "      timeout: 5s\n" +
+        "      retries: 10\n" +
         "      start_period: 280s";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
         compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
