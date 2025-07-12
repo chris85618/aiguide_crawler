@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import usecase.learningPool.learningTask.LearningTask;
 import ntut.edu.aiguide.crawljax.plugins.AIGuidePlugin;
 import ntut.edu.aiguide.crawljax.plugins.domain.Action;
+import ntut.edu.aiguide.crawljax.plugins.domain.HighLevelAction;
 import ntut.edu.aiguide.crawljax.plugins.domain.LearningTarget;
 import ntut.edu.aiguide.crawljax.plugins.domain.State;
 import server_instance.ServerInstanceManagement;
 import util.Config;
-import util.HighLevelAction;
 import util.LogHelper;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ public class Crawljax implements Crawler {
         System.out.println("Directive size: " + crawlerDirectives.size());
         for (CrawlerDirective crawlerDirective: crawlerDirectives){
             System.out.println("===========Directive===========");
-            for (HighLevelAction highLevelAction: crawlerDirective.getHighLevelActions()){
+            for (util.HighLevelAction highLevelAction: crawlerDirective.getHighLevelActions()){
 
                 System.out.println("\t===========HighLevelAction===========");
                 for (util.Action action: highLevelAction.getActionSequence()){
@@ -112,9 +112,9 @@ public class Crawljax implements Crawler {
     }
 
 
-    private State createCrawlerState(String domHash, String dom, List<HighLevelAction> highLevelActions, boolean isDuplicatedTest) {
+    private State createCrawlerState(String domHash, String dom, List<util.HighLevelAction> highLevelActions, boolean isDuplicatedTest) {
         LinkedList<List<Action>> actions = new LinkedList<>();
-        for (HighLevelAction action : highLevelActions)
+        for (util.HighLevelAction action : highLevelActions)
             actions.add(transferToCrawlerAction(action.getActionSequence()));
         return new State(domHash, dom, actions, isDuplicatedTest);
     }
