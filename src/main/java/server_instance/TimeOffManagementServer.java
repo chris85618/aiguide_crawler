@@ -43,7 +43,7 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         "        echo 'Timeoff service is ready!';\n" +
         "      \"\n" +
         "    depends_on:\n" +
-        "      - timeoff_management_with_coverage_%d\n" +
+        "      - timeoff_management_with_coverage_%d\n";
         compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, server_port % 3000, server_port % 3000);
         compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
         try (FileWriter fw = new FileWriter(compose_file)) {
