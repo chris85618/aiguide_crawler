@@ -46,7 +46,11 @@ public class Crawljax implements Crawler {
                 }
             }
         }
-        serverInstanceManagement.recordCoverage();
+        try {
+            serverInstanceManagement.recordCoverage();
+        } catch (RuntimeException e) {
+            LOGGER.warn("Fail to record coverage. Just ignore...: {}", e.getMessage());
+        }
         LogHelper.debug("Start crawling");
         AIGuidePlugin aiGuidePlugin = createAIGuidePlugin(crawlerDirectives, config.AUT_PORT);
         CrawljaxRunner crawljaxRunner = createCrawljaxRunner(config, aiGuidePlugin);
@@ -60,7 +64,11 @@ public class Crawljax implements Crawler {
         List<LearningTask> learningTasks = new LinkedList<>();
         LOGGER.debug("function convertToLearningTask()");
 
-        serverInstanceManagement.recordCoverage();
+        try {
+            serverInstanceManagement.recordCoverage();
+        } catch (RuntimeException e) {
+            LOGGER.warn("Fail to record coverage. Just ignore...: {}", e.getMessage());
+        }
         for (LearningTarget learningTarget : learningTargets) {
             String domHash = learningTarget.getDom().hashCode() + "";
             LOGGER.debug("The domHash is {}", domHash);
