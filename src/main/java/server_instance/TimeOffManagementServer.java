@@ -32,13 +32,19 @@ public class TimeOffManagementServer extends ServerInstanceManagement {
         "    image: ntutselab/timeoff_management_with_coverage\n" +
         "    ports:\n" +
         "      - \"%d:3000\"\n" +
-        "    healthcheck:\n" +
-        "      test: [\"CMD\", \"wget\", \"--spider\", \"-q\", \"-S\", \"-O\", \"/dev/null\", \"http://localhost:3000/login/\"]\n" +
-        "      interval: 10s\n" +
-        "      timeout: 5s\n" +
-        "      retries: 10\n" +
-        "      start_period: 280s";
-        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port);
+        "  timeoff_waiter:\n" +
+        "    image: curlimages/curl:latest\n" +
+        "    command: >\n" +
+        "      sh -c \"\n" +
+        "        echo 'Waiting for timeoff service...';\n" +
+        "        until curl --fail --silent --head http://timeoff_management_with_coverage_%d:3000/login/; do\n" +
+        "          sleep 5;\n" +
+        "        done;\n" +
+        "        echo 'Timeoff service is ready!';\n" +
+        "      \"\n" +
+        "    depends_on:\n" +
+        "      - timeoff_management_with_coverage_%d\n" +
+        compose_file_content = String.format(compose_file_content, server_port % 3000, server_port, server_port % 3000, server_port % 3000);
         compose_file = dockerFolder + "docker_compose_timeoff_" + (server_port % 3000) + ".yml";
         try (FileWriter fw = new FileWriter(compose_file)) {
             fw.write(compose_file_content);
