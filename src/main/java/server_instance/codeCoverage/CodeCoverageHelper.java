@@ -12,15 +12,20 @@ public class CodeCoverageHelper {
     }
 
     public void recordCoverage(){
+        final CodeCoverage branchCoverage = this.getBranchCoverage();
+        final CodeCoverage statementCoverage = this.getStatementCoverage();
+        this.mergeCoverage(statementCoverage, branchCoverage);
+    }
+
+    public void mergeCoverage(final CodeCoverage statementCoverage, final CodeCoverage branchCoverage){
         if(!this.isCodeCoverageRecorded()){
-            this.branchCoverage = this.getBranchCoverage();
-            this.statementCoverage = this.getStatementCoverage();
+            this.branchCoverage = branchCoverage;
+            this.statementCoverage = statementCoverage;
         }
         else{
-            this.branchCoverage.merge(this.getBranchCoverage());
-            this.statementCoverage.merge(this.getStatementCoverage());
+            this.branchCoverage.merge(branchCoverage);
+            this.statementCoverage.merge(statementCoverage);
         }
-
     }
 
     public void resetCumulativeCoverage(){

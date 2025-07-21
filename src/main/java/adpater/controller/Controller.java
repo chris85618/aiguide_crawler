@@ -67,30 +67,32 @@ public class Controller {
 //    }
 
     private ServerInstanceManagement createServerInstanceManagement() {
-        switch (config.AUT_NAME) {
-            case "timeoff_management_with_coverage":
-                return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "nodebb_with_coverage":
-                return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "keystonejs_with_coverage":
-                return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "wagtails":
-                return new WagtailsServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "django_blog_with_no_coverage":
-                return new DjangoBlogServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "spring_petclinic_with_no_coverage":
-                return new SpringPetclinicServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "kimai":
-                return new KimaiServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "astuto":
-                return new AstutoServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "svelte_commerce":
-                return new SvelteCommerceServer(this.config.AUT_NAME, this.config.AUT_PORT);
-            case "oscar":
-                return new OscarServer(this.config.AUT_NAME, this.config.AUT_PORT);
-        }
+        final int totalServerInstance = 15;
+        return new CompositeServerInstanceManagement(this.config.AUT_NAME, this.config.AUT_PORT, this.config.AUT_PORT+1, this.config.AUT_PORT+totalServerInstance);
+        // switch (config.AUT_NAME) {
+        //     case "timeoff_management_with_coverage":
+        //         return new TimeOffManagementServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "nodebb_with_coverage":
+        //         return new NodeBBServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "keystonejs_with_coverage":
+        //         return new KeystoneJSServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "wagtails":
+        //         return new WagtailsServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "django_blog_with_no_coverage":
+        //         return new DjangoBlogServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "spring_petclinic_with_no_coverage":
+        //         return new SpringPetclinicServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "kimai":
+        //         return new KimaiServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "astuto":
+        //         return new AstutoServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "svelte_commerce":
+        //         return new SvelteCommerceServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        //     case "oscar":
+        //         return new OscarServer(this.config.AUT_NAME, this.config.AUT_PORT);
+        // }
 
-        throw new RuntimeException("AUT not fount when create server instance.");
+        // throw new RuntimeException("AUT not fount when create server instance.");
     }
 
     public void execute() {

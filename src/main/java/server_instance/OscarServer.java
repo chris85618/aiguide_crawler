@@ -17,10 +17,12 @@ public class OscarServer extends ServerInstanceManagement {
 
     private final int MAXIMUM_WAITING_COUNT = 20;
     private final String dockerFolder = "./src/main/java/server_instance/dockerFile/";
+    private final String compose_id;
     private String compose_file;
 
     public OscarServer(String appName, int server_port) {
         super(appName, server_port);
+        this.compose_id = appName + "-" + server_port;
         createDockerComposeFile();
         copyVE();
         CodeCoverageCollector codeCoverageCollector = new NoCodeCoverageCollector();
@@ -65,7 +67,7 @@ public class OscarServer extends ServerInstanceManagement {
     }
 
     private String findBusyProcess() {
-        String containerID = CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "ps", "-q");
+        String containerID = CommandHelper.executeCommand("docker", "compose", "-p", this.compose_id, "-f", compose_file, "ps", "-q");
         System.out.println("find the container id is :" + containerID);
         return containerID;
     }
@@ -109,7 +111,7 @@ public class OscarServer extends ServerInstanceManagement {
 
     private void createServer() {
         long startTime = System.nanoTime();
-        CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "up", "-d", "--wait");
+        CommandHelper.executeCommand("docker", "compose", "-p", this.compose_id, "-f", compose_file, "up", "-d", "--wait");
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("\nServer Port is " + server_port + ", Starting server instance waiting time is :" + timeElapsed);
@@ -119,7 +121,7 @@ public class OscarServer extends ServerInstanceManagement {
         // e.g. NAME                                      IMAGE                                COMMAND                  SERVICE                      CREATED          STATUS                      PORTS
         //      dockerfile-keystonejs_with_coverage_1-1   ntutselab/keystonejs_with_coverage   "/bin/sh -c 'node ke…"   keystonejs_with_coverage_1   17 minutes ago   Exited (1) 16 minutes ago   
         //      dockerfile-nameOfMongoDB-1                ntutselab/mongo                      "docker-entrypoint.s…"   nameOfMongoDB                17 minutes ago   Up 17 minutes (healthy)     0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
-        final int totalActiveContainers = CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "ps", "-a").split("\\r\\n|\\r|\\n", -1).length - 1;
+        final int totalActiveContainers = CommandHelper.executeCommand("docker", "compose", "-p", this.compose_id, "-f", compose_file, "ps", "-a").split("\\r\\n|\\r|\\n", -1).length - 1;
         return totalActiveContainers <= 0;
     }
 
@@ -134,7 +136,7 @@ public class OscarServer extends ServerInstanceManagement {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-            CommandHelper.executeCommand("docker", "compose", "-f", compose_file, "rm", "-svf");
+            CommandHelper.executeCommand("docker", "compose", "-p", this.compose_id, "-f", compose_file, "rm", "-svf");
         }
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;

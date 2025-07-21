@@ -18,37 +18,64 @@ public abstract class ServerInstanceManagement {
     public ServerInstanceManagement(String appName, int server_port) {
         this.appName = appName;
         this.server_port = server_port;
+        this.codeCoverageHelper = null;
     }
 
     public abstract void createServerInstance();
     public abstract void closeServerInstance();
     public abstract void restartServerInstance();
-    public abstract String getAppName();
+
+    public String getAppName() {
+        return appName;
+    }
+
     public Integer[] getBranchCoverageVector(){
-        return this.codeCoverageHelper.getBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+        return this.getBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
     }
 
     public Integer[] getStatementCoverageVector(){
-        return this.codeCoverageHelper.getStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+        return this.getStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
     }
 
     public Integer[] getTotalBranchCoverageVector(){
-        return this.codeCoverageHelper.getCumulativeBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+        return this.getCumulativeBranchCoverage().getCodeCoverageVector().toArray(new Integer[0]);
     }
 
     public Integer[] getTotalStatementCoverageVector(){
-        return this.codeCoverageHelper.getCumulativeStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+        return this.getCumulativeStatementCoverage().getCodeCoverageVector().toArray(new Integer[0]);
+    }
+
+    public CodeCoverage getBranchCoverage(){
+        return this.codeCoverageHelper.getBranchCoverage();
+    }
+
+    public CodeCoverage getStatementCoverage(){
+        return this.codeCoverageHelper.getStatementCoverage();
+    }
+
+    public CodeCoverage getCumulativeBranchCoverage() {
+        return this.codeCoverageHelper.getCumulativeBranchCoverage();
+    }
+
+    public CodeCoverage getCumulativeStatementCoverage() {
+        return this.codeCoverageHelper.getCumulativeStatementCoverage();
     }
 
     public void recordCoverage(){
         codeCoverageHelper.recordCoverage();
     }
 
+    public void mergeCoverage(final CodeCoverage statementCoverage, final CodeCoverage branchCoverage){
+        codeCoverageHelper.mergeCoverage(statementCoverage, branchCoverage);
+    }
+
     public void resetTotalCoverage(){
         codeCoverageHelper.resetCumulativeCoverage();
     }
 
-    public abstract void resetCoverage();
+    public void resetCoverage() {
+        codeCoverageHelper.resetCoverage();
+    }
 
     protected void copyVE() {
         String source = "./variableElement/data/" + appName + "/variableElementList.json";
@@ -65,5 +92,13 @@ public abstract class ServerInstanceManagement {
         summary.put("branch", this.codeCoverageHelper.getCumulativeBranchCoverage());
         summary.put("statement", this.codeCoverageHelper.getCumulativeStatementCoverage());
         return summary;
+    }
+
+    public int getServerPort() {
+        return this.server_port;
+    }
+
+    public CodeCoverageHelper getCodeCoverageHelper() {
+        return this.codeCoverageHelper;
     }
 }
