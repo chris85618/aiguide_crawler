@@ -52,8 +52,6 @@ public class KeystoneJSServer extends ServerInstanceManagement {
                 "        condition: service_healthy\n" +
                 "  nameOfMongoDB:\n" +
                 "    image: ntutselab/mongo\n" +
-                "    ports:\n" +
-                "      - '27017:27017'\n" +
                 "    tmpfs:\n" +
                 "      - /data/db\n" +
                 "    healthcheck:\n" +
