@@ -67,7 +67,7 @@ public class Controller {
 //    }
 
     private ServerInstanceManagement createServerInstanceManagement() {
-        final int totalServerInstance = 15;
+        final int totalServerInstance = 20;
         return new CompositeServerInstanceManagement(this.config.AUT_NAME, this.config.AUT_PORT, this.config.AUT_PORT+1, this.config.AUT_PORT+totalServerInstance);
         // switch (config.AUT_NAME) {
         //     case "timeoff_management_with_coverage":
