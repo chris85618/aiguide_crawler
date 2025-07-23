@@ -59,24 +59,23 @@ public class CompositeServerInstanceManagement extends ServerInstanceManagement 
             System.out.println("[Composite] No instance is IN_USE. Acquiring a new one from the pool...");
             this.inUseInstance = poolManager.acquireInstance();
             this.inUseInstance.setState(ServerInstanceState.IN_USE);
-            
-            System.out.println("[Composite] Instance " + this.inUseInstance.getInstance().getAppName() + " is now IN_USE.");
-
-            if (this.codeCoverageHelper == null) {
-                // Use the first codeCoverageHelp.
-                this.codeCoverageHelper = this.inUseInstance.getInstance().getCodeCoverageHelper();
-            } else {
-                this.mergeCoverageToInUseInstance();
-            }
-
-            updateProxyConfiguration();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            return this.inUseInstance.getInstance();
         }
+        System.out.println("[Composite] Instance " + this.inUseInstance.getInstance().getAppName() + " is now IN_USE.");
+
+        if (this.codeCoverageHelper == null) {
+            // Use the first codeCoverageHelp.
+            this.codeCoverageHelper = this.inUseInstance.getInstance().getCodeCoverageHelper();
+        } else {
+            this.mergeCoverageToInUseInstance();
+        }
+
+        updateProxyConfiguration();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return this.inUseInstance.getInstance();
     }
 
     @Override
@@ -107,15 +106,8 @@ public class CompositeServerInstanceManagement extends ServerInstanceManagement 
     @Override
     public void restartServerInstance() {
         System.out.println("\n[Composite] Performing hot-swap of the active instance...");
-        
-        // The lock ensures these two operations are atomic from an external perspective.
-        synchronized (lock) {
-            // Deactivate the current instance.
-            this.closeServerInstance();
-            // Activate a new instance.
-            this.createServerInstance();
-        }
-        
+        this.closeServerInstance();
+        this.createServerInstance();
         System.out.println("[Composite] Hot-swap operation complete.");
     }
 
