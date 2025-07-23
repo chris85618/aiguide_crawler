@@ -134,10 +134,14 @@ public class CompositeServerInstanceManagement extends ServerInstanceManagement 
     @Override
     public void recordCoverage(){
         final ServerInstanceManagement instance = this.inUseInstance.getInstance();
-        instance.recordCoverage();
-        final CodeCoverage branchCoverage = instance.getCumulativeBranchCoverage();
-        final CodeCoverage statementCoverage = instance.getCumulativeStatementCoverage();
-        this.mergeCoverage(statementCoverage, branchCoverage);
+        try {
+            instance.recordCoverage();
+            final CodeCoverage branchCoverage = instance.getCumulativeBranchCoverage();
+            final CodeCoverage statementCoverage = instance.getCumulativeStatementCoverage();
+            this.mergeCoverage(statementCoverage, branchCoverage);
+        } catch (Exception e) {
+            System.err.println("Fail to record coverage. Just ignore...: " + e.getMessage());
+        }
     }
 
     @Override
