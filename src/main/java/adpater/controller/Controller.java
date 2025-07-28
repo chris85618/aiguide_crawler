@@ -98,6 +98,7 @@ public class Controller {
     public void execute() {
         boolean isDone = false;
         boolean isAgentDone = false;
+        boolean isToRecordDirectiveTreeBeforeLearningTask = false;
         int pauseCount = 1;
         this.learningPoolServer.startLearningPool();
 //        while(!isDone && !this.learningPoolServer.getAgentDone()){
@@ -125,6 +126,7 @@ public class Controller {
                         directiveTreeHelper.addInputPage(task);
                     }
                 }
+                isToRecordDirectiveTreeBeforeLearningTask = true;
                 final Map<String, CodeCoverage> totalCoverage = serverInstance.getTotalCoverage();
                 final CodeCoverage statementCoverage = totalCoverage.get("statement");
                 final CodeCoverage branchCoverage = totalCoverage.get("branch");
@@ -133,6 +135,11 @@ public class Controller {
                 LOGGER.info("The branch coverage is: " + branchCoverage.getCoveredAmount() + String.format("(%.2f%%)", 100 * branchCoverage.getPercent()));
 
                 LOGGER.info("Total task is: " + taskCompleteMap.size() + " , Remain task is: " + learningPool.getTaskSize());
+            }
+            if (isToRecordDirectiveTreeBeforeLearningTask) {
+                isToRecordDirectiveTreeBeforeLearningTask = false;
+                directiveTreeHelper.writeDirectiveTree();
+                directiveTreeHelper.drawDirectiveTree();
             }
             isDone = checkCrawlingDone();
             if(!isDone){
